@@ -26,4 +26,10 @@ const colors = {
   },
 }
 
-export const theme = extendTheme({ colors })
+const breakpoints = {
+  desktop: '1440px',
+  table: '1024px',
+  mobile: '375px',
+}
+
+export const theme = extendTheme({ colors, breakpoints })
