@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react'
+import { typo } from './typo'
 
 const colors = {
   primary: {
@@ -32,4 +33,4 @@ const breakpoints = {
   mobile: '375px',
 }
 
-export const theme = extendTheme({ colors, breakpoints })
+export const theme = extendTheme({ colors, breakpoints, ...typo })
