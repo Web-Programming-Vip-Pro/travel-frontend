@@ -1,7 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 import { typo } from './typo'
-import { Text } from './components/text'
-import { Button } from './components/button'
+import { Text, Button } from './components'
 
 const colors = {
   primary: {
