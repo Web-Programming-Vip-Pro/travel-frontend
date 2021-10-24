@@ -1,2 +1,2 @@
-export { default as Button } from './button'
-export { default as Text } from './text'
+export { Button } from './button'
+export { Text } from './text'
