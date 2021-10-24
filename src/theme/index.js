@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 import { typo } from './typo'
-import { Text, Button } from './components'
+import { Text, Input, Button } from './components'
 
 const colors = {
   primary: {
@@ -38,5 +38,5 @@ export const theme = extendTheme({
   colors,
   breakpoints,
   ...typo,
-  components: { Text, Button },
+  components: { Text, Input, Button },
 })
