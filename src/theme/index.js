@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react'
+import { createBreakpoints } from '@chakra-ui/theme-tools'
 import { typo } from './typo'
 import { Text, Input, Button } from './components'
 
@@ -28,11 +29,11 @@ const colors = {
   },
 }
 
-const breakpoints = {
+const breakpoints = createBreakpoints({
   desktop: '1440px',
-  table: '1024px',
+  tablet: '1024px',
   mobile: '375px',
-}
+})
 
 export const theme = extendTheme({
   colors,
