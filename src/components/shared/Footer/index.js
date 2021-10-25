@@ -54,7 +54,12 @@ const Footer = ({ logoImageSrc, copyright }) => {
       bg="neutrals.8"
       spacing="24px"
     >
-      <Stack direction="row" justify="space-between" align="start">
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        justify={{ base: 'start', md: 'space-between' }}
+        spacing={{ base: '24px', md: 'none' }}
+        align="start"
+      >
         <Stack>
           <Image
             src={logoImageSrc}
