@@ -5,18 +5,16 @@ import {
   Avatar,
   Stack,
   Button,
-  useBreakpointValue,
+  useDisclosure,
+  Fade,
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Notification from './Notification'
+import MobileNavbar from './MobileNavbar'
 
 function UserNav({ user }) {
-  const isMobileScreen = useBreakpointValue({
-    base: true,
-    tablet: false,
-  })
   if (user)
     return (
       <>
@@ -25,16 +23,20 @@ function UserNav({ user }) {
       </>
     )
   return (
-    <>
-      <Button variant="light" display={{ mobile: 'none', tablet: 'block' }}>
-        Login
-      </Button>
-      <Button size={isMobileScreen ? 'small' : 'medium'}>Sign Up</Button>
-    </>
+    <Stack
+      direction="row"
+      display={{ base: 'none', tablet: 'flex' }}
+      spacing="18px"
+    >
+      <Button variant="light">Login</Button>
+      <Button>Sign Up</Button>
+    </Stack>
   )
 }
 
 const Navbar = ({ user, logoImageSrc }) => {
+  const { isOpen, onClose, onToggle } = useDisclosure()
+
   return (
     <Flex
       px={{ mobile: '40px', tablet: '80px', desktop: '160px' }}
@@ -54,7 +56,7 @@ const Navbar = ({ user, logoImageSrc }) => {
           direction="row"
           spacing="36px"
           align="center"
-          display={{ mobile: 'none', tablet: 'flex' }}
+          display={{ base: 'none', tablet: 'flex' }}
         >
           <Text
             color="neutrals.4"
@@ -71,11 +73,20 @@ const Navbar = ({ user, logoImageSrc }) => {
             <Link href="/helpcenter">Help Center</Link>
           </Text>
         </Stack>
-        <Stack direction="row" spacing={user ? '36px' : '18px'} align="center">
+        <Stack direction="row" spacing="36px" align="center">
           <UserNav user={user} />
         </Stack>
-        <Box display={{ mobile: 'block', tablet: 'none' }}>
-          <Icon icon="mdi:menu" width="32" height="32" />
+        <Box
+          display={{ mobile: 'block', tablet: 'none' }}
+          position="relative"
+          zIndex={1}
+        >
+          <Icon icon="mdi:menu" width="32" height="32" onClick={onToggle} />
+          {isOpen && (
+            <Fade in={isOpen}>
+              <MobileNavbar onClose={onClose} />
+            </Fade>
+          )}
         </Box>
       </Stack>
     </Flex>
