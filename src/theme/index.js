@@ -30,9 +30,9 @@ const colors = {
 }
 
 const breakpoints = createBreakpoints({
-  desktop: '1440px',
-  tablet: '1024px',
-  mobile: '375px',
+  mobile: '20em',
+  tablet: '64em',
+  desktop: '90em',
 })
 
 export const theme = extendTheme({
