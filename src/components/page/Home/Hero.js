@@ -1,16 +1,6 @@
-import {
-  Box,
-  Flex,
-  Stack,
-  Text,
-  Button,
-  Circle,
-  Spacer,
-  IconButton,
-} from '@chakra-ui/react'
+import { Box, Flex, Text, Button, IconButton } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
-import { useBreakpointValue } from '@chakra-ui/react'
 function SearchLocate({ location, title }) {
   return (
     <Flex

@@ -105,7 +105,7 @@ function AgenciesCardList({ data }) {
 const BestAgencies = ({ header }) => {
   const AgenciesData = [
     {
-      imgSrc: '/assets/homepage/Bg Agencies1.jpg',
+      imgSrc: '/assets/homepage/Bg Agencies1.png',
       avatar: '/assets/homepage/Avatar 1.png',
       name: 'Antone Heller',
       location: 'Gaylorside',
