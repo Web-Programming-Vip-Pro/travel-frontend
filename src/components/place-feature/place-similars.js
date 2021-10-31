@@ -66,9 +66,9 @@ const SimilarPlaces = () => {
   return (
     <Box>
       <Text textStyle="headline-4">{similarPlacesTitle}</Text>
-      <Flex wrap="wrap" justify="space-around">
+      <Flex wrap="wrap" justify="space-between" mt="50px">
         {similarPlaces.map((content, index) => (
-          <Box m="20px" key={index}>
+          <Box mr="20px" key={index}>
             <Box
               m="10px"
               p="8px"

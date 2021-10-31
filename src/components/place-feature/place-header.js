@@ -251,12 +251,11 @@ function PlaceHeaderNavigations() {
 
 function PlaceHeaderPictures() {
   return (
-    <Box>
+    <Box w="100%">
       <Flex justify="center">
-        <Box mb="8px" borderRadius="16px" overflow="hidden" mr="8px">
+        <Box w={{tablet:5/7, base:'100%'}} mb="8px" borderRadius="16px" overflow="hidden" mr="8px">
           <Box
             position="relative"
-            w={{ desktop: '856px', tablet: '600px', base: '298px' }}
             h={{ desktop: '784px', tablet: '540px', base: '476px' }}
             _hover={{ transform: 'scale(1.1)' }}
           >
@@ -270,12 +269,14 @@ function PlaceHeaderPictures() {
         <Flex
           display={{ desktop: 'flex', tablet: 'flex', base: 'none' }}
           direction="column"
+          w={2/7}
         >
           {placePictures.subFigures.map((content, index) => (
             <Box mb="8px" key={index} borderRadius="16px" overflow="hidden">
               <Box
                 position="relative"
-                w={{ desktop: '256px', tablet: '256px', base: '298px' }}
+                // w={{ desktop: '256px', tablet: '256px', base: '298px' }}
+                
                 h={{ desktop: '256px', tablet: '174.67px', base: '476px' }}
                 objectFit="scale-down"
                 _hover={{ transform: 'scale(1.1)' }}

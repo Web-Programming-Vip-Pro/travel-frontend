@@ -76,10 +76,10 @@ const commentsProperties = {
 const PlaceReviews = () => {
   return (
     <Flex direction={{ base: 'column-reverse', tablet: 'row', desktop: 'row' }}>
-      <Flex justify="center" align="center" mr={{ base: '0', tablet: '48px' }}>
+      <Flex justify="center" mr={{ base: '0', tablet: '48px' }}>
         <AgencyInformation />
       </Flex>
-      <Box py="30px">
+      <Box w="100%" py="30px">
         <Reviews />
       </Box>
     </Flex>
@@ -90,10 +90,11 @@ function AgencyInformation() {
   return (
     <Box
       p="32px"
-      w={{ base: '311px', tablet: '343px', desktop: '343px' }}
+      w={{ base: '100%', tablet: '343px', desktop: '343px' }}
       borderRadius="24px"
       border="1px solid #E6E8EC"
       boxShadow="0px 64px 64px -48px rgba(15, 15, 15, 0.08)"
+      h="fit-content"
     >
       <Flex direction="column" align="center">
         <Stack spacing="32px">
@@ -161,7 +162,7 @@ function AgencyInformation() {
             </HStack>
           </Flex>
           <Flex justify="center">
-            <Divider w="199px" />
+            <Divider px={{base:'56px', tablet:'72px'}} />
           </Flex>
           <Flex justify="center">
             <Text textStyle="caption-2" color="neutrals.4">
@@ -196,7 +197,7 @@ function Reviews() {
   }
   function onChangeSortType(content) {}
   return (
-    <Flex w="100%" direction="column">
+    <Flex direction="column">
       <FormControl id="make-comment">
         <Text textStyle="body-1-bold">Add a Reivew</Text>
         <Flex direction={{ base: 'column', tablet: 'column', desktop: 'row' }}>

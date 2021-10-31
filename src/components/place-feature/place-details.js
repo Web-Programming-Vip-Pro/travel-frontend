@@ -71,9 +71,10 @@ const rightSectionProps = {
 const PlaceDetails = () => {
   return (
     <Flex justify="center">
+      <HStack spacing='48px'>
       <PlaceDetailLeft />
-      <Spacer display={{ base: 'none', tablet: 'block', desktop: 'block' }} />
       <PlaceDetailRight />
+      </HStack>
     </Flex>
   )
 }
@@ -83,7 +84,7 @@ function PlaceDetailLeft() {
 
   const handleToggle = () => setShow(!show)
   return (
-    <Box w={{ base: '311px', tablet: '438px', desktop: '624px' }}>
+    <Box>
       <Text textStyle="headline-4">{leftSectionProps.title}</Text>
       <Flex _hover={{ cursor: 'pointer' }} align="center">
         <Box display={{ base: 'block', tablet: 'block', desktop: 'none' }}>
