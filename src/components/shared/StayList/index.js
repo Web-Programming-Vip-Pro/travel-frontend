@@ -15,12 +15,13 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
-function PlaceCardList({ data }) {
+import { useState } from 'react'
+function PlaceCardList({ data, show }) {
   return (
     <SimpleGrid
       columns={{ mobile: 1, tablet: 3 }}
       spacingY="32px"
-      maxH={{ mobile: '1761px', tablet: 'none' }}
+      maxH={show ? {} : { mobile: '1761px', tablet: '1387px' }}
       overflow="hidden"
     >
       {data.map((item, index) => (
@@ -200,6 +201,7 @@ const StayList = ({ children }) => {
       rate: 4.9,
     },
   ]
+  const [show, setShow] = useState(false)
   return (
     <Box minH={{ mobile: '2164px', tablet: '1446px' }}>
       <Box
@@ -221,15 +223,16 @@ const StayList = ({ children }) => {
             />
           </InputRightElement>
         </InputGroup>
-        <PlaceCardList data={listPlace} />
+        <PlaceCardList data={listPlace} show={show} />
         <Flex justify="center">
           <Button
             leftIcon={<Icon icon="icon-park-outline:loading-one" />}
             variant="outline"
             border="2px"
             my="64px"
+            onClick={() => setShow(!show)}
           >
-            View All
+            {show ? 'Hide' : 'View All'}
           </Button>
         </Flex>
       </Box>
