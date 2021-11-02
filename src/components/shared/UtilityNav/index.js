@@ -8,8 +8,11 @@ import {
   MenuItem,
   Spacer,
 } from '@chakra-ui/react'
+import { useState } from 'react'
 import { Icon } from '@iconify/react'
 const Discovery = () => {
+  const [service, setService] = useState('Stay')
+  const serviceList = ['Stay', 'Explore', ` Food & Drink`]
   return (
     <Stack direction={{ mobile: 'column', tablet: 'row' }} pb="48px">
       <Stack
@@ -18,43 +21,29 @@ const Discovery = () => {
         spacing="16px"
         align="center"
       >
-        <Button
-          leftIcon={<Icon icon="bx:bx-dollar-circle" />}
-          px="0"
-          py="0"
-          w="80px"
-          h="28px"
-          bg="neutrals.3"
-          variant="none"
-        >
-          <Text textStyle="button-2" color="neutrals.8">
-            Stay
-          </Text>
-        </Button>
-        <Button
-          leftIcon={<Icon icon="bx:bx-dollar-circle" color="#777E90" />}
-          px="0"
-          py="0"
-          w="80px"
-          h="28px"
-          variant="ghost"
-        >
-          <Text textStyle="button-2" color="neutrals.4">
-            Explore
-          </Text>
-        </Button>
-        <Button
-          leftIcon={<Icon icon="bx:bx-dollar-circle" color="#777E90" />}
-          px="0"
-          py="0"
-          w="135px"
-          h="28px"
-          variant="ghost"
-        >
-          <Text textStyle="button-2" color="neutrals.4">
-            Food &amp; Drink
-          </Text>
-        </Button>
+        {serviceList.map((item) => (
+          <Button
+            key={item}
+            leftIcon={
+              <Icon
+                icon="bx:bx-dollar-circle"
+                color={item !== service ? '#777E90' : ''}
+              />
+            }
+            px="10px"
+            py="6px"
+            bg={item === service ? 'neutrals.3' : ''}
+            variant={item !== service ? 'ghost' : 'none'}
+            onClick={() => setService(item)}
+          >
+            <Text
+              textStyle="button-2"
+              color={item === service ? 'neutrals.8' : 'neutrals.4'}
+            >
+              {item}
+            </Text>
+          </Button>
+        ))}
       </Stack>
       <Spacer />
       <Menu>
