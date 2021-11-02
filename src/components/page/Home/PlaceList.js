@@ -12,17 +12,24 @@ import {
 import Image from 'next/image'
 import UtilityNav from '@/components/shared/UtilityNav'
 import { Icon } from '@iconify/react'
-function PlaceCardList({ data }) {
+import { useState } from 'react'
+function PlaceCardList({ data, show }) {
   return (
     <SimpleGrid
       columns={{ mobile: 1, tablet: 3, desktop: 4 }}
       justify="space-between"
       spacingY="32px"
-      maxH={{ mobile: '2350px', tablet: '762px' }}
+      maxH={show ? {} : { mobile: '2350px', tablet: '762px' }}
       overflow="hidden"
     >
       {data.map((item, index) => (
-        <Flex key={index} justify="center">
+        <Flex
+          key={index}
+          justify="center"
+          _hover={{
+            cursor: 'pointer',
+          }}
+        >
           <Box
             borderRadius="20px"
             w="256px"
@@ -150,6 +157,7 @@ const PlaceList = ({ title, description }) => {
       rate: 4.9,
     },
   ]
+  const [show, setShow] = useState(false)
   return (
     <Box minH={{ mobile: '2858px', tablet: '1446px' }}>
       <Box
@@ -175,10 +183,15 @@ const PlaceList = ({ title, description }) => {
           <Text>{description}</Text>
         </Box>
         <UtilityNav />
-        <PlaceCardList data={listPlace} />
+        <PlaceCardList data={listPlace} show={show} />
         <Flex justify="center">
-          <Button variant="outline" border="2px" my="64px">
-            View All
+          <Button
+            variant="outline"
+            border="2px"
+            my="64px"
+            onClick={() => setShow(!show)}
+          >
+            {show ? 'Hide' : 'View All'}
           </Button>
         </Flex>
       </Box>
