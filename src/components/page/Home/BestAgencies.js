@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
+import { useState } from 'react'
 
 function AgenciesCardList({ data }) {
   return (
@@ -24,7 +25,12 @@ function AgenciesCardList({ data }) {
       justifyContent="center"
     >
       {data.map((item, index) => (
-        <Flex key={index} w="100%" justify="center">
+        <Flex
+          key={index}
+          w="100%"
+          justify="center"
+          _hover={{ cursor: 'pointer' }}
+        >
           <Box
             borderRadius="20px"
             w="256px"
@@ -133,6 +139,9 @@ const BestAgencies = ({ header }) => {
       rate: 4.9,
     },
   ]
+  const iconArrow = ['codicon:arrow-small-left', 'codicon:arrow-small-right']
+  const [arrow, setArrow] = useState(1)
+
   return (
     <Box
       minH="669px"
@@ -156,38 +165,22 @@ const BestAgencies = ({ header }) => {
           align="center"
           spacing="2px"
         >
-          <IconButton
-            icon={
-              <Icon
-                icon="codicon:arrow-small-left"
-                color="#777E90"
-                width="20px"
-              />
-            }
-            w="40px"
-            h="40px"
-            px="0"
-            py="0"
-            aria-label="arrow-left"
-            variant="none"
-          />
-          <IconButton
-            icon={
-              <Icon
-                icon="codicon:arrow-small-right"
-                color="#777E90"
-                width="20px"
-              />
-            }
-            w="40px"
-            h="40px"
-            px="0"
-            py="0"
-            borderRadius="full"
-            aria-label="arrow-right"
-            variant="outline"
-            boxShadow="0 0 0 2px #E6E7EC"
-          />
+          {iconArrow.map((icon, index) => (
+            <IconButton
+              key={index}
+              icon={<Icon icon={icon} color="#777E90" width="20px" />}
+              w="40px"
+              h="40px"
+              px="0"
+              py="0"
+              aria-label="arrow-left"
+              variant={index === arrow ? 'outline' : 'none'}
+              boxShadow={index === arrow ? '0 0 0 2px #E6E7EC' : ''}
+              onClick={() => {
+                arrow === 1 ? setArrow(0) : setArrow(1)
+              }}
+            />
+          ))}
         </Stack>
       </Flex>
       <AgenciesCardList data={AgenciesData} />
