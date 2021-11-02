@@ -25,7 +25,7 @@ const Country = ({ data }) => {
             src={data[0].imgSrc}
             alt="Image Background"
             layout="fill"
-            objectFit="objectFit"
+            objectFit="cover"
           />
         </Box>
         {/*  Slogan and Desciption of Hero */}
@@ -37,7 +37,7 @@ const Country = ({ data }) => {
           align="center"
           justify="center"
           bgGradient={{
-            mobile: 'linear(to-b,#F4F5F6,#F4F4F5)',
+            mobile: ' linear-gradient(180deg, #d9d9d9 0%, #f6f2f2 100%);',
             tablet: 'none',
           }}
           borderTopStartRadius="24px"
