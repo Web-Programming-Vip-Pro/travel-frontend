@@ -1,10 +1,21 @@
-import { Box, Flex, Text, Button, IconButton } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  IconButton,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Input,
+} from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
 function SearchLocate({ location, title }) {
   return (
     <Flex
-      w={{ mobile: '335px', tablet: '864px', desktop: '1120px' }}
+      // w={{ mobile: '335px', tablet: '864px', desktop: '1120px' }}
+      w={{ mobile: '98%', tablet: '90%' }}
       h="136px"
       direction="row"
       pos="absolute"
@@ -18,8 +29,8 @@ function SearchLocate({ location, title }) {
       boxShadow="lg"
       justify="space-between"
     >
-      {/* Location  */}
-      <Flex h="96px" align="center">
+      {/* Location */}
+      {/* <Flex h="96px" align="center">
         <Flex>
           <Box display={{ mobile: 'none', tablet: 'block' }}>
             <Icon
@@ -38,9 +49,9 @@ function SearchLocate({ location, title }) {
             </Text>
           </Flex>
         </Flex>
-      </Flex>
+      </Flex> */}
       {/* Search ButtonIcon */}
-      <Flex h="104px" justify="flex-end" align="center">
+      {/* <Flex h="104px" justify="flex-end" align="center">
         <IconButton
           icon={<Icon icon="bx:bx-search" width="20px" height="20px" />}
           w="64px"
@@ -48,7 +59,34 @@ function SearchLocate({ location, title }) {
           px="0"
           py="0"
         />
-      </Flex>
+      </Flex> */}
+      <InputGroup>
+        <InputLeftElement pointerEvents="none" height="100%">
+          <Icon
+            icon="typcn:location-arrow-outline"
+            width="20px"
+            height="20px"
+            color="#B1B5C3"
+          />
+        </InputLeftElement>
+        <Input
+          height="100%"
+          size="lg"
+          placeholder="Location"
+          border="none"
+          bgColor="neutrals.8"
+          fontSize="24px"
+          fontWeight="600"
+        />
+        <InputRightElement height="100%">
+          <IconButton
+            icon={<Icon icon="bx:bx-search" width="20px" height="20px" />}
+            size="lg"
+            px="0"
+            py="0"
+          />
+        </InputRightElement>
+      </InputGroup>
     </Flex>
   )
 }
@@ -75,7 +113,7 @@ const Hero = ({ slogan, description }) => {
             src="/assets/homepage/Hero Background.png"
             alt="Image Background"
             layout="fill"
-            objectFit="objectFit"
+            objectFit="cover"
           />
         </Box>
         {/*  Slogan and Desciption of Hero */}
@@ -88,7 +126,7 @@ const Hero = ({ slogan, description }) => {
           align={{ mobile: 'center', tablet: 'flex-start' }}
           justify={{ mobile: 'center', tablet: 'flex-start' }}
           bgGradient={{
-            mobile: 'linear(to-b,#F4F5F6,#F4F4F5)',
+            mobile: ' linear-gradient(180deg, #d9d9d9 0%, #f6f2f2 100%);',
             tablet: 'none',
           }}
           borderTopStartRadius="24px"
@@ -100,6 +138,7 @@ const Hero = ({ slogan, description }) => {
             w={{ mobile: '312px', desktop: '447px' }}
             wordBreak="break-all"
             color="neutrals.2"
+            textAlign={{ mobile: 'center', tablet: 'left' }}
           >
             <Text
               textStyle={{
