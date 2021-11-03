@@ -9,56 +9,56 @@ const similarPlaces = [
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
   {
     figureSrc:
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
   {
     figureSrc:
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
   {
     figureSrc:
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
   {
     figureSrc:
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
   {
     figureSrc:
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
   {
     figureSrc:
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
   {
     figureSrc:
       'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
     minPrice: 230,
     name: 'Mountain house',
-    avalableHouse: 650596,
+    availableHouse: 650596,
   },
 ]
 
@@ -68,7 +68,7 @@ const SimilarPlaces = () => {
       <Text textStyle="headline-4">{similarPlacesTitle}</Text>
       <Flex wrap="wrap" justify="space-between" mt="50px">
         {similarPlaces.map((content, index) => (
-          <Box mr="20px" key={index}>
+          <Box mr="20px" mb="20px" key={index}>
             <Box
               m="10px"
               p="8px"
@@ -96,6 +96,7 @@ const SimilarPlaces = () => {
               >
                 <Image
                   layout="fill"
+                  objectFit="cover"
                   src={content.figureSrc}
                   alt="similar place"
                 />
@@ -112,7 +113,7 @@ const SimilarPlaces = () => {
               <Flex align="center" color="neutrals.4">
                 <Icon fontSize="14px" icon="ph:house-line-light" />
                 <Text ml="7px" color="neutrals.4" textStyle="caption-2-bold">
-                  {content.avalableHouse}
+                  {content.availableHouse}
                 </Text>
               </Flex>
             </Flex>

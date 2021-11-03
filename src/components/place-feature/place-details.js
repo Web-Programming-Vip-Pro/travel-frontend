@@ -9,12 +9,13 @@ import {
   ListItem,
   Box,
   List,
-  Link,
   Collapse,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import React from 'react'
+import { useDisclosure } from "@chakra-ui/react"
+import Link from 'next/link'
 
 const agencyAvatarSrc =
   'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg'
@@ -80,9 +81,8 @@ const PlaceDetails = () => {
 }
 
 function PlaceDetailLeft() {
-  const [show, setShow] = React.useState(false)
+  const { isOpen, onToggle } = useDisclosure()
 
-  const handleToggle = () => setShow(!show)
   return (
     <Box>
       <Text textStyle="headline-4">{leftSectionProps.title}</Text>
@@ -109,7 +109,7 @@ function PlaceDetailLeft() {
         <Text textStyle="body-2-bold">{leftSectionProps.agencyName}</Text>
       </Flex>
       <Divider mt="24px" mb="40px" />
-      <Collapse in={show} startingHeight="288px">
+      <Collapse in={isOpen} startingHeight="288px">
         {leftSectionProps.agencyDetails.map((details, index) => (
           <Text key={index} textStyle="body-2" color="neutrals.4" py="15px">
             {details.content}
@@ -117,13 +117,13 @@ function PlaceDetailLeft() {
         ))}
       </Collapse>
       <Button
-        onClick={handleToggle}
+        onClick={onToggle}
         textStyle="button-2"
         mt="60px"
         colorScheme="gray"
         variant="outline"
       >
-        {show ? 'Less' : 'More Detail'}
+        {isOpen ? 'Less' : 'More Detail'}
       </Button>
     </Box>
   )
@@ -169,7 +169,7 @@ function PlaceDetailRight() {
       <Flex justify="center" my="32px">
         <Button
           h="48px"
-          w="87px"
+          w="auto"
           mr="8px"
           rightIcon={<Icon icon="ant-design:plus-outlined" />}
           textStyle="button-1"
@@ -190,8 +190,8 @@ function PlaceDetailRight() {
         </Button>
       </Flex>
       <ListAmentities />
-      <Link {...{ reportHostLink }}>
-        <Flex justify="center" align="center">
+      <Link {...reportHostLink }>
+        <Flex _hover={{ cursor: 'pointer' }} justify="center" align="center">
           <Box mr="8px" color="neutrals.4">
             <Icon icon="cil:flag-alt" />
           </Box>

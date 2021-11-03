@@ -15,6 +15,7 @@ import {
 import Image from 'next/image'
 import React from 'react'
 import { Icon } from '@iconify/react'
+
 const breadcrumbs = [
   { title: 'Home', link: { href: '#' } },
   { title: 'Stay', link: { href: '#' } },
@@ -221,12 +222,13 @@ function PlaceHeaderNavigations() {
         spacing="17px"
       >
         {breadcrumbs.map((content, index) => (
-          <HStack spacing="17.5px" key={index}>
+          <HStack boxShadow="none" spacing="17.5px" key={index}>
             <Link
               {...content.link}
               _hover={{ cursor: 'pointer', color: 'neutrals.2' }}
               textStyle="button-2"
               color="neutrals.4"
+              boxShadow="none !important"
             >
               {content.title}
             </Link>
@@ -241,6 +243,7 @@ function PlaceHeaderNavigations() {
           _hover={{ cursor: 'pointer', color: 'neutrals.2' }}
           textStyle="button-2"
           color="neutrals.5"
+          boxShadow="none !important"
         >
           {lastBreadcrumb.title}
         </Link>
@@ -263,6 +266,7 @@ function PlaceHeaderPictures() {
               src={placePictures.mainFigure}
               alt="Main Figure"
               layout="fill"
+              objectFit="cover"
             />
           </Box>
         </Box>
@@ -285,6 +289,7 @@ function PlaceHeaderPictures() {
                   src={content.src}
                   alt={`sub${index} figure`}
                   layout="fill"
+                  objectFit="cover"
                 />
               </Box>
             </Box>

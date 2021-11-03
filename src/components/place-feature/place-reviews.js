@@ -9,7 +9,6 @@ import {
   Box,
   LinkBox,
   LinkOverlay,
-  Link,
   Stack,
   FormControl,
   InputGroup,
@@ -21,6 +20,7 @@ import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import StarRatings from 'react-star-ratings'
 import React from 'react'
+import Link from 'next/link'
 
 const agencyInformation = {
   name: 'Zoe towne',
@@ -169,8 +169,8 @@ function AgencyInformation() {
               {agencyInformation.dateRegistered}
             </Text>
           </Flex>
-          <Link {...{ reportHostLink }}>
-            <Flex justify="center" align="center">
+          <Link {...reportHostLink}>
+            <Flex _hover={{ cursor: 'pointer' }} justify="center" align="center">
               <Box mr="10px" color="neutrals.4">
                 <Icon icon="cil:flag-alt" />
               </Box>
@@ -248,7 +248,7 @@ function Reviews() {
       >
         <Text textStyle="body-1-bold">{`${commentsProperties.totalCount} comments`}</Text>
         <Spacer />
-        <Select _hover={{ cursor: 'pointer' }} w="150px" h="50px" border="2px">
+        <Select boxShadow="none !important" _hover={{ cursor: 'pointer' }} w="150px" h="50px" border="2px">
           {commentsProperties.sortOptions.map((content, index) => (
             <option onClick={() => onChangeSortType(content)} key={index}>
               {content}
