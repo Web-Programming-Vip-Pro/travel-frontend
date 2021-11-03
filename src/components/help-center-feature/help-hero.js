@@ -5,20 +5,27 @@ import {
   Stack,
   InputGroup,
   InputRightElement,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
+import React, { useState } from 'react'
 
 const title = 'Support'
 const shortDescription =
   'Stacks is a production-ready library of stackable content blocks built in React Native.'
-var textSearch
 
-function searchHelp(event) {}
-
-function handleChange(event) {
-  textSearch = event.target.value
-}
 const HelpHero = () => {
+  let [textSearch, setTextSearch] = useState('');
+
+  function searchHelp(event) {}
+
+  function handleChange(event) {
+    var keyWord = event.target.value;
+    setTextSearch(keyWord);
+  }
   return (
     <Flex
       w={'full'}
@@ -31,14 +38,15 @@ const HelpHero = () => {
       align="center"
       justify="center"
     >
-      <Stack w={{ desktop: '586px', tablet: '586px', base: '283px' }}>
-        <Stack spacing="16px" align="center" textAlign="center">
-          <Text textStyle="hero">{title}</Text>
-          <Text w={{ base: '283px', tablet: '482px', desktop: '482px' }}>
+      <Stack justify="center">
+        <Stack justify="center" spacing="16px" align="center" textAlign="center">
+          <Text w={{ tablet: '586px', base: '283px' }} textStyle={{ tablet: 'hero', base: 'headline-2' }}>{title}</Text>
+          <Text w={{ base: '283px', tablet: '482px'}}>
             {shortDescription}
           </Text>
         </Stack>
-        <form onSubmit={searchHelp}>
+        <FormControl id="first-name" onSubmit={searchHelp}>
+          
           <InputGroup>
             <Input
               type="text"
@@ -50,6 +58,8 @@ const HelpHero = () => {
               border="2px solid #F4F5F6"
               boxShadow="0px 40px 32px -24px rgba(15, 15, 15, 0.12)"
               placeholder="Search anything"
+              pl="30px"
+              pr="60px"
               isFullWidth="true"
             />
             <InputRightElement
@@ -59,6 +69,7 @@ const HelpHero = () => {
               position="relative"
               top="18px"
               right="50px"
+              transform="rotate(275deg)"
             >
               <Icon
                 icon="el:search-alt"
@@ -68,7 +79,7 @@ const HelpHero = () => {
               />
             </InputRightElement>
           </InputGroup>
-        </form>
+        </FormControl>
       </Stack>
     </Flex>
   )

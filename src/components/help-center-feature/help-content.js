@@ -13,6 +13,7 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
+import React, { useState } from 'react'
 
 const helpHeaderContent = {
   upperDescription: 'learn how to get started',
@@ -45,7 +46,6 @@ const menuData = [
   { icon: 'bi:lightning-charge-fill', title: 'Bookings' },
   { icon: 'ph:pen-nib-fill', title: 'Host' },
 ]
-var activeMenu = { index: 0, title: 'General' }
 function HelpHeader({ upperDescription, title, belowDescription }) {
   return (
     <Flex
@@ -80,7 +80,7 @@ function HelpDetails({ helpContents }) {
           return (
             <AccordionItem key={content.title}>
               <h2>
-                <AccordionButton>
+                <AccordionButton boxShadow="none !important">
                   <Box
                     textStyle="body-2-bold"
                     pt="32px"
@@ -107,11 +107,12 @@ function HelpDetails({ helpContents }) {
   return <Accordion allowToggle="true">{renderedContent}</Accordion>
 }
 
-function onChangeMenu(index) {
-  activeMenu.index = index
-  activeMenu.title = menuData[index].title
-}
+
 function Menu({ menu }) {
+  let [activeMenu, setActiveMenu] = useState(0);
+  function onChangeMenu(index) {
+    setActiveMenu(index);
+  }
   return (
     <Box>
       <Stack
@@ -129,7 +130,7 @@ function Menu({ menu }) {
                   onClick={() => onChangeMenu(index)}
                   textStyle="button-2"
                   color={
-                    index === activeMenu.index ? 'neutrals.2' : 'neutrals.4'
+                    index === activeMenu ? 'neutrals.2' : 'neutrals.4'
                   }
                   _hover={{ color: 'neutrals.2', cursor: 'pointer' }}
                   display="inline-block"
@@ -142,7 +143,7 @@ function Menu({ menu }) {
         </List>
       </Stack>
       <Box display={{ base: 'block', tablet: 'none', desktop: 'none' }}>
-        <Select w="311px" h="48px">
+        <Select boxShadow="none !important" w="311px" h="48px">
           {menu.map((content, index) => (
             <option onClick={() => onChangeMenu(index)} key={index}>
               {content.title}
