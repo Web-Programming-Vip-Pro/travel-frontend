@@ -23,7 +23,7 @@ const MobileNavbar = ({ onClose }) => {
       top="48px"
       right="0px"
       bg="white"
-      zIndex={1}
+      zIndex={2}
       shadow="2xl"
       borderRadius="24px"
       spacing="24px"
