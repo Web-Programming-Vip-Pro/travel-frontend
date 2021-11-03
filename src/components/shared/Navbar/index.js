@@ -8,6 +8,7 @@ import {
   useDisclosure,
   Fade,
 } from '@chakra-ui/react'
+import { AnimatePresence } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -82,11 +83,9 @@ const Navbar = ({ user, logoImageSrc }) => {
           zIndex={1}
         >
           <Icon icon="mdi:menu" width="32" height="32" onClick={onToggle} />
-          {isOpen && (
-            <Fade in={isOpen}>
-              <MobileNavbar onClose={onClose} />
-            </Fade>
-          )}
+          <AnimatePresence exitBeforeEnter>
+            {isOpen && <MobileNavbar onClose={onClose} />}
+          </AnimatePresence>
         </Box>
       </Stack>
     </Flex>

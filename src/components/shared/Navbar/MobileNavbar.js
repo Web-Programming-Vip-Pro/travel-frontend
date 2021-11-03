@@ -1,13 +1,9 @@
 import { useRef } from 'react'
-import {
-  Box,
-  Flex,
-  Stack,
-  Button,
-  Text,
-  useOutsideClick,
-} from '@chakra-ui/react'
+import { Stack, Button, Text, useOutsideClick } from '@chakra-ui/react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+
+const MotionStack = motion(Stack)
 
 const MobileNavbar = ({ onClose }) => {
   const ref = useRef()
@@ -16,12 +12,16 @@ const MobileNavbar = ({ onClose }) => {
     handler: () => onClose(),
   })
   return (
-    <Stack
+    <MotionStack
+      initial={{ opacity: 0, y: -5 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -5 }}
+      transition={{ duration: 0.2 }}
       position="absolute"
       p="32px"
-      w="95vw"
+      w={{ base: '90vw', md: '80vw' }}
       top="48px"
-      right="0px"
+      right={{ base: '-10px', tablet: '-20px' }}
       bg="white"
       zIndex={2}
       shadow="2xl"
@@ -40,7 +40,7 @@ const MobileNavbar = ({ onClose }) => {
       </Text>
       <Button variant="light">Login</Button>
       <Button>Sign Up</Button>
-    </Stack>
+    </MotionStack>
   )
 }
 
