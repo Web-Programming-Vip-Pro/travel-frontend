@@ -172,6 +172,7 @@ const PlaceList = ({ title, description }) => {
         <Box
           textStyle={{ mobile: 'headline-3', tablet: 'headline-2' }}
           color="neutrals.2"
+          textAlign={{ mobile: 'center', tablet: 'left' }}
         >
           <Text>{title}</Text>
         </Box>
@@ -179,6 +180,7 @@ const PlaceList = ({ title, description }) => {
           textStyle={{ mobile: 'body-2', tablet: 'body-1' }}
           color="neutrals.4"
           pb="64px"
+          textAlign={{ mobile: 'center', tablet: 'left' }}
         >
           <Text>{description}</Text>
         </Box>
