@@ -14,7 +14,7 @@ import {
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import React from 'react'
-import { useDisclosure } from "@chakra-ui/react"
+import { useDisclosure } from '@chakra-ui/react'
 import Link from 'next/link'
 
 const agencyAvatarSrc =
@@ -72,9 +72,9 @@ const rightSectionProps = {
 const PlaceDetails = () => {
   return (
     <Flex justify="center">
-      <HStack spacing='48px'>
-      <PlaceDetailLeft />
-      <PlaceDetailRight />
+      <HStack spacing="48px">
+        <PlaceDetailLeft />
+        <PlaceDetailRight />
       </HStack>
     </Flex>
   )
@@ -190,7 +190,7 @@ function PlaceDetailRight() {
         </Button>
       </Flex>
       <ListAmentities />
-      <Link {...reportHostLink }>
+      <Link {...reportHostLink}>
         <Flex _hover={{ cursor: 'pointer' }} justify="center" align="center">
           <Box mr="8px" color="neutrals.4">
             <Icon icon="cil:flag-alt" />

@@ -162,7 +162,7 @@ function AgencyInformation() {
             </HStack>
           </Flex>
           <Flex justify="center">
-            <Divider px={{base:'56px', tablet:'72px'}} />
+            <Divider px={{ base: '56px', tablet: '72px' }} />
           </Flex>
           <Flex justify="center">
             <Text textStyle="caption-2" color="neutrals.4">
@@ -170,7 +170,11 @@ function AgencyInformation() {
             </Text>
           </Flex>
           <Link {...reportHostLink}>
-            <Flex _hover={{ cursor: 'pointer' }} justify="center" align="center">
+            <Flex
+              _hover={{ cursor: 'pointer' }}
+              justify="center"
+              align="center"
+            >
               <Box mr="10px" color="neutrals.4">
                 <Icon icon="cil:flag-alt" />
               </Box>
@@ -248,7 +252,13 @@ function Reviews() {
       >
         <Text textStyle="body-1-bold">{`${commentsProperties.totalCount} comments`}</Text>
         <Spacer />
-        <Select boxShadow="none !important" _hover={{ cursor: 'pointer' }} w="150px" h="50px" border="2px">
+        <Select
+          boxShadow="none !important"
+          _hover={{ cursor: 'pointer' }}
+          w="150px"
+          h="50px"
+          border="2px"
+        >
           {commentsProperties.sortOptions.map((content, index) => (
             <option onClick={() => onChangeSortType(content)} key={index}>
               {content}

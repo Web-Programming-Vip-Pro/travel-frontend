@@ -13,7 +13,7 @@ const PlacePage = () => {
       <Box py="65px">
         <PlaceDetails />
       </Box>
-      <Box py={{base: '65px', tablet: '80px'}}>
+      <Box py={{ base: '65px', tablet: '80px' }}>
         <PlaceReviews />
       </Box>
       <Box>
