@@ -6,7 +6,6 @@ import {
   Stack,
   Button,
   useDisclosure,
-  Fade,
 } from '@chakra-ui/react'
 import { AnimatePresence } from 'framer-motion'
 import { Icon } from '@iconify/react'
@@ -14,8 +13,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
+import AuthenticationModal from './AuthenticationModal'
 
-function UserNav({ user }) {
+function UserNav({ user, openModal }) {
   if (user)
     return (
       <>
@@ -29,14 +29,21 @@ function UserNav({ user }) {
       display={{ base: 'none', tablet: 'flex' }}
       spacing="18px"
     >
-      <Button variant="light">Login</Button>
-      <Button>Sign Up</Button>
+      <Button variant="light" onClick={openModal}>
+        Login
+      </Button>
+      <Button onClick={openModal}>Sign Up</Button>
     </Stack>
   )
 }
 
 const Navbar = ({ user, logoImageSrc }) => {
   const { isOpen, onClose, onToggle } = useDisclosure()
+  const {
+    isOpen: isOpenModal,
+    onClose: onCloseModal,
+    onOpen: onOpenModal,
+  } = useDisclosure()
 
   return (
     <Flex
@@ -75,7 +82,7 @@ const Navbar = ({ user, logoImageSrc }) => {
           </Text>
         </Stack>
         <Stack direction="row" spacing="36px" align="center">
-          <UserNav user={user} />
+          <UserNav user={user} openModal={onOpenModal} />
         </Stack>
         <Box
           display={{ mobile: 'block', tablet: 'none' }}
@@ -88,6 +95,7 @@ const Navbar = ({ user, logoImageSrc }) => {
           </AnimatePresence>
         </Box>
       </Stack>
+      <AuthenticationModal isOpen={isOpenModal} onClose={onCloseModal} />
     </Flex>
   )
 }
