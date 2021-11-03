@@ -8,7 +8,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText
+  FormHelperText,
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import React, { useState } from 'react'
@@ -18,13 +18,13 @@ const shortDescription =
   'Stacks is a production-ready library of stackable content blocks built in React Native.'
 
 const HelpHero = () => {
-  let [textSearch, setTextSearch] = useState('');
+  let [textSearch, setTextSearch] = useState('')
 
   function searchHelp(event) {}
 
   function handleChange(event) {
-    var keyWord = event.target.value;
-    setTextSearch(keyWord);
+    var keyWord = event.target.value
+    setTextSearch(keyWord)
   }
   return (
     <Flex
@@ -39,14 +39,21 @@ const HelpHero = () => {
       justify="center"
     >
       <Stack justify="center">
-        <Stack justify="center" spacing="16px" align="center" textAlign="center">
-          <Text w={{ tablet: '586px', base: '283px' }} textStyle={{ tablet: 'hero', base: 'headline-2' }}>{title}</Text>
-          <Text w={{ base: '283px', tablet: '482px'}}>
-            {shortDescription}
+        <Stack
+          justify="center"
+          spacing="16px"
+          align="center"
+          textAlign="center"
+        >
+          <Text
+            w={{ tablet: '586px', base: '283px' }}
+            textStyle={{ tablet: 'hero', base: 'headline-2' }}
+          >
+            {title}
           </Text>
+          <Text w={{ base: '283px', tablet: '482px' }}>{shortDescription}</Text>
         </Stack>
         <FormControl id="first-name" onSubmit={searchHelp}>
-          
           <InputGroup>
             <Input
               type="text"

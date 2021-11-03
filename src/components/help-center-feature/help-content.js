@@ -107,11 +107,10 @@ function HelpDetails({ helpContents }) {
   return <Accordion allowToggle="true">{renderedContent}</Accordion>
 }
 
-
 function Menu({ menu }) {
-  let [activeMenu, setActiveMenu] = useState(0);
+  let [activeMenu, setActiveMenu] = useState(0)
   function onChangeMenu(index) {
-    setActiveMenu(index);
+    setActiveMenu(index)
   }
   return (
     <Box>
@@ -129,9 +128,7 @@ function Menu({ menu }) {
                 <Text
                   onClick={() => onChangeMenu(index)}
                   textStyle="button-2"
-                  color={
-                    index === activeMenu ? 'neutrals.2' : 'neutrals.4'
-                  }
+                  color={index === activeMenu ? 'neutrals.2' : 'neutrals.4'}
                   _hover={{ color: 'neutrals.2', cursor: 'pointer' }}
                   display="inline-block"
                 >
