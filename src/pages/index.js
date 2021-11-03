@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react'
-import Hero from '@/components/page/Home/Hero'
-import Adventure from '@/components/page/Home/Adventure'
-import PlaceList from '@/components/page/Home/PlaceList'
-import BestAgencies from '@/components/page/Home/BestAgencies'
+import Hero from '@/components/homepage/Hero'
+import Adventure from '@/components/homepage/Adventure'
+import PlaceList from '@/components/homepage/PlaceList'
+import BestAgencies from '@/components/homepage/BestAgencies'
 export default function Index() {
   return (
     <>
