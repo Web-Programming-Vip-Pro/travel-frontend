@@ -69,7 +69,7 @@ const Discovery = () => {
         >
           Recently added
         </MenuButton>
-        <MenuList>
+        <MenuList zIndex={10}>
           <MenuItem>The grand resort</MenuItem>
           <MenuItem>The grand resort</MenuItem>
           <MenuItem>The grand resort</MenuItem>
