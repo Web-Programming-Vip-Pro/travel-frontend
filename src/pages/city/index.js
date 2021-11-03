@@ -1,4 +1,4 @@
-import Country from '@/components/page/City/Country'
+import Country from '@/components/citypage/Country'
 import StayList from '@/components/shared/StayList'
 import UtilityNav from '@/components/shared/UtilityNav'
 export default function City() {
