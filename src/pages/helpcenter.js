@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
-import HelpContent from '@/components/help-center-feature/help-content.js'
-import HelpHero from '@/components/help-center-feature/help-hero.js'
+import HelpContent from '@/components/helpCenterFeature/helpContent.js'
+import HelpHero from '@/components/helpCenterFeature/helpHero.js'
 const HelpCenterPage = () => {
   return (
     <Box>
