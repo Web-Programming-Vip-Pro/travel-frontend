@@ -8,13 +8,13 @@ import {
 import SignInBox from './SignInBox'
 import SignUpBox from './SignUpBox'
 
-const AuthenticationModal = ({ isOpen, onClose, isSignIn = true }) => {
+const AuthenticationModal = ({ isOpen, onClose, isSignIn = false }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
       <ModalOverlay />
       <ModalContent borderRadius="16px">
         <ModalCloseButton />
-        <ModalBody px="96px" pt="72px">
+        <ModalBody px="96px" py="72px">
           {isSignIn ? <SignInBox /> : <SignUpBox />}
         </ModalBody>
       </ModalContent>

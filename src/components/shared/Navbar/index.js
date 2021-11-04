@@ -14,6 +14,7 @@ import Link from 'next/link'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
+import { useState } from 'react'
 
 function UserNav({ user, openModal }) {
   if (user)
@@ -29,10 +30,10 @@ function UserNav({ user, openModal }) {
       display={{ base: 'none', tablet: 'flex' }}
       spacing="18px"
     >
-      <Button variant="light" onClick={openModal}>
+      <Button variant="light" onClick={() => openModal(true)}>
         Login
       </Button>
-      <Button onClick={openModal}>Sign Up</Button>
+      <Button onClick={() => openModal(false)}>Sign Up</Button>
     </Stack>
   )
 }
@@ -44,6 +45,11 @@ const Navbar = ({ user, logoImageSrc }) => {
     onClose: onCloseModal,
     onOpen: onOpenModal,
   } = useDisclosure()
+  const [isSignInModal, setIsSignInModal] = useState(false)
+  function openModal(isSignIn) {
+    setIsSignInModal(isSignIn)
+    onOpenModal()
+  }
 
   return (
     <Flex
@@ -82,7 +88,7 @@ const Navbar = ({ user, logoImageSrc }) => {
           </Text>
         </Stack>
         <Stack direction="row" spacing="36px" align="center">
-          <UserNav user={user} openModal={onOpenModal} />
+          <UserNav user={user} openModal={openModal} />
         </Stack>
         <Box
           display={{ mobile: 'block', tablet: 'none' }}
@@ -95,7 +101,11 @@ const Navbar = ({ user, logoImageSrc }) => {
           </AnimatePresence>
         </Box>
       </Stack>
-      <AuthenticationModal isOpen={isOpenModal} onClose={onCloseModal} />
+      <AuthenticationModal
+        isOpen={isOpenModal}
+        onClose={onCloseModal}
+        isSignIn={isSignInModal}
+      />
     </Flex>
   )
 }
