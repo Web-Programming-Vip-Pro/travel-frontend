@@ -11,7 +11,7 @@ import { Icon } from '@iconify/react'
 
 const SignInBox = () => {
   return (
-    <Stack spacing="32px" align="center">
+    <Stack spacing="32px" align="center" mb="4px">
       <Text textStyle="headline-3">Sign in</Text>
       <Stack spacing="16px">
         <FormControl>
@@ -47,7 +47,7 @@ const SignInBox = () => {
         </FormControl>
         <Button>Login</Button>
       </Stack>
-      <Text textStyle="caption-2-bold" color="neutrals.3">
+      <Text textStyle="caption-2-bold" color="neutrals.3" fontWeight="bold">
         Forgot Password
       </Text>
     </Stack>
