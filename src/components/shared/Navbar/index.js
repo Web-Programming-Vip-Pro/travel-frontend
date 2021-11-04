@@ -7,6 +7,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
@@ -14,7 +15,6 @@ import Link from 'next/link'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
-import { useState } from 'react'
 
 function UserNav({ user, openModal }) {
   if (user)
@@ -58,13 +58,17 @@ const Navbar = ({ user, logoImageSrc }) => {
       align="center"
       justify="space-between"
     >
-      <Image
-        src={logoImageSrc}
-        alt="Logo"
-        width={106}
-        height={38}
-        unoptimized
-      />
+      <Link href="/" passHref>
+        <a>
+          <Image
+            src={logoImageSrc}
+            alt="Logo"
+            width={106}
+            height={38}
+            unoptimized
+          />
+        </a>
+      </Link>
       <Stack direction="row" align="center" spacing="36px">
         <Stack
           direction="row"
