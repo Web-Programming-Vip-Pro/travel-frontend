@@ -2,28 +2,21 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Box,
-  Button,
 } from '@chakra-ui/react'
+import SignInBox from './SignInBox'
+import SignUpBox from './SignUpBox'
 
-const AuthenticationModal = ({ isOpen, onClose }) => {
+const AuthenticationModal = ({ isOpen, onClose, isSignIn = true }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Login</ModalHeader>
+      <ModalContent borderRadius="16px">
         <ModalCloseButton />
-        <ModalBody></ModalBody>
-
-        <ModalFooter>
-          <Button colorScheme="red" mr={3} onClick={onClose}>
-            Close
-          </Button>
-        </ModalFooter>
+        <ModalBody px="96px" pt="72px">
+          {isSignIn ? <SignInBox /> : <SignUpBox />}
+        </ModalBody>
       </ModalContent>
     </Modal>
   )
