@@ -67,7 +67,6 @@ const HelpHero = () => {
               placeholder="Search anything"
               pl="30px"
               pr="60px"
-              isFullWidth="true"
             />
             <InputRightElement
               type="submit"
@@ -78,12 +77,7 @@ const HelpHero = () => {
               right="50px"
               transform="rotate(275deg)"
             >
-              <Icon
-                icon="el:search-alt"
-                borderRadius="full"
-                type="submit"
-                fontSize="40px"
-              />
+              <Icon icon="el:search-alt" type="submit" fontSize="40px" />
             </InputRightElement>
           </InputGroup>
         </FormControl>
