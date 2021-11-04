@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react'
-import PlaceHeader from '@/components/place-feature/place-header'
-import PlaceDetails from '@/components/place-feature/place-details'
-import PlaceReviews from '@/components/place-feature/place-reviews'
-import SimilarPlaces from '@/components/place-feature/place-similars'
+import PlaceHeader from '@/components/placeFeature/placeHeader'
+import PlaceDetails from '@/components/placeFeature/placeDetails'
+import PlaceReviews from '@/components/placeFeature/placeReviews'
+import SimilarPlaces from '@/components/placeFeature/placeSimilars'
 
 const PlacePage = () => {
   return (
