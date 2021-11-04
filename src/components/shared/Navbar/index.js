@@ -87,7 +87,7 @@ const Navbar = ({ user, logoImageSrc }) => {
         <Box
           display={{ mobile: 'block', tablet: 'none' }}
           position="relative"
-          zIndex={1}
+          zIndex={2}
         >
           <Icon icon="mdi:menu" width="32" height="32" onClick={onToggle} />
           <AnimatePresence exitBeforeEnter>
