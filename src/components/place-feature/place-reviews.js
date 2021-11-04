@@ -18,9 +18,13 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
-import StarRatings from 'react-star-ratings'
+// import StarRatings from 'react-star-ratings'
 import React from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+const StarRatings = dynamic(() => import('react-star-ratings'), {
+  ssr: false,
+})
 
 const agencyInformation = {
   name: 'Zoe towne',
@@ -205,12 +209,14 @@ function Reviews() {
       <FormControl id="make-comment">
         <Text textStyle="body-1-bold">Add a Reivew</Text>
         <Flex direction={{ base: 'column', tablet: 'column', desktop: 'row' }}>
-          <Text textStyle="caption" color="neutrals.4">
-            Be the first to review{' '}
+          <Flex>
+            <Text textStyle="caption" color="neutrals.4" mr="3px">
+              Be the first to review
+            </Text>
             <Text display="inline-block" textStyle="caption-bold">
               {placeTitle}
             </Text>
-          </Text>
+          </Flex>
           <Spacer />
           <StarRatings
             rating={ratingCount}
@@ -225,7 +231,7 @@ function Reviews() {
         </Flex>
         <InputGroup my="40px">
           <Input
-            Type="text"
+            type="text"
             value={textComment}
             onChange={handleInputChange}
             textStyle="body-2"
