@@ -13,7 +13,7 @@ const SignUpBox = () => {
   return (
     <Stack spacing="32px" align="center">
       <Stack spacing="12px" align="center">
-        <Text textStyle="headline-3">Sign Up on Travel</Text>
+        <Text textStyle="headline-3">Sign Up on Fleety</Text>
         <Text textStyle="body-2" color="neutrals.4">
           Use Your Email to Sign up
         </Text>
@@ -27,7 +27,7 @@ const SignUpBox = () => {
             placeholder="Enter your email"
             fontSize="14"
             _placeholder={{
-              fontSize: 14
+              fontSize: 14,
             }}
           />
           <InputRightElement height="100%" right="1">
@@ -49,7 +49,8 @@ const SignUpBox = () => {
         </InputGroup>
       </Stack>
       <Text textStyle="caption-2" fontWeight="bold">
-        Already have an account? <chakra.span color="primary.1">Login</chakra.span>
+        Already have an account?{' '}
+        <chakra.span color="primary.1">Login</chakra.span>
       </Text>
     </Stack>
   )
