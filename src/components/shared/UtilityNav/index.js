@@ -7,6 +7,7 @@ import {
   MenuList,
   MenuItem,
   Spacer,
+  Select,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Icon } from '@iconify/react'
@@ -46,35 +47,23 @@ const Discovery = () => {
         ))}
       </Stack>
       <Spacer />
-      <Menu>
-        <MenuButton
-          as={Button}
-          rightIcon={<Icon icon="ic:round-keyboard-arrow-down" />}
-          variant="light"
-          display={{ mobile: 'flex', tablet: 'none' }}
-        >
-          Stay
-        </MenuButton>
-        <MenuList>
-          <MenuItem>The grand resort</MenuItem>
-          <MenuItem>The grand resort</MenuItem>
-          <MenuItem>The grand resort</MenuItem>
-        </MenuList>
-      </Menu>
-      <Menu>
-        <MenuButton
-          as={Button}
-          rightIcon={<Icon icon="ic:round-keyboard-arrow-down" />}
-          variant="light"
-        >
-          Recently added
-        </MenuButton>
-        <MenuList zIndex={10}>
-          <MenuItem>The grand resort</MenuItem>
-          <MenuItem>The grand resort</MenuItem>
-          <MenuItem>The grand resort</MenuItem>
-        </MenuList>
-      </Menu>
+      <Select
+        placeholder="Stay"
+        display={{ mobile: 'block', tablet: 'none' }}
+        border="none"
+      >
+        <option value="option1">Explore</option>
+        <option value="option2">Food &amp; Drink</option>
+      </Select>
+      <Select
+        placeholder="Recently added"
+        w={{ tablet: '256px' }}
+        border="none"
+      >
+        <option value="option1">The grand resort</option>
+        <option value="option2">The grand resort</option>
+        <option value="option3">The grand resort</option>
+      </Select>
     </Stack>
   )
 }
