@@ -14,11 +14,9 @@ import {
   InputGroup,
   InputRightElement,
   Input,
-  Select,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
-// import StarRatings from 'react-star-ratings'
 import React from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -103,7 +101,7 @@ function AgencyInformation() {
     >
       <Flex direction="column" align="center">
         <Stack spacing="32px">
-          <Flex>
+          <Flex justify="center">
             <Flex align="center" mr="22px">
               <Circle
                 overflow="hidden"
