@@ -9,23 +9,31 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
+import { useState } from 'react'
 
-const PlaceCardList = ({ data, show }) => {
+const PlaceCardList = ({ data, show, columns, typeName }) => {
+  const dataAmountInHideMode = 2
+  const firstDatas = data.slice(0, dataAmountInHideMode)
   return (
     <SimpleGrid
-      columns={{ mobile: 1, tablet: 2 }}
+      columns={{
+        mobile: columns?.mobile,
+        tablet: columns?.tablet,
+        desktop: columns?.desktop,
+      }}
       spacingY="32px"
       maxH={show ? {} : { mobile: '1761px', tablet: '1387px' }}
       overflow="hidden"
     >
-      {data.map((item, index) => (
-        <Flex key={index} justify="space-around">
+      {(show ? data : firstDatas).map((item, index) => (
+        <Flex key={index} justify="start">
           <Box
             borderRadius="20px"
             w={{ tablet: '266px', desktop: '352px' }}
             h={{ tablet: '411px', desktop: '417px' }}
             overflow="hidden"
             bg="neutrals.8"
+            mr="20px"
           >
             <Box
               width={{ mobile: '311px', tablet: '266px', desktop: '352px' }}
@@ -47,7 +55,7 @@ const PlaceCardList = ({ data, show }) => {
                 bg="neutrals.8"
                 p="8px"
               >
-                Stay
+                {typeName}
               </Badge>
             </Box>
 
