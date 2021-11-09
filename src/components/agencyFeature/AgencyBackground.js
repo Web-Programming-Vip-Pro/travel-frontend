@@ -1,21 +1,5 @@
 import React from 'react'
-import {
-  Button,
-  Spacer,
-  HStack,
-  Circle,
-  Divider,
-  Text,
-  Flex,
-  Box,
-  LinkBox,
-  LinkOverlay,
-  Stack,
-  FormControl,
-  InputGroup,
-  InputRightElement,
-  Input,
-} from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Image from 'next/image'
 
 const agencyBackgroundFigure =
