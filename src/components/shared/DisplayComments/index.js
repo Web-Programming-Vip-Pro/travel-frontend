@@ -7,16 +7,28 @@ import {
   Flex,
   Box,
   Select,
+  useDisclosure,
+  Button,
+  Stack,
 } from '@chakra-ui/react'
 import Image from 'next/image'
+import { Icon } from '@iconify/react'
 import dynamic from 'next/dynamic'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
 
 const DisplayComments = ({ commentsProperties }) => {
+  const { isOpen, onToggle } = useDisclosure()
+  const commentAmountInHideMode = 3
+  const firstComments = commentsProperties?.comments.slice(
+    0,
+    commentAmountInHideMode
+  )
+  const fullComments = commentsProperties?.comments
+
   return (
-    <Box>
+    <Stack>
       <Flex
         align="center"
         display={{ base: 'none', tablet: 'flex', desktop: 'flex' }}
@@ -39,7 +51,7 @@ const DisplayComments = ({ commentsProperties }) => {
         </Select>
       </Flex>
       <Box my="40px">
-        {commentsProperties.comments.map((content, index) => (
+        {(isOpen ? fullComments : firstComments).map((content, index) => (
           <Box w="100%" key={index}>
             <Flex w="100%">
               <Circle
@@ -91,7 +103,25 @@ const DisplayComments = ({ commentsProperties }) => {
           </Box>
         ))}
       </Box>
-    </Box>
+      <Flex
+        display={
+          commentsProperties?.comments.length > commentAmountInHideMode
+            ? 'flex'
+            : 'none'
+        }
+        justify="center"
+      >
+        <Button
+          leftIcon={<Icon icon="icon-park-outline:loading-one" />}
+          variant="outline"
+          border="2px"
+          my="20px"
+          onClick={onToggle}
+        >
+          {isOpen ? 'Less' : 'Load More'}
+        </Button>
+      </Flex>
+    </Stack>
   )
 }
 
