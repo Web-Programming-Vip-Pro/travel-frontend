@@ -110,14 +110,7 @@ const AgencyListing = () => {
   return (
     <Box>
       <Text textStyle="body-1-bold">{agencyListingTitle}</Text>
-      <Stack
-        display={{ mobile: 'none', tablet: 'flex' }}
-        direction="row"
-        spacing="16px"
-        align="center"
-        mt="36px"
-        mb="44px"
-      >
+      <Stack direction="row" spacing="16px" align="center" mt="36px" mb="44px">
         {serviceList.map((item) => (
           <Button
             key={item}

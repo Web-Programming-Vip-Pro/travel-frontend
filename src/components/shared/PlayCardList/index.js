@@ -26,20 +26,16 @@ const PlaceCardList = ({ data, show, columns, typeName }) => {
       overflow="hidden"
     >
       {(show ? data : firstDatas).map((item, index) => (
-        <Flex key={index} justify="start">
+        <Flex key={index} justify={{ base: 'center', tablet: 'start' }}>
           <Box
             borderRadius="20px"
-            w={{ tablet: '266px', desktop: '352px' }}
+            w="328px"
             h={{ tablet: '411px', desktop: '417px' }}
             overflow="hidden"
             bg="neutrals.8"
             mr="20px"
           >
-            <Box
-              width={{ mobile: '311px', tablet: '266px', desktop: '352px' }}
-              height={{ mobile: '240px', desktop: '240px' }}
-              position="relative"
-            >
+            <Box width="328px" height="240px" position="relative">
               <Image
                 src={item.imgSrc}
                 alt={item.title}
