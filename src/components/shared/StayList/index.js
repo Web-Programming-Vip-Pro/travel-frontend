@@ -25,7 +25,7 @@ function PlaceCardList({ data, show }) {
       overflow="hidden"
     >
       {data.map((item, index) => (
-        <Flex key={index} justify="space-around">
+        <Flex key={index} justify="space-around" _hover={{ cursor: 'pointer' }}>
           <Box
             borderRadius="20px"
             w={{ tablet: '266px', desktop: '352px' }}
@@ -207,7 +207,7 @@ const StayList = ({ children }) => {
       <Box
         minH="1286px"
         overflow="hidden"
-        px={{ mobile: '16px', tablet: '40px', desktop: '80px' }}
+        px={{ mobile: '32px', tablet: '80px', desktop: '160px' }}
         pt={{ mobile: '32px', tablet: '32px', desktop: '48px' }}
       >
         {children}
