@@ -6,19 +6,28 @@ import {
   Input,
   Button,
   chakra,
+  Alert,
+  AlertIcon,
+  AlertTitle,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
-import { signUp, verifyUser } from '@/services/auth'
+import { signUp } from '@/services/auth'
 
 const SignUpBox = () => {
   const { register, handleSubmit } = useForm()
   const [isLoading, setIsLoading] = useState(false)
+  const [status, setStatus] = useState(null)
   async function onSubmit(data) {
     setIsLoading(true)
+    setStatus(null)
     const response = await signUp(data)
     if (response.success) {
-      const user = await verifyUser()
-      console.log(user)
+      setStatus({ success: true, message: 'Sign Up successful' })
+    } else {
+      setStatus({
+        success: false,
+        message: response.message?.data || 'Sign Up failed',
+      })
     }
     setIsLoading(false)
   }
@@ -77,6 +86,14 @@ const SignUpBox = () => {
           </Button>
         </Stack>
       </form>
+      {status && (
+        <Stack>
+          <Alert status={status.success ? 'success' : 'error'}>
+            <AlertIcon />
+            <AlertTitle>{status.message}</AlertTitle>
+          </Alert>
+        </Stack>
+      )}{' '}
       <Text textStyle="caption-2" fontWeight="bold">
         Already have an account?{' '}
         <chakra.span color="primary.1">Login</chakra.span>
