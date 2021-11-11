@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form'
 import { signUp } from '@/services/auth'
 import { Icon } from '@iconify/react'
 
-const SignUpBox = () => {
+const SignUpBox = ({ onClose }) => {
   const { register, handleSubmit } = useForm()
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState(null)
@@ -26,6 +26,9 @@ const SignUpBox = () => {
     const response = await signUp(data)
     if (response.success) {
       setStatus({ success: true, message: 'Sign Up successful' })
+      setTimeout(() => {
+        onClose()
+      }, 1000)
     } else {
       setStatus({
         success: false,

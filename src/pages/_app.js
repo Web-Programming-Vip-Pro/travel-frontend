@@ -10,8 +10,12 @@ import { useUserStore } from '@/store/user'
 
 function MyApp({ Component, pageProps }) {
   const { user, isLoading, isError } = useUser()
-  if (!isLoading && !isError) {
-    useUserStore.getState().setUser(user)
+  if (!isLoading) {
+    if (isError) {
+      useUserStore.getState().setUser(null)
+    } else {
+      useUserStore.getState().setUser(user)
+    }
   }
   return (
     <ChakraProvider theme={theme}>

@@ -15,7 +15,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { login } from '@/services/auth'
 
-const SignInBox = () => {
+const SignInBox = ({ onClose }) => {
   const { register, handleSubmit } = useForm()
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState(null)
@@ -25,6 +25,9 @@ const SignInBox = () => {
     const response = await login(data)
     if (response.success) {
       setStatus({ success: true, message: 'Login successful' })
+      setTimeout(() => {
+        onClose()
+      }, 1000)
     } else {
       setStatus({
         success: false,
