@@ -33,10 +33,15 @@ export async function signUp(user) {
   }
 }
 
-export async function login(email, password) {
-  const response = await fetch(USER.LOGIN, {
-    body: JSON.stringify({ email, password }),
-    method: 'POST',
-  }).then((res) => res.json())
-  return response
+export async function login({ email, password }) {
+  try {
+    const response = await axios
+      .post(USER.LOGIN, { email, password })
+      .then((res) => res.data)
+    setToken(response.data)
+    mutate(USER.CHECK)
+    return { success: true }
+  } catch (err) {
+    return { success: false, message: err.response.data }
+  }
 }
