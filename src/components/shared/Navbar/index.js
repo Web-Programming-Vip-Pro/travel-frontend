@@ -12,6 +12,7 @@ import { AnimatePresence } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
@@ -19,11 +20,12 @@ import { useUserStore } from '@/store/user'
 
 function UserNav({ openModal }) {
   const user = useUserStore((state) => state.user)
+  const router = useRouter()
   if (user)
     return (
       <>
         {/* <Notification messages={[]} /> */}
-        <Avatar name={user.name} src={user.avatarSrc} />
+        <Avatar name={user.name} src={user.avatarSrc} onClick={() => router.push('/user')}/>
       </>
     )
   return (
