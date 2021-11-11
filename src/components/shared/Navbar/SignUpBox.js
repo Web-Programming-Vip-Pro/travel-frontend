@@ -45,6 +45,29 @@ const SignUpBox = () => {
             <Input
               type="email"
               borderRadius="90px"
+      <Stack>
+        <InputGroup>
+          <Input
+            type="text"
+            borderRadius="90px"
+            size="lg"
+            placeholder="Enter your email"
+            fontSize="14"
+            _placeholder={{
+              fontSize: 14,
+            }}
+          />
+          <InputRightElement height="100%" right="1">
+            <IconButton
+              icon={
+                <Icon
+                  icon="tabler:arrow-narrow-right"
+                  color="white"
+                  width="20px"
+                  height="20px"
+                />
+              }
+              isRound
               size="md"
               placeholder="Enter your email"
               required
