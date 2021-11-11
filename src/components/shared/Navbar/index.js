@@ -5,27 +5,106 @@ import {
   Avatar,
   Stack,
   Button,
+  Divider,
   useDisclosure,
+  useTheme,
+  useOutsideClick,
 } from '@chakra-ui/react'
-import { useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
+import { useState, useRef } from 'react'
 import { Icon } from '@iconify/react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
 import { useUserStore } from '@/store/user'
 
+const MotionStack = motion(Stack)
+const MotionText = motion(Text)
+const MotionBox = motion(Box)
+
+function Dropdown({ onClose }) {
+  function Field({ icon, text, link }) {
+    const theme = useTheme()
+    const variants = {
+      hover: {
+        color: theme.colors.neutrals[2],
+        duration: 0.15,
+      },
+    }
+    return (
+      <MotionStack
+        direction="row"
+        align="center"
+        color="neutrals.4"
+        whileHover="hover"
+        cursor="pointer"
+        px="20px"
+        minHeight="48px"
+      >
+        <motion.span variants={variants}>
+          <Icon icon={icon} height={20} width={20} />
+        </motion.span>
+        <MotionText
+          color="neutrals.4"
+          variants={variants}
+          fontWeight="semibold"
+        >
+          {text}
+        </MotionText>
+      </MotionStack>
+    )
+  }
+  const ref = useRef(null)
+  useOutsideClick({ ref, handler: () => onClose(false) })
+  return (
+    <Stack bg="white" shadow="md" borderRadius="20px" p="16px" ref={ref}>
+      <Field icon="bx:bx-message-square-detail" text="Bookings" />
+      <Field icon="heroicons-outline:home" text="Wishlists" />
+      <Divider />
+      <Stack direction="row">
+        <Link href="/user" passHref>
+          <Button fontSize="14px">Account</Button>
+        </Link>
+        <Button fontSize="14px" variant="light">
+          Log Out
+        </Button>
+      </Stack>
+    </Stack>
+  )
+}
+
 function UserNav({ openModal }) {
   const user = useUserStore((state) => state.user)
-  const router = useRouter()
+  const { isOpen, onClose, onToggle } = useDisclosure()
   if (user)
     return (
       <>
-        {/* <Notification messages={[]} /> */}
-        <Avatar name={user.name} src={user.avatarSrc} onClick={() => router.push('/user')}/>
+        <Notification messages={[]} />
+        <Stack position="relative">
+          <Avatar
+            name={user.name}
+            src={user.avatarSrc}
+            onClick={onToggle}
+            cursor="pointer"
+          />
+          <AnimatePresence exitBeforeEnter>
+            {isOpen && (
+              <MotionBox
+                position="absolute"
+                top="72px"
+                right={{ base: '-84px', tablet: '-28px', desktop: '-68px' }}
+                zIndex={2}
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+              >
+                <Dropdown onClose={onClose} />
+              </MotionBox>
+            )}
+          </AnimatePresence>
+        </Stack>
       </>
     )
   return (
