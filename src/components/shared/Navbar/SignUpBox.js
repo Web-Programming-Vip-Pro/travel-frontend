@@ -9,9 +9,12 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  InputRightElement,
+  IconButton,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { signUp } from '@/services/auth'
+import { Icon } from '@iconify/react'
 
 const SignUpBox = () => {
   const { register, handleSubmit } = useForm()
@@ -43,34 +46,10 @@ const SignUpBox = () => {
         <Stack>
           <InputGroup>
             <Input
-              type="email"
+              type="text"
               borderRadius="90px"
-      <Stack>
-        <InputGroup>
-          <Input
-            type="text"
-            borderRadius="90px"
-            size="lg"
-            placeholder="Enter your email"
-            fontSize="14"
-            _placeholder={{
-              fontSize: 14,
-            }}
-          />
-          <InputRightElement height="100%" right="1">
-            <IconButton
-              icon={
-                <Icon
-                  icon="tabler:arrow-narrow-right"
-                  color="white"
-                  width="20px"
-                  height="20px"
-                />
-              }
-              isRound
               size="md"
               placeholder="Enter your email"
-              required
               {...register('email', { required: true })}
             />
           </InputGroup>
@@ -86,7 +65,7 @@ const SignUpBox = () => {
           </InputGroup>
           <InputGroup>
             <Input
-              type="text"
+              type="password"
               borderRadius="90px"
               size="md"
               placeholder="Enter your password"
@@ -96,7 +75,7 @@ const SignUpBox = () => {
           </InputGroup>
           <InputGroup>
             <Input
-              type="text"
+              type="password"
               borderRadius="90px"
               size="md"
               placeholder="Re-enter your password"
