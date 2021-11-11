@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react'
 import {
   Box,
   Text,
@@ -10,15 +11,15 @@ import {
   useTheme,
   useOutsideClick,
 } from '@chakra-ui/react'
-import { useState, useRef } from 'react'
 import { Icon } from '@iconify/react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useUserStore } from '@/store/user'
+import { logout } from '@/services/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
-import { useUserStore } from '@/store/user'
 
 const MotionStack = motion(Stack)
 const MotionText = motion(Text)
@@ -67,7 +68,7 @@ function Dropdown({ onClose }) {
         <Link href="/user" passHref>
           <Button fontSize="14px">Account</Button>
         </Link>
-        <Button fontSize="14px" variant="light">
+        <Button fontSize="14px" variant="light" onClick={logout}>
           Log Out
         </Button>
       </Stack>

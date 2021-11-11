@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { USER } from '@/constants'
 import useSWR, { mutate } from 'swr'
-import { getToken, setToken } from '@/utils/cookies'
+import { deleteToken, getToken, setToken } from '@/utils/cookies'
 
 export function useUser() {
   const fetcher = (url) =>
@@ -39,6 +39,16 @@ export async function login({ email, password }) {
       .post(USER.LOGIN, { email, password })
       .then((res) => res.data)
     setToken(response.data)
+    mutate(USER.CHECK)
+    return { success: true }
+  } catch (err) {
+    return { success: false, message: err.response.data }
+  }
+}
+
+export async function logout() {
+  try {
+    deleteToken()
     mutate(USER.CHECK)
     return { success: true }
   } catch (err) {
