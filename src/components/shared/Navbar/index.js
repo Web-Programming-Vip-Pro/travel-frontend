@@ -12,16 +12,20 @@ import { AnimatePresence } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
+import { useUserStore } from '@/store/user'
 
-function UserNav({ user, openModal }) {
+function UserNav({ openModal }) {
+  const user = useUserStore((state) => state.user)
+  const router = useRouter()
   if (user)
     return (
       <>
-        <Notification />
-        <Avatar name={user.name} src={user.avatarSrc} />
+        {/* <Notification messages={[]} /> */}
+        <Avatar name={user.name} src={user.avatarSrc} onClick={() => router.push('/user')}/>
       </>
     )
   return (
@@ -38,7 +42,7 @@ function UserNav({ user, openModal }) {
   )
 }
 
-const Navbar = ({ user, logoImageSrc }) => {
+const Navbar = ({ logoImageSrc }) => {
   const { isOpen, onClose, onToggle } = useDisclosure()
   const {
     isOpen: isOpenModal,
@@ -92,7 +96,7 @@ const Navbar = ({ user, logoImageSrc }) => {
           </Text>
         </Stack>
         <Stack direction="row" spacing="36px" align="center">
-          <UserNav user={user} openModal={openModal} />
+          <UserNav openModal={openModal} />
         </Stack>
         <Box
           display={{ mobile: 'block', tablet: 'none' }}
