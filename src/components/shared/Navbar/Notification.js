@@ -93,7 +93,7 @@ const Notification = ({ messages }) => {
           <Icon icon="clarity:notification-line" width="24" height="24" />
         </Box>
         <NewMessageDot />
-        {isOpen && <MessageBox messages={messages} />}
+        {/* {isOpen && <MessageBox messages={messages} />} */}
       </Box>
     </>
   )

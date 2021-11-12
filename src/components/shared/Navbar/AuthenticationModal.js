@@ -15,7 +15,11 @@ const AuthenticationModal = ({ isOpen, onClose, isSignIn = false }) => {
       <ModalContent borderRadius="16px">
         <ModalCloseButton />
         <ModalBody px="96px" py="72px">
-          {isSignIn ? <SignInBox /> : <SignUpBox />}
+          {isSignIn ? (
+            <SignInBox onClose={onClose} />
+          ) : (
+            <SignUpBox onClose={onClose} />
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>
