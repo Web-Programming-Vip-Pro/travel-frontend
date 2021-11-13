@@ -14,7 +14,7 @@ const AuthenticationModal = ({ isOpen, onClose, isSignIn = false }) => {
       isOpen={isOpen}
       onClose={onClose}
       isCentered
-      size={{ base: 'sm', tablet: 'xl' }}
+      size="md"
     >
       <ModalOverlay />
       <ModalContent borderRadius="16px">
