@@ -38,13 +38,15 @@ const SignInBox = ({ onClose }) => {
   }
   return (
     <Stack spacing="32px" align="center" mb="4px">
-      <Text textStyle="headline-3">Sign in</Text>
+      <Text textStyle={{ base: 'headline-4', tablet: 'headline-3' }}>
+        Sign in
+      </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing="16px">
           <FormControl>
             <InputGroup>
               <Input
-                type="text"
+                type="email"
                 px="14px"
                 py="16px"
                 minH="48px"
@@ -69,9 +71,6 @@ const SignInBox = ({ onClose }) => {
                 placeholder="Password"
                 {...register('password', { required: true })}
               />
-              <InputRightElement top={1}>
-                <Icon icon="ic:outline-remove-red-eye" color="gray" />
-              </InputRightElement>
             </InputGroup>
           </FormControl>
           <Button type="submit" isLoading={isLoading}>

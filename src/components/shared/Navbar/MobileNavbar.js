@@ -6,7 +6,7 @@ import { useUserStore } from '@/store/user'
 
 const MotionStack = motion(Stack)
 
-const MobileNavbar = ({ onClose }) => {
+const MobileNavbar = ({ openModal, onClose }) => {
   const ref = useRef()
   useOutsideClick({
     ref,
@@ -22,9 +22,9 @@ const MobileNavbar = ({ onClose }) => {
       transition={{ duration: 0.2 }}
       position="absolute"
       p="32px"
-      w={{ base: '90vw', md: '80vw' }}
-      top="48px"
-      right={{ base: '-10px', tablet: '-20px' }}
+      w={{ base: '85vw', sm: '90vw', md: '80vw' }}
+      top="72px"
+      right={{ base: '-12px', tablet: '-20px' }}
       bg="white"
       zIndex={2}
       shadow="2xl"
@@ -43,8 +43,10 @@ const MobileNavbar = ({ onClose }) => {
       </Text>
       {!user && (
         <>
-          <Button variant="light">Login</Button>
-          <Button>Sign Up</Button>
+          <Button variant="light" onClick={() => openModal(true)}>
+            Login
+          </Button>
+          <Button onClick={() => openModal(false)}>Sign Up</Button>
         </>
       )}
     </MotionStack>

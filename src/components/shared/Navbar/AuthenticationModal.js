@@ -10,11 +10,19 @@ import SignUpBox from './SignUpBox'
 
 const AuthenticationModal = ({ isOpen, onClose, isSignIn = false }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      isCentered
+      size={{ base: 'sm', tablet: 'xl' }}
+    >
       <ModalOverlay />
       <ModalContent borderRadius="16px">
         <ModalCloseButton />
-        <ModalBody px="96px" py="72px">
+        <ModalBody
+          px={{ base: '16px', tablet: '96px' }}
+          py={{ base: '36px', tablet: '72px' }}
+        >
           {isSignIn ? (
             <SignInBox onClose={onClose} />
           ) : (

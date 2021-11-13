@@ -185,7 +185,7 @@ const Navbar = ({ logoImageSrc }) => {
         >
           <Icon icon="mdi:menu" width="32" height="32" onClick={onToggle} />
           <AnimatePresence exitBeforeEnter>
-            {isOpen && <MobileNavbar onClose={onClose} />}
+            {isOpen && <MobileNavbar openModal={openModal} onClose={onClose} />}
           </AnimatePresence>
         </Box>
       </Stack>

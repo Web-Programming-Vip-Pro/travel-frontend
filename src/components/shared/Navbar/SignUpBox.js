@@ -9,12 +9,9 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  InputRightElement,
-  IconButton,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { signUp } from '@/services/auth'
-import { Icon } from '@iconify/react'
 
 const SignUpBox = ({ onClose }) => {
   const { register, handleSubmit } = useForm()
@@ -38,9 +35,14 @@ const SignUpBox = ({ onClose }) => {
     setIsLoading(false)
   }
   return (
-    <Stack spacing="32px" align="center">
+    <Stack spacing="32px" justify="center" align="center">
       <Stack spacing="12px" align="center">
-        <Text textStyle="headline-3">Sign Up on Fleety</Text>
+        <Text
+          textStyle={{ base: 'headline-4', tablet: 'headline-3' }}
+          textAlign="center"
+        >
+          Sign Up on Fleety
+        </Text>
         <Text textStyle="body-2" color="neutrals.4">
           Use Your Email to Sign up
         </Text>
