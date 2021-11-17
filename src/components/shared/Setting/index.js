@@ -15,16 +15,6 @@ const Setting = ({ children }) => {
       href: '/user/settings/login',
       type: 'Login and security',
     },
-    {
-      icon: 'fluent:payment-28-regular',
-      href: '/user/settings',
-      type: 'Payments',
-    },
-    {
-      icon: 'grommet-icons:notification',
-      href: '/user/settings/notification',
-      type: 'Notification',
-    },
   ]
   return (
     <>
