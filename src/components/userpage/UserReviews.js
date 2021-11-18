@@ -15,12 +15,13 @@ import {
   InputRightElement,
   Input,
   Select,
+  Avatar,
   Square,
 } from '@chakra-ui/react'
+import { useUserStore } from '@/store/user'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
-// import StarRatings from 'react-star-ratings'
 import React from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -66,23 +67,14 @@ const commentsProperties = {
   ],
 }
 function AgencyInformation() {
+  const user = useUserStore((state) => state.user)
   const [avatar, setAvatar] = useState(() => {
     return {
       preview: `${agencyInformation.avatarSrc}`,
     }
   })
-  useEffect(() => {
-    console.log('Mounted and Re-render')
-
-    return () => {
-      avatar && URL.revokeObjectURL(avatar.preview)
-    }
-  }, [avatar])
-  const handlePreviewAvatar = (e) => {
-    const file = e.target.files[0]
-    file.preview = URL.createObjectURL(file)
-    setAvatar(file)
-    e.target.value = ''
+  const handleImageUser = () => {
+    var linkURL = prompt('Please copy the image URL and fill in here ')
   }
   return (
     <Box
@@ -100,19 +92,11 @@ function AgencyInformation() {
         <Stack spacing="32px">
           <Flex direction="column">
             <Flex direction="column" align="center">
-              <Square
-                overflow="hidden"
-                size="160px"
-                position="relative"
-                _hover={{ cursor: 'pointer' }}
-              >
-                <Image
-                  layout="fill"
-                  src={avatar.preview}
-                  alt="avatar"
-                  objectFit="cover"
-                />
-              </Square>
+              <Avatar
+                src={avatar.preview}
+                name={agencyInformation.name}
+                boxSize="160px"
+              />
               <Stack
                 direction="row"
                 justify="center"
@@ -126,17 +110,16 @@ function AgencyInformation() {
                     display: 'block',
                     padding: '10px 0',
                   }}
-                  htmlFor="image_cover"
+                  htmlFor="image_user"
                 >
                   Update avatar
                 </label>
                 <input
                   pos="absolute"
-                  type="file"
-                  id="image_cover"
-                  name="image_cover"
-                  onChange={handlePreviewAvatar}
+                  id="image_user"
+                  name="image_user"
                   hidden
+                  onClick={handleImageUser}
                 />
               </Stack>
             </Flex>
@@ -144,16 +127,6 @@ function AgencyInformation() {
               <Text _hover={{ cursor: 'pointer' }} textStyle="headline-4">
                 {agencyInformation.name}
               </Text>
-              <HStack mt="10px" spacing="8px">
-                <Button
-                  leftIcon={<Icon icon="clarity:star-solid" />}
-                  variant="ghost"
-                  color="neutrals.4"
-                  textStyle="caption"
-                >
-                  {`(${agencyInformation.reviewNumbers} reviews)`}
-                </Button>
-              </HStack>
             </Flex>
           </Flex>
           <Flex justify="center" align="center">
@@ -196,7 +169,7 @@ function AgencyInformation() {
 }
 
 function Reviews() {
-  const reviewType = ['Review about you', 'Reviews by you']
+  const reviewType = ['Review about you']
   const [typeReview, setTypeReview] = useState(reviewType[0])
   let [textComment, setComment] = React.useState(
     'Described by Queenstown House & Garden magazine as having one of the best views weve ever seen you will love relaxing in this newly built'
@@ -240,32 +213,6 @@ function Reviews() {
             wordBreak="break-all"
           /> */}
         </InputGroup>
-        <Flex direction="column">
-          <HStack spacing="70px">
-            <HStack color="neutrals.4">
-              <Icon icon="bx:bx-home" />
-              <Text color="neutrals.4" textStyle="caption">
-                Lives in
-              </Text>
-            </HStack>
-
-            <Text textStyle="caption-bold">Auckland, New Zealand</Text>
-          </HStack>
-          <HStack spacing="80px">
-            <HStack>
-              <Icon icon="bx:bx-message-detail" />
-              <Text
-                display="inherit"
-                lineHeight="normal"
-                color="neutrals.4"
-                textStyle="caption"
-              >
-                Speak
-              </Text>
-            </HStack>
-            <Text textStyle="caption-bold">English, Vietnamese</Text>
-          </HStack>
-        </Flex>
       </FormControl>
       <Flex
         direction={{ mobile: 'column', tablet: 'row' }}
@@ -339,10 +286,6 @@ function DislayComments() {
               <HStack spacing="16px">
                 <Text textStyle="caption-2" color="neutrals.4">
                   {content.timeStamp}
-                </Text>
-                <Text _hover={{ cursor: 'pointer' }} textStyle="caption-2-bold">
-                  {' '}
-                  Reply{' '}
                 </Text>
               </HStack>
             </Box>

@@ -55,14 +55,11 @@ const Discovery = () => {
         <option value="option1">Explore</option>
         <option value="option2">Food &amp; Drink</option>
       </Select>
-      <Select
-        placeholder="Recently added"
-        w={{ tablet: '256px' }}
-        border="none"
-      >
-        <option value="option1">The grand resort</option>
-        <option value="option2">The grand resort</option>
-        <option value="option3">The grand resort</option>
+      <Select w={{ tablet: '256px' }} border="none">
+        <option value="option1">Recently Added</option>
+        <option value="option2">Most Ratings</option>
+        <option value="option3">High Price</option>
+        <option value="option3">Low Price</option>
       </Select>
     </Stack>
   )

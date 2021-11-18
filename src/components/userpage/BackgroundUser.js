@@ -8,18 +8,8 @@ const BackgroundUser = () => {
       preview: '/assets/userpage/Hero Background.png',
     }
   })
-  useEffect(() => {
-    console.log('Mounted and Re-render')
-
-    return () => {
-      avatar && URL.revokeObjectURL(avatar.preview)
-    }
-  }, [avatar])
-  const handlePreviewAvatar = (e) => {
-    const file = e.target.files[0]
-    file.preview = URL.createObjectURL(file)
-    setAvatar(file)
-    e.target.value = ''
+  const handleImageCover = () => {
+    var linkURL = prompt('Please copy the image URL and fill in here ')
   }
   return (
     <Box
@@ -70,10 +60,9 @@ const BackgroundUser = () => {
         </label>
         <input
           pos="absolute"
-          type="file"
           id="image_cover"
           name="image_cover"
-          onChange={handlePreviewAvatar}
+          onClick={handleImageCover}
           hidden
         />
       </Stack>
