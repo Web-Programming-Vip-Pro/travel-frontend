@@ -10,9 +10,21 @@ import {
   Select,
   Divider,
   Stack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  InputGroup,
 } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/react'
+import { useUserStore } from '@/store/user'
 const PersonalInfo = () => {
+  const user = useUserStore((state) => state.user)
+  console.log(user)
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Box flex="1" mt={{ mobile: '32px', tablet: '' }}>
       <FormControl>
@@ -60,7 +72,7 @@ const PersonalInfo = () => {
                 Email
               </Text>
             </FormLabel>
-            <Input value="tam@ui8.net" placeholder="" />
+            <Input defaultValue="tam@123" placeholder="" isDisabled />
           </Box>
         </Stack>
         <Box mt="32px">
@@ -75,36 +87,6 @@ const PersonalInfo = () => {
             minH="156px"
           />
         </Box>
-        <Stack
-          mt="32px"
-          direction={{ mobile: 'column', tablet: 'row' }}
-          spacing="20px"
-        >
-          <Box flex="1">
-            <FormLabel htmlFor="live">
-              <Text textStyle="hairline-2" color="neutrals.5">
-                Lives in
-              </Text>
-            </FormLabel>
-            <Select id="live" placeholder="Select option">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
-          </Box>
-          <Box flex="1">
-            <FormLabel htmlFor="speak">
-              <Text textStyle="hairline-2" color="neutrals.5">
-                Speak
-              </Text>
-            </FormLabel>
-            <Select id="speak" placeholder="Select option">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
-          </Box>
-        </Stack>
         <Text my="48px" textStyle="body-2-bold">
           Social
         </Text>
@@ -127,12 +109,52 @@ const PersonalInfo = () => {
                 Twitter
               </Text>
             </FormLabel>
-            <Input id="twitter" value="" placeholder="@twitter username" />
+            <Input id="twitter" placeholder="@twitter username" />
+          </Box>
+          <Box flex="1">
+            <FormLabel
+              htmlFor="facebook"
+              textStyle="hairline-2"
+              color="neutrals.5"
+            >
+              <Text textStyle="hairline-2" color="neutrals.5">
+                Facebook
+              </Text>
+            </FormLabel>
+            <Input id="facebook" placeholder="@facebook username" />
           </Box>
         </Stack>
         <Divider my="48px" />
         <Flex>
-          <Button fontSize="16px">Update profile</Button>
+          <Button onClick={onOpen} fontSize="16px">
+            Update profile
+          </Button>
+          {/* Modal Update password */}
+          <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Password</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Stack spacing="16px">
+                  <FormControl>
+                    <InputGroup>
+                      <Input
+                        type="password"
+                        px="14px"
+                        py="16px"
+                        minH="48px"
+                        borderRadius="90px"
+                        variant="field"
+                        placeholder="Password"
+                      />
+                    </InputGroup>
+                  </FormControl>
+                  <Button type="submit">Confirm Password</Button>
+                </Stack>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
           <Button
             variant="light"
             border="0"

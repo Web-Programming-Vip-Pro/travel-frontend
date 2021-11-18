@@ -1,5 +1,24 @@
-import { Box, Text, Stack, Divider, Button, Flex } from '@chakra-ui/react'
+import {
+  Box,
+  Text,
+  Stack,
+  Divider,
+  Button,
+  Flex,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Input,
+  InputGroup,
+  FormControl,
+} from '@chakra-ui/react'
+
 const Security = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const historyData = [
     {
       type: 'Session',
@@ -32,9 +51,66 @@ const Security = () => {
               Last updated 1 month ago
             </Text>
           </Stack>
-          <Button fontSize="14px" w="151px" h="40px" variant="light" mt="8px">
+          <Button
+            onClick={onOpen}
+            fontSize="14px"
+            w="151px"
+            h="40px"
+            variant="light"
+            mt="8px"
+          >
             Update password
           </Button>
+          {/* Modal Update password */}
+          <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Change Password</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Stack spacing="16px">
+                  <FormControl>
+                    <InputGroup>
+                      <Input
+                        type="password"
+                        px="14px"
+                        py="16px"
+                        minH="48px"
+                        borderRadius="90px"
+                        variant="field"
+                        placeholder="Old Password"
+                      />
+                    </InputGroup>
+                  </FormControl>
+                  <FormControl>
+                    <InputGroup>
+                      <Input
+                        type="password"
+                        px="14px"
+                        py="16px"
+                        minH="48px"
+                        borderRadius="90px"
+                        placeholder="New Password"
+                      />
+                    </InputGroup>
+                  </FormControl>
+                  <FormControl>
+                    <InputGroup>
+                      <Input
+                        type="password"
+                        px="14px"
+                        py="16px"
+                        minH="48px"
+                        borderRadius="90px"
+                        placeholder="Confirm New Password"
+                      />
+                    </InputGroup>
+                  </FormControl>
+                  <Button type="submit">Set Password</Button>
+                </Stack>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
         </Flex>
       </Box>
       <Divider my="64px" />

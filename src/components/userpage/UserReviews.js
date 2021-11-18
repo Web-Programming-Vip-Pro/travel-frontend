@@ -15,6 +15,7 @@ import {
   InputRightElement,
   Input,
   Select,
+  Avatar,
   Square,
 } from '@chakra-ui/react'
 import { useUserStore } from '@/store/user'
@@ -72,16 +73,8 @@ function AgencyInformation() {
       preview: `${agencyInformation.avatarSrc}`,
     }
   })
-  useEffect(() => {
-    return () => {
-      avatar && URL.revokeObjectURL(avatar.preview)
-    }
-  }, [avatar])
-  const handlePreviewAvatar = (e) => {
-    const file = e.target.files[0]
-    file.preview = URL.createObjectURL(file)
-    setAvatar(file)
-    e.target.value = ''
+  const handleImageUser = () => {
+    var linkURL = prompt('Please copy the image URL and fill in here ')
   }
   return (
     <Box
@@ -99,19 +92,11 @@ function AgencyInformation() {
         <Stack spacing="32px">
           <Flex direction="column">
             <Flex direction="column" align="center">
-              <Square
-                overflow="hidden"
-                size="160px"
-                position="relative"
-                _hover={{ cursor: 'pointer' }}
-              >
-                <Image
-                  layout="fill"
-                  src={avatar.preview}
-                  alt="avatar"
-                  objectFit="cover"
-                />
-              </Square>
+              <Avatar
+                src={avatar.preview}
+                name={agencyInformation.name}
+                boxSize="160px"
+              />
               <Stack
                 direction="row"
                 justify="center"
@@ -125,17 +110,16 @@ function AgencyInformation() {
                     display: 'block',
                     padding: '10px 0',
                   }}
-                  htmlFor="image_cover"
+                  htmlFor="image_user"
                 >
                   Update avatar
                 </label>
                 <input
                   pos="absolute"
-                  type="file"
-                  id="image_cover"
-                  name="image_cover"
-                  onChange={handlePreviewAvatar}
+                  id="image_user"
+                  name="image_user"
                   hidden
+                  onClick={handleImageUser}
                 />
               </Stack>
             </Flex>
