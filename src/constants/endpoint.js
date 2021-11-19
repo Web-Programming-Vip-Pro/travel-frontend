@@ -3,3 +3,7 @@ export const USER = {
   REGISTER: '/register',
   LOGIN: '/login',
 }
+
+export const PAGE = {
+  GET_ALL: '/pages',
+}
