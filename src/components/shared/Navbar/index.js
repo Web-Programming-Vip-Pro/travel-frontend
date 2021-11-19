@@ -13,13 +13,12 @@ import {
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useUserStore } from '@/store/user'
-import { logout } from '@/services/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
+import { useSession, signOut } from 'next-auth/react'
 
 const MotionStack = motion(Stack)
 const MotionText = motion(Text)
@@ -68,7 +67,11 @@ function Dropdown({ onClose }) {
         <Link href="/user" passHref>
           <Button fontSize="14px">Account</Button>
         </Link>
-        <Button fontSize="14px" variant="light" onClick={logout}>
+        <Button
+          fontSize="14px"
+          variant="light"
+          onClick={() => signOut({ redirect: false })}
+        >
           Log Out
         </Button>
       </Stack>
@@ -77,7 +80,7 @@ function Dropdown({ onClose }) {
 }
 
 function UserNav({ openModal }) {
-  const user = useUserStore((state) => state.user)
+  const { data: user, status } = useSession()
   const { isOpen, onClose, onToggle } = useDisclosure()
   if (user)
     return (
@@ -85,8 +88,8 @@ function UserNav({ openModal }) {
         <Notification messages={[]} />
         <Stack position="relative">
           <Avatar
-            name={user.name}
-            src={user.avatarSrc}
+            name={user.user.name}
+            src={user.user.avatarSrc}
             onClick={onToggle}
             cursor="pointer"
           />
@@ -108,6 +111,7 @@ function UserNav({ openModal }) {
         </Stack>
       </>
     )
+
   return (
     <Stack
       direction="row"

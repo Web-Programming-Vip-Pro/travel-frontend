@@ -1,3 +1,4 @@
+import { login } from '@/services/auth'
 import {
   Text,
   Stack,
@@ -13,7 +14,6 @@ import {
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { login } from '@/services/auth'
 
 const SignInBox = ({ onClose }) => {
   const { register, handleSubmit } = useForm()
@@ -23,7 +23,7 @@ const SignInBox = ({ onClose }) => {
     setIsLoading(true)
     setStatus(null)
     const response = await login(data)
-    if (response.success) {
+    if (response.ok) {
       setStatus({ success: true, message: 'Login successful' })
       setTimeout(() => {
         onClose()
@@ -31,7 +31,7 @@ const SignInBox = ({ onClose }) => {
     } else {
       setStatus({
         success: false,
-        message: response.message?.data || 'Login failed',
+        message: 'Login failed',
       })
     }
     setIsLoading(false)
