@@ -25,15 +25,8 @@ const Footer = ({ logoImageSrc, copyright }) => {
     {
       title: 'Company',
       data: [
-        { title: 'About us', linkProps: { href: '/about' } },
+        { title: 'About us', linkProps: { href: '/about-us' } },
         { title: 'Blog', linkProps: { href: '/blog' } },
-        { title: 'Press', linkProps: { href: '/press' } },
-        { title: 'Contact Us', linkProps: { href: '/contact' } },
-      ],
-    },
-    {
-      title: 'Support',
-      data: [
         { title: 'Help Center', linkProps: { href: '/helpcenter' } },
         { title: 'Report', linkProps: { href: '/report' } },
       ],
@@ -41,9 +34,8 @@ const Footer = ({ logoImageSrc, copyright }) => {
     {
       title: 'Legal',
       data: [
-        { title: 'Cookies Policy', linkProps: { href: '/policy' } },
-        { title: 'Privacy Policy', linkProps: { href: '/privacy' } },
-        { title: 'Terms of Service', linkProps: { href: '/tos' } },
+        { title: 'Privacy Policy', linkProps: { href: '/privacy-policy' } },
+        { title: 'Term of Services', linkProps: { href: '/term-of-services' } },
       ],
     },
   ]
@@ -55,9 +47,9 @@ const Footer = ({ logoImageSrc, copyright }) => {
       spacing="24px"
     >
       <Stack
-        direction={{ base: 'column', md: 'row' }}
-        justify={{ base: 'start', md: 'space-between' }}
-        spacing={{ base: '24px', md: 'none' }}
+        direction={{ base: 'column', sm: 'row' }}
+        justify={{ base: 'start', sm: 'space-between' }}
+        spacing={{ base: '24px', sm: 'none' }}
         align="start"
       >
         <Stack>
@@ -71,10 +63,11 @@ const Footer = ({ logoImageSrc, copyright }) => {
         </Stack>
         <Menu menu={menuData[0]} />
         <Menu menu={menuData[1]} />
-        <Menu menu={menuData[2]} />
       </Stack>
       <Divider colorScheme="neutrals.1" />
-      <Text textAlign="center">{copyright}</Text>
+      <Stack pb="24px">
+        <Text textAlign="center">{copyright}</Text>
+      </Stack>
     </Stack>
   )
 }
