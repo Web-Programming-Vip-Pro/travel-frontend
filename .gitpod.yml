@@ -1,0 +1,7 @@
+vscode:
+  extensions:
+    - dsznajder.es7-react-js-snippets
+    - naumovs.color-highlight
+    - dbaeumer.vscode-eslint
+    - GitHub.copilot
+    - esbenp.prettier-vscode
