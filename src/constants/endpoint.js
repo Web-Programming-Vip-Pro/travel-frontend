@@ -7,3 +7,8 @@ export const USER = {
 export const PAGE = {
   GET_ALL: '/pages',
 }
+
+export const PLACE = {
+  GET_ALL: '/places',
+  GET_ONE: '/place',
+}
