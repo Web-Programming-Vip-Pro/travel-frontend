@@ -1,8 +1,11 @@
 import { Box, Stack } from '@chakra-ui/react'
 import Image from 'next/image'
-import { useEffect, useState, Text } from 'react'
+import { useState } from 'react'
 import { Icon } from '@iconify/react'
+import { useSession } from 'next-auth/react'
 const BackgroundUser = () => {
+  const { data } = useSession()
+  const user = data.user
   const [avatar, setAvatar] = useState(() => {
     return {
       preview: '/assets/userpage/Hero Background.png',
@@ -24,7 +27,7 @@ const BackgroundUser = () => {
         {avatar && (
           <Image
             pos="absolute"
-            src={avatar.preview}
+            src={user.image_cover || avatar.preview}
             alt=""
             layout="fill"
             objectFit="cover"

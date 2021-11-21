@@ -12,15 +12,10 @@ import {
   Stack,
   FormControl,
   InputGroup,
-  InputRightElement,
-  Input,
-  Select,
   Avatar,
-  Square,
 } from '@chakra-ui/react'
-import { useUserStore } from '@/store/user'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import Link from 'next/link'
@@ -29,17 +24,13 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
 
+import { useSession } from 'next-auth/react'
+import dayjs from 'dayjs'
 const agencyInformation = {
-  name: 'Kohaku Tora',
-  avatarSrc: '/assets/userpage/Bg agencies.png',
-  rate: 4.8,
-  reviewNumbers: 256,
   socialNetwork: [
-    { iconName: 'iconoir:twitter', directLink: { href: '#' } },
     { iconName: 'ant-design:instagram-outlined', directLink: { href: '#' } },
     { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
   ],
-  dateRegistered: 'Member since Mar 15, 2017',
 }
 const reportHostLink = { href: '#' }
 const placeTitle = 'Spectacular views of Queenstown'
@@ -67,12 +58,8 @@ const commentsProperties = {
   ],
 }
 function AgencyInformation() {
-  const user = useUserStore((state) => state.user)
-  const [avatar, setAvatar] = useState(() => {
-    return {
-      preview: `${agencyInformation.avatarSrc}`,
-    }
-  })
+  const { data } = useSession()
+  const user = data.user
   const handleImageUser = () => {
     var linkURL = prompt('Please copy the image URL and fill in here ')
   }
@@ -92,11 +79,7 @@ function AgencyInformation() {
         <Stack spacing="32px">
           <Flex direction="column">
             <Flex direction="column" align="center">
-              <Avatar
-                src={avatar.preview}
-                name={agencyInformation.name}
-                boxSize="160px"
-              />
+              <Avatar src={user.avatar} name={user.name} boxSize="160px" />
               <Stack
                 direction="row"
                 justify="center"
@@ -123,9 +106,9 @@ function AgencyInformation() {
                 />
               </Stack>
             </Flex>
-            <Flex direction="column">
+            <Flex direction="column" align="center">
               <Text _hover={{ cursor: 'pointer' }} textStyle="headline-4">
-                {agencyInformation.name}
+                {user.name}
               </Text>
             </Flex>
           </Flex>
@@ -145,7 +128,7 @@ function AgencyInformation() {
           <Divider border="1px solid neutrals.6" />
           <Flex justify="center">
             <Text textStyle="caption-2" color="neutrals.4">
-              {agencyInformation.dateRegistered}
+              {`Member since ${dayjs(user.created_at).format('MMMM D, YYYY')}`}
             </Text>
           </Flex>
           <Link {...reportHostLink}>

@@ -20,9 +20,10 @@ import {
   InputGroup,
 } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/react'
-import { useUserStore } from '@/store/user'
+import { useSession } from 'next-auth/react'
 const PersonalInfo = () => {
-  const user = useUserStore((state) => state.user)
+  const { data } = useSession()
+  const user = data.user
   console.log(user)
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
@@ -48,7 +49,7 @@ const PersonalInfo = () => {
             Display name
           </Text>
         </FormLabel>
-        <Input placeholder="Enter your display name" />
+        <Input defaultValue={user.name} placeholder="Enter your display name" />
         <Stack
           mt="32px"
           direction={{ mobile: 'column', tablet: 'row' }}
@@ -72,7 +73,7 @@ const PersonalInfo = () => {
                 Email
               </Text>
             </FormLabel>
-            <Input defaultValue="tam@123" placeholder="" isDisabled />
+            <Input defaultValue={user.email} placeholder="" isDisabled />
           </Box>
         </Stack>
         <Box mt="32px">
@@ -83,6 +84,7 @@ const PersonalInfo = () => {
           </FormLabel>
           <Textarea
             id="bio"
+            defaultValue={user.bio}
             placeholder="About yourself in a few words"
             minH="156px"
           />
@@ -106,10 +108,10 @@ const PersonalInfo = () => {
               color="neutrals.5"
             >
               <Text textStyle="hairline-2" color="neutrals.5">
-                Twitter
+                Instagram
               </Text>
             </FormLabel>
-            <Input id="twitter" placeholder="@twitter username" />
+            <Input id="twitter" placeholder="@instagram username" />
           </Box>
           <Box flex="1">
             <FormLabel
