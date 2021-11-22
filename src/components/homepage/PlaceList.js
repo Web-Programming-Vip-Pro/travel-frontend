@@ -15,13 +15,12 @@ import { Icon } from '@iconify/react'
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePlaces } from '@/services/places'
-function PlaceCardList({ data, show }) {
+function PlaceCardList({ data }) {
   return (
     <SimpleGrid
       columns={{ mobile: 1, tablet: 3, desktop: 4 }}
       justify="space-between"
       spacingY="32px"
-      maxH={show ? {} : { mobile: '2350px', tablet: '762px' }}
       overflow="hidden"
     >
       {data.map((item, index) => (
@@ -35,7 +34,7 @@ function PlaceCardList({ data, show }) {
             <Box
               borderRadius="20px"
               w="256px"
-              h="365px"
+              h="380px"
               overflow="hidden"
               bg="neutrals.8"
             >
@@ -47,8 +46,8 @@ function PlaceCardList({ data, show }) {
                 unoptimized
               />
               <Box p="20px">
-                <Flex justify="space-between" align="center">
-                  <Flex direction="column">
+                <Flex justify="space-between" align="center" h="60px">
+                  <Flex direction="column" w="142px" wordBreak="break-all">
                     <Text textStyle="body-2-bold" color="neutrals.1">
                       {item.title}
                     </Text>
@@ -90,12 +89,11 @@ function PlaceCardList({ data, show }) {
 }
 const PlaceList = ({ title, description }) => {
   const [page, setPage] = useState(0)
-  const [limit, setLimit] = useState(6)
+  const [limit, setLimit] = useState(8)
   //  order = 'recent' | 'rating' | 'max-price' | 'min-price'
   const [order, setOrder] = useState('recent')
   const [type, setType] = useState(0)
   const { places, isLoading, error } = usePlaces(page, limit, order, type)
-  console.log(page, limit, order, type)
   const handleOrder = (item) => {
     let order
     switch (item) {
@@ -157,7 +155,10 @@ const PlaceList = ({ title, description }) => {
                 variant="outline"
                 border="2px"
                 my="64px"
-                onClick={() => setShow(!show)}
+                onClick={() => {
+                  setShow(!show)
+                  setPage(page + 1)
+                }}
               >
                 {show ? 'Hide' : 'View All'}
               </Button>
