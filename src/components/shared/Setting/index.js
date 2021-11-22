@@ -41,7 +41,7 @@ const Setting = ({ children }) => {
               color={item.type == type ? 'neutrals.2' : 'neutrals.4'}
             >
               <Icon icon={item.icon} />
-              <Link href={item.href}>
+              <Link href={item.href} passHref>
                 <Text
                   ml="20px"
                   textStyle="button-2"
@@ -61,7 +61,7 @@ const Setting = ({ children }) => {
         <Box display={{ mobile: 'block', tablet: 'none' }}>
           <Select>
             {typeSetting.map((item, index) => (
-              <Link key={index} href={item.href}>
+              <Link key={index} href={item.href} passHref>
                 <option value={item.type}>{item.type}</option>
               </Link>
             ))}

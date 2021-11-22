@@ -25,7 +25,7 @@ function PlaceCardList({ data }) {
       overflow="hidden"
     >
       {data.map((item, index) => (
-        <Link href={`\place\/${item.id}`} key={index}>
+        <Link href={`\place\/${item.id}`} key={index} passHref={true}>
           <Flex
             justify="center"
             _hover={{
@@ -90,15 +90,17 @@ function PlaceCardList({ data }) {
 }
 const PlaceList = ({ title, description }) => {
   const [page, setPage] = useState(1)
-  const variant = useBreakpointValue({ mobile: 6, desktop: 8 })
-  const [limit, setLimit] = useState(variant)
+  const variant = useBreakpointValue({ mobile: 6, tablet: 6, desktop: 8 })
+  console.log(variant)
+  const [limit, setLimit] = useState(8)
   //  order = 'recent' | 'rating' | 'max-price' | 'min-price'
   const [order, setOrder] = useState('recent')
   const [type, setType] = useState(0)
   const { places, isLoading, error } = usePlaces(0, limit, order, type)
-  useEffect(() => {
-    setLimit(variant)
-  }, [variant])
+  // useEffect(() => {
+  //   console.log()
+  //   setLimit(variant)
+  // }, [variant])
   const handleOrder = (item) => {
     let order
     switch (item) {
