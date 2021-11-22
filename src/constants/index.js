@@ -1,6 +1,7 @@
 import { USER as USER_ENDPOINTS } from './endpoint'
 import { PAGE as PAGE_ENDPOINTS } from './endpoint'
 import { PLACE as PLACE_ENDPOINT } from './endpoint'
+import { REVIEW as REVIEW_ENDPOINT } from './endpoint'
 
 const ENDPOINT_BASE_URL =
   process.env.NODE_ENV === 'production'
@@ -22,3 +23,4 @@ function wrapEndpointWithBaseURL(endpoint) {
 export const USER = wrapEndpointWithBaseURL(USER_ENDPOINTS)
 export const PAGE = wrapEndpointWithBaseURL(PAGE_ENDPOINTS)
 export const PLACE = wrapEndpointWithBaseURL(PLACE_ENDPOINT)
+export const REVIEW = wrapEndpointWithBaseURL(REVIEW_ENDPOINT)
