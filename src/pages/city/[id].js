@@ -2,23 +2,39 @@ import Country from '@/components/citypage/Country'
 import StayList from '@/components/shared/StayList'
 import UtilityNav from '@/components/shared/UtilityNav'
 import { usePlaces } from '@/services/places'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getCity } from '@/services/city'
+import { useBreakpointValue } from '@chakra-ui/react'
 export const getServerSideProps = async ({ params }) => {
   const { id } = params
+  const response = await getCity(id)
+  if (response.success) {
+    return {
+      props: {
+        cities: response.message,
+        id,
+      },
+    }
+  }
   return {
     props: {
-      id,
+      redirect: {
+        destination: '/404',
+      },
     },
   }
 }
-export default function City({ id }) {
+export default function City({ cities, id }) {
+  const variant = useBreakpointValue({ mobile: 4, tablet: 6 })
   const [page, setPage] = useState(0)
-  const [limit, setLimit] = useState(8)
+  const [limit, setLimit] = useState(variant)
   //  order = 'recent' | 'rating' | 'max-price' | 'min-price'
   const [order, setOrder] = useState('recent')
   const [type, setType] = useState(0)
-  const { places, isLoading, error } = usePlaces(page, limit, order, type, id)
-  console.log(page, places)
+  const { places, isLoading, error } = usePlaces(0, limit, order, type, id)
+  useEffect(() => {
+    setLimit(variant)
+  }, [variant])
   const handleOrder = (item) => {
     let order
     switch (item) {
@@ -38,13 +54,15 @@ export default function City({ id }) {
     setOrder(order)
   }
   const handleType = (index) => {
+    setPage(1)
+    setLimit(6)
     setType(index)
   }
   const Bgdata = [
     {
-      imgSrc: '/assets/citypage/Bg City.jpg',
-      location: 'South Island',
-      nation: 'New Zealand',
+      imgSrc: `${cities.image_cover}`,
+      description: `${cities.description}`,
+      nation: `${cities.name}`,
       flag: '/assets/citypage/flag.png',
     },
   ]
@@ -54,7 +72,12 @@ export default function City({ id }) {
       <StayList
         listPlace={places}
         isLoading={isLoading}
-        triggerPage={() => setPage(page + 1)}
+        triggerPage={() => {
+          if (limit <= places.length) {
+            setPage((prev) => prev + 1)
+            setLimit(limit * (page + 1))
+          }
+        }}
       >
         <UtilityNav triggerOrder={handleOrder} triggerType={handleType} />
       </StayList>
