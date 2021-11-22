@@ -4,6 +4,7 @@ import { REVIEW } from '@/constants'
 import { fetcher } from '@/utils'
 import { getSession } from 'next-auth/react'
 
+// order = 'recent' | 'most-rated' | 'least-rated'
 export const useReviewsInPlace = (
   placeId,
   page = 0,
