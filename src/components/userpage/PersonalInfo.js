@@ -24,7 +24,6 @@ import { useSession } from 'next-auth/react'
 const PersonalInfo = () => {
   const { data } = useSession()
   const user = data.user
-  console.log(user)
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Box flex="1" mt={{ mobile: '32px', tablet: '' }}>
