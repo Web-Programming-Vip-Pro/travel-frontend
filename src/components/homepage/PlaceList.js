@@ -90,17 +90,15 @@ function PlaceCardList({ data }) {
 }
 const PlaceList = ({ title, description }) => {
   const [page, setPage] = useState(1)
-  const variant = useBreakpointValue({ mobile: 6, tablet: 6, desktop: 8 })
-  console.log(variant)
-  const [limit, setLimit] = useState(8)
+  const variant = useBreakpointValue({ base: 6, md: 6, lg: 8 })
+  const [limit, setLimit] = useState(variant)
   //  order = 'recent' | 'rating' | 'max-price' | 'min-price'
   const [order, setOrder] = useState('recent')
   const [type, setType] = useState(0)
   const { places, isLoading, error } = usePlaces(0, limit, order, type)
-  // useEffect(() => {
-  //   console.log()
-  //   setLimit(variant)
-  // }, [variant])
+  useEffect(() => {
+    setLimit(variant)
+  }, [variant])
   const handleOrder = (item) => {
     let order
     switch (item) {
@@ -121,7 +119,7 @@ const PlaceList = ({ title, description }) => {
   }
   const handleType = (index) => {
     setPage(1)
-    setLimit(8)
+    setLimit(variant)
     setType(index)
   }
   const [show, setShow] = useState(false)
@@ -129,8 +127,11 @@ const PlaceList = ({ title, description }) => {
     if (limit <= places.length) {
       setPage((prev) => prev + 1)
       setLimit(limit * (page + 1))
+    } else {
+      setLimit(variant)
     }
   }
+
   return (
     <Box h="fit-content">
       <Box
