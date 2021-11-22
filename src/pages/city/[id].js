@@ -55,7 +55,7 @@ export default function City({ cities, id }) {
   }
   const handleType = (index) => {
     setPage(1)
-    setLimit(6)
+    setLimit(variant)
     setType(index)
   }
   const Bgdata = [
@@ -76,6 +76,8 @@ export default function City({ cities, id }) {
           if (limit <= places.length) {
             setPage((prev) => prev + 1)
             setLimit(limit * (page + 1))
+          } else {
+            setLimit(variant)
           }
         }}
       >
