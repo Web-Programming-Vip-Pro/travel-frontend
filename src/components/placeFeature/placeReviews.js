@@ -22,6 +22,7 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { addReview } from '@/services/review'
 import { useSession } from 'next-auth/react'
+import * as dayjs from 'dayjs'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
@@ -142,7 +143,8 @@ function AgencyInformation({ agencyInformation }) {
           </Flex>
           <Flex justify="center">
             <Text textStyle="caption-2" color="neutrals.4">
-              {agencyInformation.dateRegistered}
+              {'Member since ' +
+                dayjs(agencyInformation.dateRegistered).format('MMM DD, YYYY')}
             </Text>
           </Flex>
           <Link {...reportHostLink}>
@@ -179,6 +181,8 @@ function Reviews({ placeId }) {
 
   function onSubmitReview() {
     addReview(placeId, ratingCount, textComment)
+    setRatingCount(0)
+    setComment('')
   }
   return (
     <Flex direction="column">

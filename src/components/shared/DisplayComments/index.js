@@ -16,6 +16,7 @@ import { Icon } from '@iconify/react'
 import dynamic from 'next/dynamic'
 import { useReviewsInPlace } from '@/services/review'
 import { useState } from 'react'
+import * as dayjs from 'dayjs'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
@@ -136,7 +137,7 @@ const DisplayComments = ({ placeId }) => {
                     </Text>
                     <HStack spacing="16px">
                       <Text textStyle="caption-2" color="neutrals.4">
-                        {content?.created_at}
+                        {dayjs(content?.created_at).format('MMM DD, YYYY')}
                       </Text>
                     </HStack>
                   </Box>
