@@ -18,3 +18,8 @@ export const REVIEW = {
   GET_REVIEW_BY_USER: '/review/user',
   ADD_REVIEW: '/review/add',
 }
+
+export const CITY = {
+  GET_ALL: '/cities',
+  GET_ONE: '/city',
+}
