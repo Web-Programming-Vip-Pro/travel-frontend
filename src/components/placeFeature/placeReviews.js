@@ -20,6 +20,8 @@ import { Icon } from '@iconify/react'
 import React from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import { addReview } from '@/services/review'
+import { useSession } from 'next-auth/react'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
@@ -44,52 +46,22 @@ const agencyInformation = {
 const reportHostLink = { href: '#' }
 const placeTitle = 'Spectacular views of Queenstown'
 
-const commentsProperties = {
-  totalCount: 3,
-  sortOptions: ['Newest', 'Most Rated', 'Least Rated'],
-  comments: [
-    {
-      avatarSrc:
-        'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg',
-      name: 'Myrtie Runolfsson',
-      commentDetails:
-        'We had the most spectacular view. Unfortunately it was very hot in the room from 2-830 pm due to no air conditioning and no shade.',
-      timeStamp: 'about 1 hour ago',
-      rate: 5,
-    },
-    {
-      avatarSrc:
-        'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg',
-      name: 'Osbaldo Beahan',
-      commentDetails:
-        'Stunning views of Queenstown. Very peaceful. Love it so much. Definitely gonna come back and visit.',
-      timeStamp: 'about 1 hour ago',
-      rate: 4,
-    },
-    {
-      avatarSrc:
-        'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg',
-      name: 'Tobin Hackett',
-      commentDetails: 'Best place I stayed in all of NZ. 🙌 🎉 😎',
-      timeStamp: '1 day ago',
-      rate: 1,
-    },
-  ],
-}
-const PlaceReviews = () => {
+const PlaceReviews = ({ placeReviewsProps }) => {
   return (
     <Flex direction={{ base: 'column-reverse', tablet: 'row', desktop: 'row' }}>
       <Flex justify="center" mr={{ base: '0', tablet: '48px' }}>
-        <AgencyInformation />
+        <AgencyInformation
+          agencyInformation={placeReviewsProps.agencyInformation}
+        />
       </Flex>
       <Box w="100%" py="30px">
-        <Reviews />
+        <Reviews placeId={placeReviewsProps.placeId} />
       </Box>
     </Flex>
   )
 }
 
-function AgencyInformation() {
+function AgencyInformation({ agencyInformation }) {
   return (
     <Box
       p="32px"
@@ -110,6 +82,7 @@ function AgencyInformation() {
                 _hover={{ cursor: 'pointer' }}
               >
                 <Image
+                  unoptimized={true}
                   layout="fill"
                   src={agencyInformation.avatarSrc}
                   alt="avatar"
@@ -192,7 +165,8 @@ function AgencyInformation() {
   )
 }
 
-function Reviews() {
+function Reviews({ placeId }) {
+  const session = useSession()
   let [textComment, setComment] = React.useState('')
   let [ratingCount, setRatingCount] = React.useState(0)
   let handleInputChange = (e) => {
@@ -202,56 +176,68 @@ function Reviews() {
   function changeRating(newRating) {
     setRatingCount(newRating)
   }
-  function onChangeSortType(content) {}
+
+  function onSubmitReview() {
+    addReview(placeId, ratingCount, textComment)
+  }
   return (
     <Flex direction="column">
-      <FormControl id="make-comment">
-        <Text textStyle="body-1-bold">Add a Reivew</Text>
-        <Flex direction={{ base: 'column', tablet: 'column', desktop: 'row' }}>
-          <Flex>
-            <Text textStyle="caption" color="neutrals.4" mr="3px">
-              Be the first to review
-            </Text>
-            <Text display="inline-block" textStyle="caption-bold">
-              {placeTitle}
-            </Text>
+      {session.status == 'authenticated' ? (
+        <FormControl id="make-comment">
+          <Text textStyle="body-1-bold">Add a Reivew</Text>
+          <Flex
+            direction={{ base: 'column', tablet: 'column', desktop: 'row' }}
+          >
+            <Flex>
+              <Text textStyle="caption" color="neutrals.4" mr="3px">
+                Be the first to review
+              </Text>
+              <Text display="inline-block" textStyle="caption-bold">
+                {placeTitle}
+              </Text>
+            </Flex>
+            <Spacer />
+            <StarRatings
+              rating={ratingCount}
+              starRatedColor="#FFD166"
+              changeRating={changeRating}
+              numberOfStars={5}
+              name="rating"
+              starDimension="20px"
+              starSpacing="7px"
+              starHoverColor="#FFD166"
+            />
           </Flex>
-          <Spacer />
-          <StarRatings
-            rating={ratingCount}
-            starRatedColor="#FFD166"
-            changeRating={changeRating}
-            numberOfStars={5}
-            name="rating"
-            starDimension="20px"
-            starSpacing="7px"
-            starHoverColor="#FFD166"
-          />
-        </Flex>
-        <InputGroup my="40px">
-          <Input
-            type="text"
-            value={textComment}
-            onChange={handleInputChange}
-            textStyle="body-2"
-            placeholder="Share your thoughts"
-            h="60px"
-            pr="110px"
-          />
+          <InputGroup my="40px">
+            <Input
+              type="text"
+              value={textComment}
+              onChange={handleInputChange}
+              textStyle="body-2"
+              placeholder="Share your thoughts"
+              h="60px"
+              pr="110px"
+            />
 
-          <InputRightElement w="max-content" h="100%" pr="10px">
-            <Button
-              rightIcon={<Icon fontSize="10px" icon="akar-icons:arrow-right" />}
-              textStyle="button-2"
-              py="10px"
-              px="10px"
-            >
-              Post it!
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
-      <DisplayComments commentsProperties={commentsProperties} />
+            <InputRightElement w="max-content" h="100%" pr="10px">
+              <Button
+                rightIcon={
+                  <Icon fontSize="10px" icon="akar-icons:arrow-right" />
+                }
+                textStyle="button-2"
+                py="10px"
+                px="10px"
+                onClick={onSubmitReview}
+              >
+                Post it!
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+      ) : (
+        <Box></Box>
+      )}
+      <DisplayComments placeId={placeId} />
     </Flex>
   )
 }
