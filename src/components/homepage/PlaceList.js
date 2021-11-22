@@ -8,11 +8,12 @@ import {
   Spacer,
   SimpleGrid,
   Button,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import UtilityNav from '@/components/shared/UtilityNav'
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePlaces } from '@/services/places'
 function PlaceCardList({ data }) {
@@ -88,12 +89,16 @@ function PlaceCardList({ data }) {
   )
 }
 const PlaceList = ({ title, description }) => {
-  const [page, setPage] = useState(0)
-  const [limit, setLimit] = useState(8)
+  const [page, setPage] = useState(1)
+  const variant = useBreakpointValue({ mobile: 6, desktop: 8 })
+  const [limit, setLimit] = useState(variant)
   //  order = 'recent' | 'rating' | 'max-price' | 'min-price'
   const [order, setOrder] = useState('recent')
   const [type, setType] = useState(0)
-  const { places, isLoading, error } = usePlaces(page, limit, order, type)
+  const { places, isLoading, error } = usePlaces(0, limit, order, type)
+  useEffect(() => {
+    setLimit(variant)
+  }, [variant])
   const handleOrder = (item) => {
     let order
     switch (item) {
@@ -113,9 +118,17 @@ const PlaceList = ({ title, description }) => {
     setOrder(order)
   }
   const handleType = (index) => {
+    setPage(1)
+    setLimit(8)
     setType(index)
   }
   const [show, setShow] = useState(false)
+  const handleShow = () => {
+    if (limit <= places.length) {
+      setPage((prev) => prev + 1)
+      setLimit(limit * (page + 1))
+    }
+  }
   return (
     <Box h="fit-content">
       <Box
@@ -142,6 +155,7 @@ const PlaceList = ({ title, description }) => {
           <Text>{description}</Text>
         </Box>
         <UtilityNav triggerOrder={handleOrder} triggerType={handleType} />
+        {error && <h1>Loading Failure</h1>}
         {isLoading ? (
           <Stack justify="center" align="center">
             <Icon icon="eos-icons:bubble-loading" fontSize="50px" />
@@ -155,10 +169,7 @@ const PlaceList = ({ title, description }) => {
                 variant="outline"
                 border="2px"
                 my="64px"
-                onClick={() => {
-                  setShow(!show)
-                  setPage(page + 1)
-                }}
+                onClick={handleShow}
               >
                 {show ? 'Hide' : 'View All'}
               </Button>
