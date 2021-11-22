@@ -24,63 +24,40 @@ const reportHostLink = { href: '#' }
 const leftSectionProps = {
   title: 'Private room in house',
   agencyName: 'Zoe Towne',
-  agencyDetails: [
-    {
-      paragraphIndex: 1,
-      content:
-        "Described by Queenstown House & Garden magazine as having 'one of the best views we've ever seen' you will love relaxing in this newly built, architectural house sitting proudly on Queenstown Hill.",
-    },
-    {
-      paragraphIndex: 2,
-      content:
-        "Enjoy breathtaking 180' views of Lake Wakatipu from your well appointed & privately accessed bedroom with modern en suite and floor-to-ceiling windows.",
-    },
-    {
-      paragraphIndex: 3,
-      content:
-        'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.',
-    },
-    {
-      paragraphIndex: 4,
-      content:
-        'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.',
-    },
-    {
-      paragraphIndex: 5,
-      content:
-        'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.',
-    },
-    {
-      paragraphIndex: 6,
-      content:
-        'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.',
-    },
-  ],
+  agencyDetails:
+    "Described by Queenstown House & Garden magazine as having 'one of the best views we've ever seen' you will love relaxing in this newly built, architectural house sitting proudly on Queenstown Hill.paragraphIndex: 2 Enjoy breathtaking 180' views of Lake Wakatipu from your well appointed & privately accessed bedroom with modern en suite and floor-to-ceiling windows 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.' 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.' 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.' 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.",
 }
 const rightSectionProps = {
   price: 102,
   rate: 4.8,
   reviewNumbers: 256,
   amentities: [
-    { iconName: 'ph:toilet-paper-light', title: 'Free clean bathroom' },
-    { iconName: 'la:hamburger', title: 'Breakfast included' },
-    { iconName: 'gg:modem', title: 'Free wifi 24/7' },
-    { iconName: 'eva:monitor-outline', title: 'Free computer' },
+    { icon: 'ph:toilet-paper-light', title: 'Free clean bathroom' },
+    { icon: 'la:hamburger', title: 'Breakfast included' },
+    { icon: 'gg:modem', title: 'Free wifi 24/7' },
+    { icon: 'eva:monitor-outline', title: 'Free computer' },
   ],
   reportPropertyLink: { href: '#' },
 }
-const PlaceDetails = () => {
+const PlaceDetails = ({ placeDetailsProps }) => {
   return (
     <Flex justify="center">
-      <HStack spacing="48px">
-        <PlaceDetailLeft />
-        <PlaceDetailRight />
+      <HStack w="100%" spacing="48px">
+        <PlaceDetailLeft
+          agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
+          leftSectionProps={placeDetailsProps.leftSectionProps}
+        />
+        <Spacer />
+        <PlaceDetailRight
+          agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
+          rightSectionProps={placeDetailsProps.rightSectionProps}
+        />
       </HStack>
     </Flex>
   )
 }
 
-function PlaceDetailLeft() {
+function PlaceDetailLeft({ agencyAvatarSrc, leftSectionProps }) {
   const { isOpen, onToggle } = useDisclosure()
 
   return (
@@ -104,17 +81,25 @@ function PlaceDetailLeft() {
           ml="4px"
           mr="12px"
         >
-          <Image layout="fill" src={agencyAvatarSrc} alt="avatar" />
+          <Image
+            unoptimized={true}
+            layout="fill"
+            src={agencyAvatarSrc}
+            alt="avatar"
+          />
         </Circle>
         <Text textStyle="body-2-bold">{leftSectionProps.agencyName}</Text>
       </Flex>
       <Divider mt="24px" mb="40px" />
-      <Collapse in={isOpen} startingHeight="288px">
-        {leftSectionProps.agencyDetails.map((details, index) => (
-          <Text key={index} textStyle="body-2" color="neutrals.4" py="15px">
-            {details.content}
-          </Text>
-        ))}
+      <Collapse in={!isOpen} startingHeight="100px">
+        <Text
+          wordBreak="break-word"
+          textStyle="body-2"
+          color="neutrals.4"
+          py="15px"
+        >
+          {leftSectionProps.agencyDetails}
+        </Text>
       </Collapse>
       <Button
         onClick={onToggle}
@@ -129,7 +114,7 @@ function PlaceDetailLeft() {
   )
 }
 
-function PlaceDetailRight() {
+function PlaceDetailRight({ agencyAvatarSrc, rightSectionProps }) {
   return (
     <Box
       p="32px"
@@ -162,7 +147,12 @@ function PlaceDetailRight() {
             position="relative"
             _hover={{ cursor: 'pointer' }}
           >
-            <Image layout="fill" src={agencyAvatarSrc} alt="avatar" />
+            <Image
+              unoptimized={true}
+              layout="fill"
+              src={agencyAvatarSrc}
+              alt="avatar"
+            />
           </Circle>
         </Flex>
       </Flex>
@@ -189,8 +179,8 @@ function PlaceDetailRight() {
           Reserve
         </Button>
       </Flex>
-      <ListAmentities />
-      <Link {...reportHostLink}>
+      <ListAmentities amentities={rightSectionProps.amentities} />
+      <Link {...rightSectionProps.reportPropertyLink}>
         <Flex _hover={{ cursor: 'pointer' }} justify="center" align="center">
           <Box mr="8px" color="neutrals.4">
             <Icon icon="cil:flag-alt" />
@@ -204,12 +194,12 @@ function PlaceDetailRight() {
   )
 }
 
-function ListAmentities() {
+function ListAmentities({ amentities }) {
   return (
     <Box>
       <Text textStyle="body-1-bold">Amentities</Text>
       <List my="32px" spacing="24px">
-        {rightSectionProps.amentities.map((content, index) => (
+        {amentities.map((content, index) => (
           <ListItem
             key={index}
             transition="color 0.15s ease-in-out"
@@ -217,7 +207,7 @@ function ListAmentities() {
           >
             <Flex align="center">
               <Box color="neutrals.4" mr="18px">
-                <Icon fontSize="20px" icon={content.iconName} />
+                <Icon fontSize="20px" icon={content.icon} />
               </Box>
               <Text
                 textStyle="body-2-bold"

@@ -39,46 +39,38 @@ const placePictures = {
   mainFigure:
     'https://akm-img-a-in.tosshub.com/indiatoday/images/story/201506/storyimage_647_062215030547.jpg',
   subFigures: [
-    {
-      figureIndex: 'sub1',
-      src: 'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-    },
-    {
-      figureIndex: 'sub2',
-      src: 'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-    },
-    {
-      figureIndex: 'sub3',
-      src: 'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-    },
+    'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
+    'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
+    'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
   ],
 }
-const images = [
-  'https://akm-img-a-in.tosshub.com/indiatoday/images/story/201506/storyimage_647_062215030547.jpg',
-  'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-  'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-  'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-]
 
 function onUpload() {}
 function onFavorite() {}
 function onDelete() {}
-const PlaceHeader = () => {
+const PlaceHeader = ({ placeHeaderProps }) => {
+  const placeTitle = placeHeaderProps.placeTitle
+  const placeDetails = placeHeaderProps.placeDetails
+  const placePictures = placeHeaderProps.placePictures
+  console.log(placeHeaderProps)
   return (
     <Box>
       <PlaceHeaderNavigations />
-      <PlaceHeaderInformation />
+      <PlaceHeaderInformation
+        placeTitle={placeTitle}
+        placeDetails={placeDetails}
+      />
       <Flex
         justify="center"
         mt={{ base: '32px', tablet: '64px', desktop: '64px' }}
       >
-        <PlaceHeaderPictures />
+        <PlaceHeaderPictures placePictures={placePictures} />
       </Flex>
     </Box>
   )
 }
 
-function PlaceHeaderInformation() {
+function PlaceHeaderInformation({ placeTitle, placeDetails }) {
   return (
     <Flex wrap={{ base: 'wrap', tablet: 'nowrap', desktop: 'nowrap' }}>
       <Box>
@@ -114,7 +106,12 @@ function PlaceHeaderInformation() {
             position="relative"
             mr="20px"
           >
-            <Image layout="fill" src={placeDetails.avatarIconSrc} alt="icon" />
+            <Image
+              unoptimized={true}
+              layout="fill"
+              src={placeDetails.avatarIconSrc}
+              alt="icon"
+            />
           </Circle>
           <Box color="secondary.3">
             <Icon icon="clarity:star-solid" />
@@ -252,7 +249,7 @@ function PlaceHeaderNavigations() {
   )
 }
 
-function PlaceHeaderPictures() {
+function PlaceHeaderPictures({ placePictures }) {
   return (
     <Box w="100%">
       <Flex justify="center">
@@ -269,6 +266,7 @@ function PlaceHeaderPictures() {
             _hover={{ transform: 'scale(1.1)' }}
           >
             <Image
+              unoptimized={true}
               src={placePictures.mainFigure}
               alt="Main Figure"
               layout="fill"
@@ -292,7 +290,8 @@ function PlaceHeaderPictures() {
                 _hover={{ transform: 'scale(1.1)' }}
               >
                 <Image
-                  src={content.src}
+                  unoptimized={true}
+                  src={content}
                   alt={`sub${index} figure`}
                   layout="fill"
                   objectFit="cover"
