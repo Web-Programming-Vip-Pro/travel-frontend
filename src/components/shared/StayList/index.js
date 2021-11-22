@@ -4,7 +4,7 @@ import {
   Text,
   Badge,
   Divider,
-  Spacer,
+  Stack,
   HStack,
   SimpleGrid,
   Button,
@@ -16,15 +16,14 @@ import {
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
-function PlaceCardList({ data, show }) {
+function PlaceCardList({ listPlace }) {
   return (
     <SimpleGrid
       columns={{ mobile: 1, tablet: 3 }}
       spacingY="32px"
-      maxH={show ? {} : { mobile: '1761px', tablet: '1387px' }}
       overflow="hidden"
     >
-      {data.map((item, index) => (
+      {listPlace.map((item, index) => (
         <Flex key={index} justify="space-around" _hover={{ cursor: 'pointer' }}>
           <Box
             borderRadius="20px"
@@ -39,11 +38,12 @@ function PlaceCardList({ data, show }) {
               position="relative"
             >
               <Image
-                src={item.imgSrc}
+                src={item.images.cover}
                 alt={item.title}
                 layout="fill"
                 objectFit="cover"
                 position="absolute"
+                unoptimized
               />
               <Badge
                 position="absolute"
@@ -83,9 +83,9 @@ function PlaceCardList({ data, show }) {
               </Flex>
               <HStack textStyle="caption-2" color="neutrals.4">
                 <Icon icon="icon-park-outline:router" />
-                <Text>{item.wifi}</Text>
+                <Text>Free wifi</Text>
                 <Icon icon="ion:fast-food-outline" />
-                <Text>{item.breakfast}</Text>
+                <Text>Breakfast included</Text>
               </HStack>
               <Divider pt="16px" />
               <Flex pt="16px" justify="center">
@@ -110,102 +110,11 @@ function PlaceCardList({ data, show }) {
     </SimpleGrid>
   )
 }
-const StayList = ({ children }) => {
-  const listPlace = [
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-      imgSrc: '/assets/citypage/Stay 1.jpg',
-      price: 548,
-      reviews: 12,
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-      imgSrc: '/assets/citypage/Stay 2.jpg',
-      price: 548,
-      reviews: 12,
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-
-      imgSrc: '/assets/citypage/Stay 3.jpg',
-      price: 548,
-      reviews: 12,
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-
-      imgSrc: '/assets/citypage/Stay 4.jpg',
-      price: 548,
-      reviews: 12,
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-      reviews: 12,
-      imgSrc: '/assets/citypage/Stay 5.png',
-      price: 548,
-      timeLine: '8:00 - 18.00',
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-      reviews: 12,
-      imgSrc: '/assets/citypage/Stay 6.jpg',
-      price: 548,
-      timeLine: '8:00 - 18.00',
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-      reviews: 12,
-      imgSrc: '/assets/citypage/Stay 7.jpg',
-      price: 548,
-      timeLine: '8:00 - 18.00',
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-      reviews: 12,
-      imgSrc: '/assets/citypage/Stay 8.jpeg',
-      price: 548,
-      timeLine: '8:00 - 18.00',
-      rate: 4.9,
-    },
-    {
-      title: 'Entire serviced classy moutain house',
-      wifi: 'Free wifi',
-      breakfast: 'Breakfast included',
-      reviews: 12,
-      imgSrc: '/assets/citypage/Stay 9.jpeg',
-      price: 548,
-      reviews: 12,
-      rate: 4.9,
-    },
-  ]
+const StayList = ({ children, listPlace, isLoading, triggerPage }) => {
   const [show, setShow] = useState(false)
   return (
-    <Box minH={{ mobile: '2164px', tablet: '1446px' }}>
+    <Box h="fit-content">
       <Box
-        minH="1286px"
         overflow="hidden"
         px={{ mobile: '32px', tablet: '80px', desktop: '160px' }}
         pt={{ mobile: '32px', tablet: '32px', desktop: '48px' }}
@@ -223,18 +132,29 @@ const StayList = ({ children }) => {
             />
           </InputRightElement>
         </InputGroup>
-        <PlaceCardList data={listPlace} show={show} />
-        <Flex justify="center">
-          <Button
-            leftIcon={<Icon icon="icon-park-outline:loading-one" />}
-            variant="outline"
-            border="2px"
-            my="64px"
-            onClick={() => setShow(!show)}
-          >
-            {show ? 'Hide' : 'View All'}
-          </Button>
-        </Flex>
+        {isLoading ? (
+          <Stack justify="center" align="center">
+            <Icon icon="eos-icons:bubble-loading" fontSize="50px" />
+          </Stack>
+        ) : (
+          <Box>
+            <PlaceCardList listPlace={listPlace} show={show} />
+            <Flex justify="center">
+              <Button
+                leftIcon={<Icon icon="icon-park-outline:loading-one" />}
+                variant="outline"
+                border="2px"
+                my="64px"
+                onClick={() => {
+                  setShow(!show)
+                  triggerPage()
+                }}
+              >
+                {show ? 'Hide' : 'View All'}
+              </Button>
+            </Flex>
+          </Box>
+        )}
       </Box>
     </Box>
   )
