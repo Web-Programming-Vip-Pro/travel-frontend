@@ -22,4 +22,5 @@ export const REVIEW = {
 export const CITY = {
   GET_ALL: '/cities',
   GET_ONE: '/city',
+  SEARCH: '/city/search',
 }
