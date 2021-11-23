@@ -13,8 +13,8 @@ const Discovery = ({ triggerOrder, triggerType }) => {
   useEffect(() => {
     triggerOrder(typeActive)
   }, [typeActive])
-  function handleService(item) {
-    setService(item)
+  function handleService(index) {
+    setService(index)
   }
   useEffect(() => {
     triggerType(service)
@@ -53,9 +53,9 @@ const Discovery = ({ triggerOrder, triggerType }) => {
         ))}
       </Stack>
       <Spacer />
-      {/* In Mobile display Select */}
+      {/* In Mobile display Select Servicelist : Stay... */}
       <Select
-        onChange={handleChangeType}
+        onChange={(e) => handleService(serviceList.indexOf(e.target.value))}
         display={{ mobile: 'block', tablet: 'none' }}
         border="none"
       >
@@ -65,7 +65,7 @@ const Discovery = ({ triggerOrder, triggerType }) => {
           </option>
         ))}
       </Select>
-      {/*  */}
+      {/* Type : Recently added .... */}
       <Select onChange={handleChangeType} w={{ tablet: '256px' }} border="none">
         {type.map((content, index) => (
           <option key={index} value={content}>

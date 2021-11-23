@@ -1,7 +1,7 @@
 import { Box, Flex, Text, Button, IconButton } from '@chakra-ui/react'
-import Image from 'next/image'
+import 'flag-icon-css/css/flag-icons.min.css'
 const Country = ({ data }) => {
-  console.log(data[0].imgSrc)
+  const flag = data.flag.toLowerCase()
   return (
     <Box
       h={{ mobile: '812px', tablet: '729px', desktop: '684px' }}
@@ -22,7 +22,7 @@ const Country = ({ data }) => {
           borderRadius={{ tablet: '24px' }}
           borderBottomStartRadius="24px"
           borderBottomEndRadius="24px"
-          background={`linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)), url(${data[0].imgSrc})`}
+          background={`linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)), url(${data.imgSrc})`}
           overflow="hidden"
           backgroundPosition="center"
           backgroundSize="cover"
@@ -60,21 +60,29 @@ const Country = ({ data }) => {
               color={{ mobile: 'neutrals.2', tablet: 'neutrals.6' }}
               pb="16px"
             >
-              {data[0].description}
+              {data.name}
+            </Text>
+            <Text
+              textStyle={{
+                mobile: 'headline-4',
+              }}
+              color={{ mobile: 'neutrals.2', tablet: 'neutrals.6' }}
+              pb="16px"
+            >
+              {data.description}
             </Text>
             <Flex align="center" justify="center">
-              <Image
-                src={data[0].flag}
-                alt={data[0].nation}
-                width={24}
-                height={32}
-              />
+              <Box
+                as="span"
+                className={`flag-icon flag-icon-${flag} flag-icon-squared`}
+                fontSize="24px"
+              ></Box>
               <Text
                 textStyle={{ mobile: 'body-2-bold', desktop: 'body-1-bold' }}
                 color={{ mobile: 'neutrals.2', tablet: 'neutrals.6' }}
                 pl="8px"
               >
-                {data[0].nation}
+                {data.nation}
               </Text>
             </Flex>
           </Flex>
