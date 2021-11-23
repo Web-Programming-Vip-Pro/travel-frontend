@@ -25,7 +25,7 @@ function PlaceCardList({ data }) {
       overflow="hidden"
     >
       {data.map((item, index) => (
-        <Link href={`\place\/${item.id}`} key={index} passHref={true}>
+        <Link href={`/place/${item.id}`} key={index} passHref={true}>
           <Flex
             justify="center"
             _hover={{
@@ -45,6 +45,8 @@ function PlaceCardList({ data }) {
                 width={256}
                 height={228}
                 unoptimized
+                layout="responsive"
+                objectFit="cover"
               />
               <Box p="20px">
                 <Flex justify="space-between" align="center" h="60px">

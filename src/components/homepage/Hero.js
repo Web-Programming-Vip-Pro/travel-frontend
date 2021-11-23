@@ -8,6 +8,7 @@ import {
   InputLeftElement,
   InputRightElement,
   Input,
+  useBreakpoint,
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
@@ -19,6 +20,7 @@ import Link from 'next/link'
 function Results({ places, onToggle }) {
   const ref = useRef(null)
   useClickAway(ref, () => onToggle(false))
+  const textStyles = useBreakpoint({ base: 'caption-2', md: 'caption-1' })
   function PlaceList() {
     return (
       <>
@@ -34,7 +36,7 @@ function Results({ places, onToggle }) {
             transition="all 0.4s"
           >
             <Link href={`/place/${place.id}`} passHref>
-              <Text textStyle="caption-1" fontWeight="bold">
+              <Text textStyle={textStyles} fontWeight="bold">
                 {place.title}
               </Text>
             </Link>
@@ -47,9 +49,9 @@ function Results({ places, onToggle }) {
   return (
     <Box
       position="absolute"
-      bottom="140px"
-      left="10px"
-      right="10px"
+      bottom={{ base: '140px', desktop: '220px' }}
+      left={{ base: '8px', md: '48px' }}
+      right={{ base: '8px', md: '48px' }}
       bg="white"
       shadow="lg"
       rounded="xl"
@@ -97,14 +99,6 @@ function SearchInput({ onValueChange, onValueInput }) {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <InputRightElement height="100%">
-        <IconButton
-          icon={<Icon icon="bx:bx-search" width="20px" height="20px" />}
-          size="lg"
-          px="0"
-          py="0"
-        />
-      </InputRightElement>
     </InputGroup>
   )
 }
