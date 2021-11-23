@@ -3,7 +3,6 @@ import Hero from '@/components/homepage/Hero'
 import Adventure from '@/components/homepage/Adventure'
 import PlaceList from '@/components/homepage/PlaceList'
 import BestAgencies from '@/components/homepage/BestAgencies'
-
 export default function Index() {
   return (
     <>

@@ -1,19 +1,25 @@
-import {
-  Stack,
-  Button,
-  Text,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Spacer,
-  Select,
-} from '@chakra-ui/react'
-import { useState } from 'react'
+import { Stack, Button, Text, Spacer, Select } from '@chakra-ui/react'
+import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
-const Discovery = () => {
-  const [service, setService] = useState('Stay')
+const Discovery = ({ triggerOrder, triggerType }) => {
+  // 0:Stay 1:Explore 2:Food & Drink
+  const [service, setService] = useState(0)
   const serviceList = ['Stay', 'Explore', ` Food & Drink`]
+  const [typeActive, setTypeActive] = useState('Recently Added')
+  const type = ['Recently Added', 'Most Ratings', 'High Price', 'Low Price']
+  function handleChangeType(e) {
+    setTypeActive(e.target.value)
+  }
+  useEffect(() => {
+    triggerOrder(typeActive)
+  }, [typeActive])
+  function handleService(item) {
+    setService(item)
+  }
+  useEffect(() => {
+    triggerType(service)
+  }, [service])
+
   return (
     <Stack direction={{ mobile: 'column', tablet: 'row' }} pb="48px">
       <Stack
@@ -22,24 +28,24 @@ const Discovery = () => {
         spacing="16px"
         align="center"
       >
-        {serviceList.map((item) => (
+        {serviceList.map((item, index) => (
           <Button
-            key={item}
+            key={index}
             leftIcon={
               <Icon
                 icon="bx:bx-dollar-circle"
-                color={item !== service ? '#777E90' : ''}
+                color={index !== service ? '#777E90' : ''}
               />
             }
             px="10px"
             py="6px"
-            bg={item === service ? 'neutrals.3' : ''}
-            variant={item !== service ? 'ghost' : 'none'}
-            onClick={() => setService(item)}
+            bg={index === service ? 'neutrals.3' : ''}
+            variant={index !== service ? 'ghost' : 'none'}
+            onClick={() => handleService(index)}
           >
             <Text
               textStyle="button-2"
-              color={item === service ? 'neutrals.8' : 'neutrals.4'}
+              color={index === service ? 'neutrals.8' : 'neutrals.4'}
             >
               {item}
             </Text>
@@ -47,19 +53,25 @@ const Discovery = () => {
         ))}
       </Stack>
       <Spacer />
+      {/* In Mobile display Select */}
       <Select
-        placeholder="Stay"
+        onChange={handleChangeType}
         display={{ mobile: 'block', tablet: 'none' }}
         border="none"
       >
-        <option value="option1">Explore</option>
-        <option value="option2">Food &amp; Drink</option>
+        {serviceList.map((content, index) => (
+          <option key={index} value={content}>
+            {content}
+          </option>
+        ))}
       </Select>
-      <Select w={{ tablet: '256px' }} border="none">
-        <option value="option1">Recently Added</option>
-        <option value="option2">Most Ratings</option>
-        <option value="option3">High Price</option>
-        <option value="option3">Low Price</option>
+      {/*  */}
+      <Select onChange={handleChangeType} w={{ tablet: '256px' }} border="none">
+        {type.map((content, index) => (
+          <option key={index} value={content}>
+            {content}
+          </option>
+        ))}
       </Select>
     </Stack>
   )

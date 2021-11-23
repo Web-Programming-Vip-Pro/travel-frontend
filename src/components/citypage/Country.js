@@ -1,6 +1,7 @@
 import { Box, Flex, Text, Button, IconButton } from '@chakra-ui/react'
 import Image from 'next/image'
 const Country = ({ data }) => {
+  console.log(data[0].imgSrc)
   return (
     <Box
       h={{ mobile: '812px', tablet: '729px', desktop: '684px' }}
@@ -9,28 +10,25 @@ const Country = ({ data }) => {
       px={{ mobile: '16px', tablet: '80px' }}
       pos="relative"
     >
-      <Flex direction={{ mobile: 'column-reverse', tablet: 'column' }}>
+      <Flex
+        direction={{ mobile: 'column-reverse', tablet: 'column' }}
+        position="relative"
+      >
         {/* Background of CityPage*/}
         <Box
           w="100%"
           h={{ mobile: '442px', tablet: '580px', desktop: '588px' }}
-          pos="relative"
+          // pos="relative"
           borderRadius={{ tablet: '24px' }}
           borderBottomStartRadius="24px"
           borderBottomEndRadius="24px"
+          background={`linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)), url(${data[0].imgSrc})`}
           overflow="hidden"
-        >
-          <Image
-            pos="absolute"
-            src={data[0].imgSrc}
-            alt="Image Background"
-            layout="fill"
-            objectFit="cover"
-          />
-        </Box>
+          backgroundPosition="center"
+          backgroundSize="cover"
+        ></Box>
         {/*  Slogan and Desciption of Hero */}
         <Flex
-          pl={{ tablet: '28%' }}
           direction="column"
           h={{ mobile: '370px', tablet: '580px', desktop: '588px' }}
           pos={{ tablet: 'absolute' }}
@@ -42,25 +40,27 @@ const Country = ({ data }) => {
           }}
           borderTopStartRadius="24px"
           borderTopEndRadius="24px"
+          w="100%"
         >
           <Flex
             zIndex={1}
             direction="column"
-            w={{ mobile: '200px', tablet: '100%' }}
+            px="20px"
             wordBreak="break-all"
             color="neutrals.2"
             align="center"
+            textAlign="center"
           >
             <Text
               textStyle={{
-                mobile: 'headline-1',
+                mobile: 'headline-4',
                 tablet: 'headline-1',
                 desktop: 'hero',
               }}
-              color="neutrals.2"
+              color={{ mobile: 'neutrals.2', tablet: 'neutrals.6' }}
               pb="16px"
             >
-              {data[0].location}
+              {data[0].description}
             </Text>
             <Flex align="center" justify="center">
               <Image
@@ -71,7 +71,7 @@ const Country = ({ data }) => {
               />
               <Text
                 textStyle={{ mobile: 'body-2-bold', desktop: 'body-1-bold' }}
-                color="neutrals.2"
+                color={{ mobile: 'neutrals.2', tablet: 'neutrals.6' }}
                 pl="8px"
               >
                 {data[0].nation}

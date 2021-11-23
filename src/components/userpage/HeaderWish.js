@@ -30,7 +30,7 @@ const HeaderWish = () => {
         align="center"
         mb="48px"
       >
-        <Link href="/">
+        <Link href="/" passHref>
           <Button
             leftIcon={<Icon icon="ic:round-keyboard-arrow-left" />}
             variant="light"
@@ -46,7 +46,7 @@ const HeaderWish = () => {
           }
         >
           <BreadcrumbItem>
-            <Link href="/">
+            <Link href="/" passHref>
               <BreadcrumbLink href="#" color="neutrals.4" textStyle="button-2">
                 Home
               </BreadcrumbLink>
