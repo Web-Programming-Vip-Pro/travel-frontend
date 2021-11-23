@@ -11,6 +11,7 @@ export const PAGE = {
 export const PLACE = {
   GET_ALL: '/places',
   GET_ONE: '/place',
+  SEARCH: '/place/search',
 }
 
 export const REVIEW = {

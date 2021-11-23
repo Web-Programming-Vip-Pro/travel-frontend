@@ -21,3 +21,8 @@ export const usePlace = (id) => {
   const { data, error } = useSWR(`${PLACE.GET_ONE}?id=${id}`, fetcher)
   return { place: data, isLoading: !error && !data, error }
 }
+
+export function useSearchPlaces(q = '') {
+  const { data, error } = useSWR(`${PLACE.SEARCH}?q=${q}`, fetcher)
+  return { places: data && data.data, isLoading: !error && !data, error }
+}
