@@ -1,7 +1,7 @@
 import Setting from '@/components/shared/Setting'
 import PersonalInfo from '@/components/userpage/PersonalInfo'
 import ProtectedPage from '@/components/shared/ProtectedPage'
-const Settings = ({ children }) => {
+const Settings = () => {
   return (
     <ProtectedPage>
       <Setting>

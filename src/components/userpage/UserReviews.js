@@ -23,17 +23,8 @@ import dynamic from 'next/dynamic'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
-
 import { useSession } from 'next-auth/react'
 import dayjs from 'dayjs'
-const agencyInformation = {
-  socialNetwork: [
-    { iconName: 'ant-design:instagram-outlined', directLink: { href: '#' } },
-    { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
-  ],
-}
-const reportHostLink = { href: '#' }
-const placeTitle = 'Spectacular views of Queenstown'
 
 const commentsProperties = {
   totalCount: 3,
@@ -60,6 +51,20 @@ const commentsProperties = {
 function AgencyInformation() {
   const { data } = useSession()
   const user = data.user
+  const socials = user.social
+    ? Object.keys(user.social).map((key) => {
+        if (key === 'facebook')
+          return {
+            icon: 'ph:facebook-logo-light',
+            link: user.social[key],
+          }
+        if (key === 'instagram')
+          return {
+            icon: 'ant-design:instagram-outlined',
+            link: user.social[key],
+          }
+      })
+    : []
   const handleImageUser = () => {
     var linkURL = prompt('Please copy the image URL and fill in here ')
   }
@@ -114,14 +119,12 @@ function AgencyInformation() {
           </Flex>
           <Flex justify="center" align="center">
             <HStack spacing="27.33px">
-              {agencyInformation.socialNetwork.map((content, index) => (
-                <LinkBox key={index} _hover={{ cursor: 'pointer' }}>
-                  <LinkOverlay {...content.directLink}>
-                    <Box color="neutrals.4" mr="10px">
-                      <Icon icon={content.iconName} fontSize="16.67px" />
-                    </Box>
-                  </LinkOverlay>
-                </LinkBox>
+              {socials.map((social, index) => (
+                <Box key={index} color="neutrals.4" mr="10px">
+                  <a href={social.link} target="_blank" rel="noreferrer">
+                    <Icon icon={social.icon} fontSize="16.67px" />
+                  </a>
+                </Box>
               ))}
             </HStack>
           </Flex>
@@ -131,20 +134,6 @@ function AgencyInformation() {
               {`Member since ${dayjs(user.created_at).format('MMMM D, YYYY')}`}
             </Text>
           </Flex>
-          <Link {...reportHostLink}>
-            <Flex
-              _hover={{ cursor: 'pointer' }}
-              justify="center"
-              align="center"
-            >
-              <Box mr="10px" color="neutrals.4">
-                <Icon icon="cil:flag-alt" />
-              </Box>
-              <Text textStyle="caption-2" color="neutrals.4">
-                Report this host
-              </Text>
-            </Flex>
-          </Link>
         </Stack>
       </Flex>
     </Box>
@@ -152,20 +141,8 @@ function AgencyInformation() {
 }
 
 function Reviews() {
-  const reviewType = ['Review about you']
-  const [typeReview, setTypeReview] = useState(reviewType[0])
-  let [textComment, setComment] = React.useState(
-    'Described by Queenstown House & Garden magazine as having one of the best views weve ever seen you will love relaxing in this newly built'
-  )
-  let [ratingCount, setRatingCount] = React.useState(0)
-  let handleInputChange = (e) => {
-    let inputValue = e.target.value
-    setComment(inputValue)
-  }
-  function changeRating(newRating) {
-    setRatingCount(newRating)
-  }
-  function onChangeSortType(content) {}
+  const { data } = useSession()
+  const user = data.user
   return (
     <Flex direction="column">
       <FormControl id="make-comment">
@@ -173,28 +150,16 @@ function Reviews() {
           direction={{ base: 'column-reverse', tablet: 'row' }}
           align="center"
         >
-          <Text textStyle="body-1-bold">
-            Hi, I&#39;m {agencyInformation.name}
-          </Text>
+          <Text textStyle="body-1-bold">Hi, I&#39;m {user.name}</Text>
           <Spacer />
           <Button mb={{ mobile: '24px', tablet: '0' }} variant="light">
-            Edit your profile
+            <Link href="/user/settings">Edit your profile</Link>
           </Button>
         </Flex>
         <InputGroup my="40px">
           <Text textStyle="caption" color="neutrals.4">
-            {textComment}
+            {user.bio}
           </Text>
-          {/* <Input
-            type="text"
-            value={textComment}
-            onChange={handleInputChange}
-            textStyle="body-2"
-            placeholder="Share your thoughts"
-            h="60px"
-            pr="110px"
-            wordBreak="break-all"
-          /> */}
         </InputGroup>
       </FormControl>
       <Flex
@@ -205,22 +170,11 @@ function Reviews() {
         <Text textStyle="body-1-bold">{`${commentsProperties.totalCount} reviews`}</Text>
         <Spacer />
         <HStack justify="center">
-          {reviewType.map((item) => (
-            <Button
-              key={item}
-              h="28px"
-              bg={item === typeReview ? 'neutrals.3' : ''}
-              variant={item !== typeReview ? 'ghost' : 'none'}
-              onClick={() => setTypeReview(item)}
-            >
-              <Text
-                textStyle="button-2"
-                color={item === typeReview ? 'neutrals.8' : 'neutrals.4'}
-              >
-                {item}
-              </Text>
-            </Button>
-          ))}
+          <Button h="28px" bg="neutrals.3">
+            <Text textStyle="button-2" color="neutrals.8">
+              Reviews by you
+            </Text>
+          </Button>
         </HStack>
       </Flex>
       <Box my="40px">

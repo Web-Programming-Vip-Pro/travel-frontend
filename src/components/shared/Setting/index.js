@@ -1,21 +1,36 @@
 import { Box, Stack, Flex, Text, Select } from '@chakra-ui/react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 const Setting = ({ children }) => {
-  const [type, setType] = useState('Personal info')
-  const typeSetting = [
+  const router = useRouter()
+  const [menu, setMenu] = useState([
     {
       icon: 'carbon:user',
       href: '/user/settings',
       type: 'Personal info',
+      active: true,
     },
     {
       icon: 'bx:bx-lock',
       href: '/user/settings/login',
       type: 'Login and security',
+      active: false,
     },
-  ]
+  ])
+  function activeRoute(currentRoute) {
+    setMenu(
+      menu.map((item) => ({
+        ...item,
+        active: item.href === currentRoute,
+      }))
+    )
+  }
+  useEffect(() => {
+    activeRoute(router.pathname)
+  }, [router.pathname])
+
   return (
     <>
       <Stack
@@ -30,15 +45,15 @@ const Setting = ({ children }) => {
           spacing="40px"
           h="fit-content"
           p="48px"
-          boxShadow="0px 64px 64px -48px rgba(15, 15, 15, 0.08);"
+          shadow="xl"
           borderRadius="16px"
           bg="neutrals.8"
         >
-          {typeSetting.map((item, index) => (
+          {menu.map((item, index) => (
             <Flex
               align="center"
               key={index}
-              color={item.type == type ? 'neutrals.2' : 'neutrals.4'}
+              color={item.active ? 'neutrals.2' : 'neutrals.4'}
             >
               <Icon icon={item.icon} />
               <Link href={item.href} passHref>
@@ -46,11 +61,8 @@ const Setting = ({ children }) => {
                   ml="20px"
                   textStyle="button-2"
                   fontWeight="700"
-                  color={item.type == type ? 'neutrals.2' : 'neutrals.4'}
+                  color={item.active ? 'neutrals.2' : 'neutrals.4'}
                   _hover={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    setType(item.type)
-                  }}
                 >
                   {item.type}
                 </Text>
@@ -59,10 +71,13 @@ const Setting = ({ children }) => {
           ))}
         </Stack>
         <Box display={{ mobile: 'block', tablet: 'none' }}>
-          <Select>
-            {typeSetting.map((item, index) => (
+          <Select
+            onChange={(e) => router.push(e.target.value)}
+            defaultValue={router.pathname}
+          >
+            {menu.map((item, index) => (
               <Link key={index} href={item.href} passHref>
-                <option value={item.type}>{item.type}</option>
+                <option value={item.href}>{item.type}</option>
               </Link>
             ))}
           </Select>

@@ -2,6 +2,8 @@ export const USER = {
   CHECK: '/user',
   REGISTER: '/register',
   LOGIN: '/login',
+  UPDATE_INFO: '/user/updateInfo',
+  UPDATE_PASSWORD: '/user/updatePassword',
 }
 
 export const PAGE = {
