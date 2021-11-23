@@ -7,7 +7,6 @@ import {
   FormLabel,
   Input,
   Textarea,
-  Select,
   Divider,
   Stack,
   Modal,
@@ -18,21 +17,67 @@ import {
   ModalCloseButton,
   useDisclosure,
   InputGroup,
+  Alert,
+  AlertIcon,
+  AlertTitle,
 } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/react'
-import { useUserStore } from '@/store/user'
+import { useSession } from 'next-auth/react'
+import { useForm } from 'react-hook-form'
+import { updateInfo } from '@/services/user'
+import { useEffect, useState } from 'react'
+import { login } from '@/services/auth'
+import { useRouter } from 'next/router'
+
 const PersonalInfo = () => {
-  const user = useUserStore((state) => state.user)
-  console.log(user)
+  const { data } = useSession()
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const user = data.user
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const router = useRouter()
+  const { register, handleSubmit, reset, getValues } = useForm({
+    defaultValues: user,
+  })
+
+  useEffect(() => {
+    // reset password if modal is closed, but other fields are keeped
+    reset({ ...getValues(), password: '' })
+    setError(null)
+  }, [isOpen])
+
+  async function onSubmit(data) {
+    console.log(data)
+    setError(null)
+    setIsLoading(true)
+    const response = await updateInfo(data)
+    if (!response.success) {
+      setError(response.message || 'Something went wrong')
+    } else {
+      const { email, password } = data
+      await login({ email, password })
+      setError(false)
+      setTimeout(() => {
+        onClose()
+      }, [500])
+    }
+    setIsLoading(false)
+  }
+
   return (
-    <Box flex="1" mt={{ mobile: '32px', tablet: '' }}>
+    <Stack flex="1" mt={{ mobile: '32px', tablet: '' }} spacing="20px">
       <FormControl>
         <Flex justify="space-between" align="flex-start">
           <Text textStyle={{ mobile: 'headline-4', tablet: 'headline-2' }}>
             Personal info
           </Text>
-          <Button w="112px" h="40px" variant="light" fontSize="14px">
+          <Button
+            w="112px"
+            h="40px"
+            variant="light"
+            fontSize="14px"
+            onClick={() => router.push('/user')}
+          >
             View profile
           </Button>
         </Flex>
@@ -48,20 +93,16 @@ const PersonalInfo = () => {
             Display name
           </Text>
         </FormLabel>
-        <Input placeholder="Enter your display name" />
+        <Input
+          {...register('name', { required: true })}
+          placeholder="Enter your display name"
+          required
+        />
         <Stack
           mt="32px"
           direction={{ mobile: 'column', tablet: 'row' }}
           spacing="20px"
         >
-          <Box flex="1">
-            <FormLabel htmlFor="name">
-              <Text textStyle="hairline-2" color="neutrals.5">
-                Phone
-              </Text>
-            </FormLabel>
-            <Input id="name" placeholder="Phone number" />
-          </Box>
           <Box flex="1">
             <FormLabel
               htmlFor="email"
@@ -72,7 +113,11 @@ const PersonalInfo = () => {
                 Email
               </Text>
             </FormLabel>
-            <Input defaultValue="tam@123" placeholder="" isDisabled />
+            <Input
+              {...register('email', { required: true })}
+              placeholder=""
+              required
+            />
           </Box>
         </Stack>
         <Box mt="32px">
@@ -85,20 +130,14 @@ const PersonalInfo = () => {
             id="bio"
             placeholder="About yourself in a few words"
             minH="156px"
+            {...register('bio')}
           />
         </Box>
-        <Text my="48px" textStyle="body-2-bold">
-          Social
-        </Text>
-        <Stack direction={{ mobile: 'column', tablet: 'row' }} spacing="20px">
-          <Box flex="1">
-            <FormLabel htmlFor="web">
-              <Text textStyle="hairline-2" color="neutrals.5">
-                Website
-              </Text>
-            </FormLabel>
-            <Input id="web" placeholder="Your site URL" />
-          </Box>
+        <Stack
+          direction={{ mobile: 'column', tablet: 'row' }}
+          spacing="20px"
+          mt="24px"
+        >
           <Box flex="1">
             <FormLabel
               htmlFor="twitter"
@@ -106,10 +145,39 @@ const PersonalInfo = () => {
               color="neutrals.5"
             >
               <Text textStyle="hairline-2" color="neutrals.5">
-                Twitter
+                Avatar
               </Text>
             </FormLabel>
-            <Input id="twitter" placeholder="@twitter username" />
+            <Input placeholder="Avatar URL" {...register('avatar')} />
+          </Box>
+          <Box flex="1">
+            <FormLabel textStyle="hairline-2" color="neutrals.5">
+              <Text textStyle="hairline-2" color="neutrals.5">
+                Image Cover
+              </Text>
+            </FormLabel>
+            <Input placeholder="Image Cover URL" {...register('image_cover')} />
+          </Box>
+        </Stack>
+        <Text my="24px" textStyle="body-2-bold">
+          Social
+        </Text>
+        <Stack direction={{ mobile: 'column', tablet: 'row' }} spacing="20px">
+          <Box flex="1">
+            <FormLabel
+              htmlFor="twitter"
+              textStyle="hairline-2"
+              color="neutrals.5"
+            >
+              <Text textStyle="hairline-2" color="neutrals.5">
+                Instagram
+              </Text>
+            </FormLabel>
+            <Input
+              id="twitter"
+              placeholder="@instagram username"
+              {...register('social.instagram')}
+            />
           </Box>
           <Box flex="1">
             <FormLabel
@@ -121,22 +189,34 @@ const PersonalInfo = () => {
                 Facebook
               </Text>
             </FormLabel>
-            <Input id="facebook" placeholder="@facebook username" />
+            <Input
+              id="facebook"
+              placeholder="@facebook username"
+              {...register('social.facebook')}
+            />
           </Box>
         </Stack>
         <Divider my="48px" />
         <Flex>
-          <Button onClick={onOpen} fontSize="16px">
+          <Button onClick={onOpen} fontSize="16px" type="button">
             Update profile
           </Button>
           {/* Modal Update password */}
           <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>Password</ModalHeader>
+              <ModalHeader>Confirm Password</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <Stack spacing="16px">
+                <Stack p="16px" py="36px" spacing="16px">
+                  {error !== null && (
+                    <Alert status={error ? 'error' : 'success'}>
+                      <AlertIcon />
+                      <AlertTitle>
+                        {error ? error : 'Update success!'}
+                      </AlertTitle>
+                    </Alert>
+                  )}
                   <FormControl>
                     <InputGroup>
                       <Input
@@ -146,11 +226,18 @@ const PersonalInfo = () => {
                         minH="48px"
                         borderRadius="90px"
                         variant="field"
-                        placeholder="Password"
+                        placeholder="Confirm Password"
+                        {...register('password', { required: true })}
                       />
                     </InputGroup>
                   </FormControl>
-                  <Button type="submit">Confirm Password</Button>
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit(onSubmit)}
+                    disabled={isLoading}
+                  >
+                    Confirm Password
+                  </Button>
                 </Stack>
               </ModalBody>
             </ModalContent>
@@ -162,12 +249,14 @@ const PersonalInfo = () => {
             leftIcon={<Icon icon="bx:bx-lock" />}
             fontSize="16px"
             color="neutrals.4"
+            type="button"
+            onClick={() => reset()}
           >
             Clear all
           </Button>
         </Flex>
       </FormControl>
-    </Box>
+    </Stack>
   )
 }
 

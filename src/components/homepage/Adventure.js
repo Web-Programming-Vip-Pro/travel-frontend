@@ -1,8 +1,9 @@
-import { Flex, Text, Box, Stack, Button } from '@chakra-ui/react'
-import Image from 'next/image'
+import { Flex, Text, Box, Button } from '@chakra-ui/react'
 import HolidaySummer from './svgrImgHome/Holiday Summer 1'
 import HolidayTravel from './svgrImgHome/Holiday Travel'
 import HolidayPool from './svgrImgHome/Holiday Pool'
+import { usePlacesStatistic } from '@/services/places'
+
 function Category({ data }) {
   return (
     <Flex
@@ -32,21 +33,22 @@ function Category({ data }) {
   )
 }
 const Adventure = ({ title, description }) => {
+  const { statistics } = usePlacesStatistic()
   const data = [
     {
       imgSrc: 'HolidaySummer',
       type: 'Stay',
-      numPlaces: '9,236',
+      numPlaces: statistics && statistics[0].total,
     },
     {
       imgSrc: 'HolidayTravel',
       type: 'Explore',
-      numPlaces: '9,326',
+      numPlaces: statistics && statistics[1].total,
     },
     {
       imgSrc: 'HolidayPool',
       type: 'Food & Drink',
-      numPlaces: '9,326',
+      numPlaces: statistics && statistics[2].total,
     },
   ]
   return (

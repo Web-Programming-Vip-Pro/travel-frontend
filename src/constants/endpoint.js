@@ -2,6 +2,9 @@ export const USER = {
   CHECK: '/user',
   REGISTER: '/register',
   LOGIN: '/login',
+  UPDATE_INFO: '/user/updateInfo',
+  UPDATE_PASSWORD: '/user/updatePassword',
+  UPDATE_IMAGE: '/user/updateImage',
 }
 
 export const PAGE = {
@@ -11,6 +14,8 @@ export const PAGE = {
 export const PLACE = {
   GET_ALL: '/places',
   GET_ONE: '/place',
+  SEARCH: '/place/search',
+  STATISTICS: '/place/statistics',
 }
 
 export const REVIEW = {

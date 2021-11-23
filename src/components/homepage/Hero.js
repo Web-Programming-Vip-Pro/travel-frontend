@@ -8,86 +8,133 @@ import {
   InputLeftElement,
   InputRightElement,
   Input,
+  useBreakpoint,
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
-function SearchLocate({ location, title }) {
-  return (
-    <Flex
-      // w={{ mobile: '335px', tablet: '864px', desktop: '1120px' }}
-      w={{ mobile: '98%', tablet: '90%' }}
-      h="136px"
-      direction="row"
-      pos="absolute"
-      bgColor="neutrals.8"
-      borderRadius="24px"
-      opacity="0.98"
-      px="40px"
-      py="20px"
-      top={{ tablet: '75%' }}
-      bottom={{ mobile: '4px', tablet: 'none' }}
-      boxShadow="lg"
-      justify="space-between"
-    >
-      {/* Location */}
-      {/* <Flex h="96px" align="center">
-        <Flex>
-          <Box display={{ mobile: 'none', tablet: 'block' }}>
-            <Icon
-              icon="typcn:location-arrow-outline"
-              width="20px"
-              height="20px"
-              color="#B1B5C3"
-            />
+import { useState, useRef, useEffect } from 'react'
+import { useSearchPlaces } from '@/services/places'
+import { useDebounce, useClickAway, useToggle } from 'react-use'
+import Link from 'next/link'
+
+function Results({ places, onToggle }) {
+  const ref = useRef(null)
+  useClickAway(ref, () => onToggle(false))
+  const textStyles = useBreakpoint({ base: 'caption-2', md: 'caption-1' })
+  function PlaceList() {
+    return (
+      <>
+        {places.map((place, index) => (
+          <Box
+            key={index}
+            p="12px"
+            py="24px"
+            borderBottom="1px solid #eaeaea"
+            cursor="pointer"
+            _hover={{ bg: 'neutrals.6' }}
+            rounded="lg"
+            transition="all 0.4s"
+          >
+            <Link href={`/place/${place.id}`} passHref>
+              <Text textStyle={textStyles} fontWeight="bold">
+                {place.title}
+              </Text>
+            </Link>
           </Box>
-          <Flex direction="column" ml="16px">
-            <Text color="neutrals.2" textStyle="body-1-bold">
-              {location}
-            </Text>
-            <Text color="neutrals.4" textStyle="body-2">
-              {title}
-            </Text>
-          </Flex>
-        </Flex>
-      </Flex> */}
-      {/* Search ButtonIcon */}
-      {/* <Flex h="104px" justify="flex-end" align="center">
-        <IconButton
-          icon={<Icon icon="bx:bx-search" width="20px" height="20px" />}
-          w="64px"
-          h="64px"
-          px="0"
-          py="0"
+        ))}
+      </>
+    )
+  }
+
+  return (
+    <Box
+      position="absolute"
+      bottom={{ base: '140px', desktop: '220px' }}
+      left={{ base: '8px', md: '48px' }}
+      right={{ base: '8px', md: '48px' }}
+      bg="white"
+      shadow="lg"
+      rounded="xl"
+      p="24px"
+      zIndex={2}
+      ref={ref}
+    >
+      {places && places.length > 0 ? <PlaceList /> : 'No results found'}
+    </Box>
+  )
+}
+
+function SearchInput({ onValueChange, onValueInput }) {
+  const [text, setText] = useState('')
+  useEffect(() => {
+    onValueInput()
+  }, [text])
+  useDebounce(
+    () => {
+      if (text.length > 0) {
+        onValueChange(text)
+      }
+    },
+    500,
+    [text]
+  )
+  return (
+    <InputGroup>
+      <InputLeftElement pointerEvents="none" height="100%">
+        <Icon
+          icon="typcn:location-arrow-outline"
+          width="20px"
+          height="20px"
+          color="#B1B5C3"
         />
-      </Flex> */}
-      <InputGroup>
-        <InputLeftElement pointerEvents="none" height="100%">
-          <Icon
-            icon="typcn:location-arrow-outline"
-            width="20px"
-            height="20px"
-            color="#B1B5C3"
-          />
-        </InputLeftElement>
-        <Input
-          height="100%"
-          size="lg"
-          placeholder="Location"
-          border="none"
-          bgColor="neutrals.8"
-          fontSize="24px"
-          fontWeight="600"
+      </InputLeftElement>
+      <Input
+        height="100%"
+        size="lg"
+        placeholder="Location"
+        border="none"
+        bgColor="neutrals.8"
+        fontSize="24px"
+        fontWeight="600"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+    </InputGroup>
+  )
+}
+
+function SearchBox() {
+  const [searchText, setSearchText] = useState('')
+  const { places, isLoading, error } = useSearchPlaces(searchText)
+  const [isOpen, setIsOpen] = useToggle(false)
+  return (
+    <>
+      <Flex
+        // w={{ mobile: '335px', tablet: '864px', desktop: '1120px' }}
+        w={{ mobile: '98%', tablet: '90%' }}
+        h="136px"
+        direction="row"
+        pos="absolute"
+        bgColor="neutrals.8"
+        borderRadius="24px"
+        opacity="0.98"
+        px="40px"
+        py="20px"
+        top={{ tablet: '75%' }}
+        bottom={{ mobile: '4px', tablet: 'none' }}
+        boxShadow="lg"
+        justify="space-between"
+      >
+        <SearchInput
+          onValueChange={(text) => {
+            setSearchText(text)
+            setIsOpen(true)
+          }}
+          onValueInput={() => setIsOpen(false)}
         />
-        <InputRightElement height="100%">
-          <IconButton
-            icon={<Icon icon="bx:bx-search" width="20px" height="20px" />}
-            size="lg"
-            px="0"
-            py="0"
-          />
-        </InputRightElement>
-      </InputGroup>
-    </Flex>
+      </Flex>
+      {isOpen && <Results places={places} onToggle={setIsOpen} />}
+    </>
   )
 }
 const Hero = ({ slogan, description }) => {
@@ -169,7 +216,7 @@ const Hero = ({ slogan, description }) => {
       </Flex>
       {/* Find Location */}
       <Flex justify="center">
-        <SearchLocate location="Location" title="Where are you going" />
+        <SearchBox />
       </Flex>
     </Box>
   )

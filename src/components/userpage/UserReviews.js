@@ -7,20 +7,12 @@ import {
   Text,
   Flex,
   Box,
-  LinkBox,
-  LinkOverlay,
   Stack,
   FormControl,
   InputGroup,
-  InputRightElement,
-  Input,
-  Select,
   Avatar,
-  Square,
 } from '@chakra-ui/react'
-import { useUserStore } from '@/store/user'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import Link from 'next/link'
@@ -28,21 +20,8 @@ import dynamic from 'next/dynamic'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
-
-const agencyInformation = {
-  name: 'Kohaku Tora',
-  avatarSrc: '/assets/userpage/Bg agencies.png',
-  rate: 4.8,
-  reviewNumbers: 256,
-  socialNetwork: [
-    { iconName: 'iconoir:twitter', directLink: { href: '#' } },
-    { iconName: 'ant-design:instagram-outlined', directLink: { href: '#' } },
-    { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
-  ],
-  dateRegistered: 'Member since Mar 15, 2017',
-}
-const reportHostLink = { href: '#' }
-const placeTitle = 'Spectacular views of Queenstown'
+import { useSession } from 'next-auth/react'
+import dayjs from 'dayjs'
 
 const commentsProperties = {
   totalCount: 3,
@@ -67,15 +46,22 @@ const commentsProperties = {
   ],
 }
 function AgencyInformation() {
-  const user = useUserStore((state) => state.user)
-  const [avatar, setAvatar] = useState(() => {
-    return {
-      preview: `${agencyInformation.avatarSrc}`,
-    }
-  })
-  const handleImageUser = () => {
-    var linkURL = prompt('Please copy the image URL and fill in here ')
-  }
+  const { data } = useSession()
+  const user = data.user
+  const socials = user.social
+    ? Object.keys(user.social).map((key) => {
+        if (key === 'facebook')
+          return {
+            icon: 'ph:facebook-logo-light',
+            link: user.social[key],
+          }
+        if (key === 'instagram')
+          return {
+            icon: 'ant-design:instagram-outlined',
+            link: user.social[key],
+          }
+      })
+    : []
   return (
     <Box
       p="32px"
@@ -90,78 +76,33 @@ function AgencyInformation() {
     >
       <Flex direction="column" align="center">
         <Stack spacing="32px">
-          <Flex direction="column">
+          <Flex direction="column" justify="center" align="center">
             <Flex direction="column" align="center">
-              <Avatar
-                src={avatar.preview}
-                name={agencyInformation.name}
-                boxSize="160px"
-              />
-              <Stack
-                direction="row"
-                justify="center"
-                align="center"
-                color="neutrals.4"
-                textStyle="caption-2-bold"
-              >
-                <Icon icon="line-md:pencil" />
-                <label
-                  style={{
-                    display: 'block',
-                    padding: '10px 0',
-                  }}
-                  htmlFor="image_user"
-                >
-                  Update avatar
-                </label>
-                <input
-                  pos="absolute"
-                  id="image_user"
-                  name="image_user"
-                  hidden
-                  onClick={handleImageUser}
-                />
-              </Stack>
+              <Avatar src={user.avatar} name={user.name} boxSize="160px" />
             </Flex>
-            <Flex direction="column">
+            <Flex direction="column" align="center" pt="20px">
               <Text _hover={{ cursor: 'pointer' }} textStyle="headline-4">
-                {agencyInformation.name}
+                {user.name}
               </Text>
             </Flex>
           </Flex>
           <Flex justify="center" align="center">
             <HStack spacing="27.33px">
-              {agencyInformation.socialNetwork.map((content, index) => (
-                <LinkBox key={index} _hover={{ cursor: 'pointer' }}>
-                  <LinkOverlay {...content.directLink}>
-                    <Box color="neutrals.4" mr="10px">
-                      <Icon icon={content.iconName} fontSize="16.67px" />
-                    </Box>
-                  </LinkOverlay>
-                </LinkBox>
+              {socials.map((social, index) => (
+                <Box key={index} color="neutrals.4" mr="10px">
+                  <a href={social.link} target="_blank" rel="noreferrer">
+                    <Icon icon={social.icon} fontSize="16.67px" />
+                  </a>
+                </Box>
               ))}
             </HStack>
           </Flex>
           <Divider border="1px solid neutrals.6" />
           <Flex justify="center">
             <Text textStyle="caption-2" color="neutrals.4">
-              {agencyInformation.dateRegistered}
+              {`Member since ${dayjs(user.created_at).format('MMMM D, YYYY')}`}
             </Text>
           </Flex>
-          <Link {...reportHostLink}>
-            <Flex
-              _hover={{ cursor: 'pointer' }}
-              justify="center"
-              align="center"
-            >
-              <Box mr="10px" color="neutrals.4">
-                <Icon icon="cil:flag-alt" />
-              </Box>
-              <Text textStyle="caption-2" color="neutrals.4">
-                Report this host
-              </Text>
-            </Flex>
-          </Link>
         </Stack>
       </Flex>
     </Box>
@@ -169,20 +110,8 @@ function AgencyInformation() {
 }
 
 function Reviews() {
-  const reviewType = ['Review about you']
-  const [typeReview, setTypeReview] = useState(reviewType[0])
-  let [textComment, setComment] = React.useState(
-    'Described by Queenstown House & Garden magazine as having one of the best views weve ever seen you will love relaxing in this newly built'
-  )
-  let [ratingCount, setRatingCount] = React.useState(0)
-  let handleInputChange = (e) => {
-    let inputValue = e.target.value
-    setComment(inputValue)
-  }
-  function changeRating(newRating) {
-    setRatingCount(newRating)
-  }
-  function onChangeSortType(content) {}
+  const { data } = useSession()
+  const user = data.user
   return (
     <Flex direction="column">
       <FormControl id="make-comment">
@@ -190,28 +119,16 @@ function Reviews() {
           direction={{ base: 'column-reverse', tablet: 'row' }}
           align="center"
         >
-          <Text textStyle="body-1-bold">
-            Hi, I&#39;m {agencyInformation.name}
-          </Text>
+          <Text textStyle="body-1-bold">Hi, I&#39;m {user.name}</Text>
           <Spacer />
           <Button mb={{ mobile: '24px', tablet: '0' }} variant="light">
-            Edit your profile
+            <Link href="/user/settings">Edit your profile</Link>
           </Button>
         </Flex>
         <InputGroup my="40px">
           <Text textStyle="caption" color="neutrals.4">
-            {textComment}
+            {user.bio}
           </Text>
-          {/* <Input
-            type="text"
-            value={textComment}
-            onChange={handleInputChange}
-            textStyle="body-2"
-            placeholder="Share your thoughts"
-            h="60px"
-            pr="110px"
-            wordBreak="break-all"
-          /> */}
         </InputGroup>
       </FormControl>
       <Flex
@@ -222,22 +139,11 @@ function Reviews() {
         <Text textStyle="body-1-bold">{`${commentsProperties.totalCount} reviews`}</Text>
         <Spacer />
         <HStack justify="center">
-          {reviewType.map((item) => (
-            <Button
-              key={item}
-              h="28px"
-              bg={item === typeReview ? 'neutrals.3' : ''}
-              variant={item !== typeReview ? 'ghost' : 'none'}
-              onClick={() => setTypeReview(item)}
-            >
-              <Text
-                textStyle="button-2"
-                color={item === typeReview ? 'neutrals.8' : 'neutrals.4'}
-              >
-                {item}
-              </Text>
-            </Button>
-          ))}
+          <Button h="28px" bg="neutrals.3">
+            <Text textStyle="button-2" color="neutrals.8">
+              Reviews by you
+            </Text>
+          </Button>
         </HStack>
       </Flex>
       <Box my="40px">

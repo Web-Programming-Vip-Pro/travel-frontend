@@ -89,7 +89,7 @@ function UserNav({ openModal }) {
         <Stack position="relative">
           <Avatar
             name={user.user.name}
-            src={user.user.avatarSrc}
+            src={user.user.avatar}
             onClick={onToggle}
             cursor="pointer"
           />

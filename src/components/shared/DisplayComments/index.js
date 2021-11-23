@@ -88,7 +88,7 @@ const DisplayComments = ({ placeId }) => {
         </Stack>
       ) : (
         <Box my="40px">
-          {reviews.length === 0 || !reviews ? (
+          {!reviews ? (
             <Box>No data</Box>
           ) : (
             reviews.map((content, index) => (
