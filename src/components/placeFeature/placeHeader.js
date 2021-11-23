@@ -5,16 +5,19 @@ import {
   HStack,
   Circle,
   Divider,
-  LinkOverlay,
-  LinkBox,
   Text,
   Flex,
   Box,
 } from '@chakra-ui/react'
-
+import { useRouter } from 'next/router'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import { Icon } from '@iconify/react'
+import {
+  toggleToWishlist,
+  usePlaceIsInUserWishlist,
+} from '@/services/places/wishlist'
+import { useSession } from 'next-auth/react'
 
 const breadcrumbs = [
   { title: 'Home', link: { href: '#' } },
@@ -23,54 +26,44 @@ const breadcrumbs = [
   { title: 'South Island', link: { href: '#' } },
 ]
 const lastBreadcrumb = breadcrumbs?.pop()
-const placeTitle = 'Spectacular views of Queenstown'
-const placeDetails = {
-  avatarIconSrc:
-    'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg',
-  rate: 4.8,
-  reviewNumbers: 256,
-  location: 'Queenstown, Otago, New Zealand',
-  superHost: 'Superhost',
-}
 
 const homeBaseHref = { href: '/' }
 
-const placePictures = {
-  mainFigure:
-    'https://akm-img-a-in.tosshub.com/indiatoday/images/story/201506/storyimage_647_062215030547.jpg',
-  subFigures: [
-    'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-    'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-    'http://chefjob.vn/wp-content/uploads/2020/04/homestay-duoc-nhieu-du-khach-lua-chon.jpg',
-  ],
-}
-
-function onUpload() {}
-function onFavorite() {}
-function onDelete() {}
-const PlaceHeader = ({ placeHeaderProps }) => {
-  const placeTitle = placeHeaderProps.placeTitle
-  const placeDetails = placeHeaderProps.placeDetails
-  const placePictures = placeHeaderProps.placePictures
-  console.log(placeHeaderProps)
+function WishlistButton({ placeId }) {
+  const { isPlaceInWishlist, error, mutate } = usePlaceIsInUserWishlist(placeId)
+  const [isLoading, setIsLoading] = useState(false)
+  async function handleToggle() {
+    if (isLoading) return
+    setIsLoading(true)
+    await toggleToWishlist(placeId)
+    setIsLoading(false)
+    mutate()
+  }
   return (
-    <Box>
-      <PlaceHeaderNavigations />
-      <PlaceHeaderInformation
-        placeTitle={placeTitle}
-        placeDetails={placeDetails}
-      />
-      <Flex
-        justify="center"
-        mt={{ base: '32px', tablet: '64px', desktop: '64px' }}
+    <HStack
+      justify="center"
+      w={{ base: '100%', tablet: 'auto', desktop: 'auto' }}
+      align="baseline"
+    >
+      <Circle
+        onClick={handleToggle}
+        _hover={{ cursor: 'pointer', bg: 'neutrals.6' }}
+        display={{ base: 'flex', tablet: 'flex', desktop: 'flex' }}
+        size="30px"
+        borderColor={isPlaceInWishlist ? 'red' : 'black'}
+        borderWidth="1px"
+        opacity={isLoading ? 0.5 : 1}
       >
-        <PlaceHeaderPictures placePictures={placePictures} />
-      </Flex>
-    </Box>
+        <Icon
+          icon="clarity:heart-line"
+          color={isPlaceInWishlist ? 'red' : 'black'}
+        />
+      </Circle>
+    </HStack>
   )
 }
-
-function PlaceHeaderInformation({ placeTitle, placeDetails }) {
+function PlaceHeaderInformation({ placeId, placeTitle, placeDetails }) {
+  const { data } = useSession()
   return (
     <Flex wrap={{ base: 'wrap', tablet: 'nowrap', desktop: 'nowrap' }}>
       <Box>
@@ -151,68 +144,31 @@ function PlaceHeaderInformation({ placeTitle, placeDetails }) {
         display={{ base: 'block', tablet: 'none', desktop: 'none' }}
         orientation="horizontal"
       />
-      <HStack
-        justify="center"
-        w={{ base: '100%', tablet: 'auto', desktop: 'auto' }}
-        align="baseline"
-      >
-        <Circle
-          onClick={() => onUpload()}
-          _hover={{ cursor: 'pointer', bg: 'neutrals.6' }}
-          display={{ base: 'flex', tablet: 'none', desktop: 'flex' }}
-          size="30px"
-          borderColor="black"
-          borderWidth="1px"
-        >
-          <Icon icon="feather:share"></Icon>
-        </Circle>
-        <Circle
-          onClick={() => onFavorite()}
-          _hover={{ cursor: 'pointer', bg: 'neutrals.6' }}
-          display={{ base: 'flex', tablet: 'flex', desktop: 'flex' }}
-          size="30px"
-          borderColor="black"
-          borderWidth="1px"
-        >
-          <Icon icon="clarity:heart-line" />
-        </Circle>
-        <Circle
-          onClick={() => onDelete()}
-          _hover={{ cursor: 'pointer', bg: 'neutrals.6' }}
-          display={{ base: 'none', tablet: 'none', desktop: 'flex' }}
-          size="30px"
-          borderColor="black"
-          borderWidth="1px"
-        >
-          <Icon icon="bi:x-lg" />
-        </Circle>
-      </HStack>
+      {data && <WishlistButton placeId={placeId} />}
     </Flex>
   )
 }
 
 function PlaceHeaderNavigations() {
+  const router = useRouter()
   return (
     <Flex
       justify="center"
       mt={{ base: '0', tablet: '28px', desktop: '28px' }}
       mb={{ base: '0', tablet: '52px', desktop: '52px' }}
     >
-      <LinkBox>
-        <LinkOverlay {...homeBaseHref}>
-          <Button
-            leftIcon={<Icon fontSize="10px" icon="dashicons:arrow-left-alt2" />}
-            display={{ base: 'none', tablet: 'block', desktop: 'block' }}
-            textStyle="button-2"
-            py="10px"
-            px="10px"
-            colorScheme="gray"
-            variant="outline"
-          >
-            Go Home
-          </Button>
-        </LinkOverlay>
-      </LinkBox>
+      <Button
+        leftIcon={<Icon fontSize="10px" icon="dashicons:arrow-left-alt2" />}
+        display={{ base: 'none', tablet: 'block', desktop: 'block' }}
+        textStyle="button-2"
+        py="10px"
+        px="10px"
+        colorScheme="gray"
+        variant="outline"
+        onClick={() => router.push('/')}
+      >
+        Go Home
+      </Button>
       <Spacer />
       <HStack
         display={{ base: 'none', tablet: 'flex', desktop: 'flex' }}
@@ -283,8 +239,6 @@ function PlaceHeaderPictures({ placePictures }) {
             <Box mb="8px" key={index} borderRadius="16px" overflow="hidden">
               <Box
                 position="relative"
-                // w={{ desktop: '256px', tablet: '256px', base: '298px' }}
-
                 h={{ desktop: '256px', tablet: '174.67px', base: '476px' }}
                 objectFit="scale-down"
                 _hover={{ transform: 'scale(1.1)' }}
@@ -300,6 +254,29 @@ function PlaceHeaderPictures({ placePictures }) {
             </Box>
           ))}
         </Flex>
+      </Flex>
+    </Box>
+  )
+}
+
+const PlaceHeader = ({ placeHeaderProps }) => {
+  const placeId = placeHeaderProps.id
+  const placeTitle = placeHeaderProps.placeTitle
+  const placeDetails = placeHeaderProps.placeDetails
+  const placePictures = placeHeaderProps.placePictures
+  return (
+    <Box>
+      <PlaceHeaderNavigations />
+      <PlaceHeaderInformation
+        placeId={placeId}
+        placeTitle={placeTitle}
+        placeDetails={placeDetails}
+      />
+      <Flex
+        justify="center"
+        mt={{ base: '32px', tablet: '64px', desktop: '64px' }}
+      >
+        <PlaceHeaderPictures placePictures={placePictures} />
       </Flex>
     </Box>
   )

@@ -15,43 +15,42 @@ export const getServerSideProps = async ({ params }) => {
 }
 const PlacePage = ({ id }) => {
   const { place, isLoading, error } = usePlace(id)
-  console.log(place?.data)
-  const placeData = place?.data
   const placeHeaderProps = {
-    placeTitle: placeData?.title,
+    id: place?.id,
+    placeTitle: place?.title,
     placeDetails: {
-      avatarIconSrc: placeData?.author?.avatar,
-      rate: placeData?.stars ?? 0,
-      reviewNumbers: placeData?.reviews ?? 0,
-      location: placeData?.location,
+      avatarIconSrc: place?.author?.avatar,
+      rate: place?.stars ?? 0,
+      reviewNumbers: place?.reviews ?? 0,
+      location: place?.location,
       superHost: 'Superhost',
     },
     placePictures: {
-      mainFigure: placeData?.images?.cover,
-      subFigures: placeData?.images?.lists,
+      mainFigure: place?.images?.cover,
+      subFigures: place?.images?.lists,
     },
   }
   const placeDetailsProps = {
-    agencyAvatarSrc: placeData?.author?.avatar,
+    agencyAvatarSrc: place?.author?.avatar,
     leftSectionProps: {
-      title: placeData?.title,
-      agencyName: placeData?.author?.name,
-      agencyDetails: placeData?.description,
+      title: place?.title,
+      agencyName: place?.author?.name,
+      agencyDetails: place?.description,
     },
     rightSectionProps: {
-      price: placeData?.price,
-      rate: placeData?.stars ?? 0,
-      reviewNumbers: placeData?.reviews ?? 0,
-      amentities: placeData?.amenities,
+      price: place?.price,
+      rate: place?.stars ?? 0,
+      reviewNumbers: place?.reviews ?? 0,
+      amentities: place?.amenities,
       reportPropertyLink: { href: '#' },
     },
   }
   const placeReviewsProps = {
     agencyInformation: {
-      name: placeData?.author?.name,
-      avatarSrc: placeData?.author?.avatar,
-      reviewNumbers: placeData?.reviews,
-      shortDescription: placeData?.description,
+      name: place?.author?.name,
+      avatarSrc: place?.author?.avatar,
+      reviewNumbers: place?.reviews,
+      shortDescription: place?.description,
       linkWebsite: { urlName: 'https://abc.net', directLink: { href: '#' } },
       socialNetwork: [
         { iconName: 'iconoir:twitter', directLink: { href: '#' } },
@@ -61,7 +60,7 @@ const PlacePage = ({ id }) => {
         },
         { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
       ],
-      dateRegistered: placeData?.author?.created_at,
+      dateRegistered: place?.author?.created_at,
     },
     placeId: id,
   }
@@ -71,13 +70,8 @@ const PlacePage = ({ id }) => {
         Loading....
       </Flex>
     )
-  } else if (place.data === null) {
-    return (
-      <Flex align="center" justify="center">
-        No data
-      </Flex>
-    )
   }
+
   return (
     <Box px={{ base: '32px', tablet: '80px', desktop: '160px' }}>
       <Box>

@@ -18,6 +18,13 @@ export const PLACE = {
   STATISTICS: '/place/statistics',
 }
 
+export const WISHLIST = {
+  TOGGLE: '/wishlist/toggle',
+  DELETE: '/wishlist/delete',
+  GET_ALL: '/wishlist',
+  IS_IN_WISHLIST: '/wishlist/isInWishList',
+}
+
 export const REVIEW = {
   GET_REVIEW_BY_PLACE: '/review/place',
   GET_REVIEW_BY_USER: '/review/user',
