@@ -4,6 +4,7 @@ export const USER = {
   LOGIN: '/login',
   UPDATE_INFO: '/user/updateInfo',
   UPDATE_PASSWORD: '/user/updatePassword',
+  UPDATE_IMAGE: '/user/updateImage',
 }
 
 export const PAGE = {

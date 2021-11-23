@@ -7,15 +7,12 @@ import {
   Text,
   Flex,
   Box,
-  LinkBox,
-  LinkOverlay,
   Stack,
   FormControl,
   InputGroup,
   Avatar,
 } from '@chakra-ui/react'
 import Image from 'next/image'
-import { useState } from 'react'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import Link from 'next/link'
@@ -65,9 +62,6 @@ function AgencyInformation() {
           }
       })
     : []
-  const handleImageUser = () => {
-    var linkURL = prompt('Please copy the image URL and fill in here ')
-  }
   return (
     <Box
       p="32px"
@@ -82,36 +76,11 @@ function AgencyInformation() {
     >
       <Flex direction="column" align="center">
         <Stack spacing="32px">
-          <Flex direction="column">
+          <Flex direction="column" justify="center" align="center">
             <Flex direction="column" align="center">
               <Avatar src={user.avatar} name={user.name} boxSize="160px" />
-              <Stack
-                direction="row"
-                justify="center"
-                align="center"
-                color="neutrals.4"
-                textStyle="caption-2-bold"
-              >
-                <Icon icon="line-md:pencil" />
-                <label
-                  style={{
-                    display: 'block',
-                    padding: '10px 0',
-                  }}
-                  htmlFor="image_user"
-                >
-                  Update avatar
-                </label>
-                <input
-                  pos="absolute"
-                  id="image_user"
-                  name="image_user"
-                  hidden
-                  onClick={handleImageUser}
-                />
-              </Stack>
             </Flex>
-            <Flex direction="column" align="center">
+            <Flex direction="column" align="center" pt="20px">
               <Text _hover={{ cursor: 'pointer' }} textStyle="headline-4">
                 {user.name}
               </Text>

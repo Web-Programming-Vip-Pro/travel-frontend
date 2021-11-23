@@ -27,6 +27,7 @@ import { useForm } from 'react-hook-form'
 import { updateInfo } from '@/services/user'
 import { useEffect, useState } from 'react'
 import { login } from '@/services/auth'
+import { useRouter } from 'next/router'
 
 const PersonalInfo = () => {
   const { data } = useSession()
@@ -34,6 +35,7 @@ const PersonalInfo = () => {
   const [isLoading, setIsLoading] = useState(false)
   const user = data.user
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const router = useRouter()
   const { register, handleSubmit, reset, getValues } = useForm({
     defaultValues: user,
   })
@@ -63,13 +65,19 @@ const PersonalInfo = () => {
   }
 
   return (
-    <Box flex="1" mt={{ mobile: '32px', tablet: '' }}>
+    <Stack flex="1" mt={{ mobile: '32px', tablet: '' }} spacing="20px">
       <FormControl>
         <Flex justify="space-between" align="flex-start">
           <Text textStyle={{ mobile: 'headline-4', tablet: 'headline-2' }}>
             Personal info
           </Text>
-          <Button w="112px" h="40px" variant="light" fontSize="14px">
+          <Button
+            w="112px"
+            h="40px"
+            variant="light"
+            fontSize="14px"
+            onClick={() => router.push('/user')}
+          >
             View profile
           </Button>
         </Flex>
@@ -125,7 +133,33 @@ const PersonalInfo = () => {
             {...register('bio')}
           />
         </Box>
-        <Text my="48px" textStyle="body-2-bold">
+        <Stack
+          direction={{ mobile: 'column', tablet: 'row' }}
+          spacing="20px"
+          mt="24px"
+        >
+          <Box flex="1">
+            <FormLabel
+              htmlFor="twitter"
+              textStyle="hairline-2"
+              color="neutrals.5"
+            >
+              <Text textStyle="hairline-2" color="neutrals.5">
+                Avatar
+              </Text>
+            </FormLabel>
+            <Input placeholder="Avatar URL" {...register('avatar')} />
+          </Box>
+          <Box flex="1">
+            <FormLabel textStyle="hairline-2" color="neutrals.5">
+              <Text textStyle="hairline-2" color="neutrals.5">
+                Image Cover
+              </Text>
+            </FormLabel>
+            <Input placeholder="Image Cover URL" {...register('image_cover')} />
+          </Box>
+        </Stack>
+        <Text my="24px" textStyle="body-2-bold">
           Social
         </Text>
         <Stack direction={{ mobile: 'column', tablet: 'row' }} spacing="20px">
@@ -222,7 +256,7 @@ const PersonalInfo = () => {
           </Button>
         </Flex>
       </FormControl>
-    </Box>
+    </Stack>
   )
 }
 
