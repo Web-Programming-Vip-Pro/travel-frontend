@@ -27,3 +27,23 @@ export function usePlaceIsInUserWishlist(placeId) {
     mutate,
   }
 }
+
+export function useWishlistByUser(
+  page = 0,
+  limit = 10,
+  type = 0,
+  order = 'recent'
+) {
+  const { data: session } = useSession()
+  const userId = session ? session.user.id : -1
+  const { data, error, mutate } = useSWR(
+    `${WISHLIST.GET_BY_USER}?user_id=${userId}&page=${page}&limit=${limit}&type=${type}&order=${order}`,
+    fetcher
+  )
+  return {
+    wishlist: data && data.data,
+    isLoading: !error && !data,
+    error,
+    mutate,
+  }
+}

@@ -21,7 +21,7 @@ export const PLACE = {
 export const WISHLIST = {
   TOGGLE: '/wishlist/toggle',
   DELETE: '/wishlist/delete',
-  GET_ALL: '/wishlist',
+  GET_BY_USER: '/wishlist',
   IS_IN_WISHLIST: '/wishlist/isInWishList',
 }
 

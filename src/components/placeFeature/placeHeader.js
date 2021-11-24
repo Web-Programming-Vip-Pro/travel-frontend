@@ -8,6 +8,7 @@ import {
   Text,
   Flex,
   Box,
+  useToast,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -31,11 +32,18 @@ const homeBaseHref = { href: '/' }
 
 function WishlistButton({ placeId }) {
   const { isPlaceInWishlist, error, mutate } = usePlaceIsInUserWishlist(placeId)
+  const toast = useToast()
   const [isLoading, setIsLoading] = useState(false)
   async function handleToggle() {
     if (isLoading) return
     setIsLoading(true)
-    await toggleToWishlist(placeId)
+    const response = await toggleToWishlist(placeId)
+    toast({
+      position: 'top-right',
+      title: response.message,
+      status: 'success',
+      isClosable: true,
+    })
     setIsLoading(false)
     mutate()
   }

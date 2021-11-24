@@ -16,11 +16,11 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
-const HeaderWish = () => {
+const HeaderWish = ({ totalWishlist }) => {
   return (
     <Box
       px={{ mobile: '32px', tablet: '80px', desktop: '160px' }}
-      mb={{ tablet: '-20px', desktop: '260px' }}
+      mb={{ tablet: '-20px' }}
     >
       {/* Direction */}
       <Flex
@@ -69,18 +69,13 @@ const HeaderWish = () => {
       >
         <Stack spacing="12px">
           <Text textStyle="headline-2" color="neutrals.2">
-            Wishlists
+            Wishlist
           </Text>
           <Text textStyle="body-2-bold" color="neutrals.4">
-            You added 8 items to wishlist
+            You added {totalWishlist} places to wishlist
           </Text>
         </Stack>
-        <Stack
-          direction={{ mobile: 'column', tablet: 'row' }}
-          display={{ mobile: 'none', tablet: 'flex' }}
-        ></Stack>
         {/* Only display in mobile */}
-        <Divider display={{ tablet: 'none' }} border="1px" width="100vw" />
       </Stack>
     </Box>
   )
