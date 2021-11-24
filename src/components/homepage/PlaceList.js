@@ -101,24 +101,7 @@ const PlaceList = ({ title, description }) => {
   useEffect(() => {
     setLimit(variant)
   }, [variant])
-  const handleOrder = (item) => {
-    let order
-    switch (item) {
-      case 'Recently Added':
-        order = 'recent'
-        break
-      case 'Most Ratings':
-        order = 'rating'
-        break
-      case 'High Price':
-        order = 'max-price'
-        break
-      case 'Low Price':
-        order = 'min-price'
-        break
-    }
-    setOrder(order)
-  }
+
   const handleType = (index) => {
     setPage(1)
     setLimit(variant)
@@ -159,7 +142,7 @@ const PlaceList = ({ title, description }) => {
         >
           <Text>{description}</Text>
         </Box>
-        <UtilityNav triggerOrder={handleOrder} triggerType={handleType} />
+        <UtilityNav triggerOrder={setOrder} triggerType={handleType} />
         {error && <h1>Loading Failure</h1>}
         {isLoading ? (
           <Stack justify="center" align="center">
@@ -176,7 +159,7 @@ const PlaceList = ({ title, description }) => {
                 my="64px"
                 onClick={handleShow}
               >
-                {show ? 'Hide' : 'View All'}
+                {places.length < limit ? 'Hide' : 'View All'}
               </Button>
             </Flex>
           </Box>

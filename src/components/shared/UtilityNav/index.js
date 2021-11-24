@@ -1,20 +1,29 @@
 import { Stack, Button, Text, Spacer, Select } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
-const Discovery = ({ triggerOrder, triggerType }) => {
+import { getOrderType, getOrderTypeText } from '@/utils'
+
+const Discovery = ({
+  triggerOrder,
+  triggerType,
+  defaultOrder,
+  defaultType,
+}) => {
   // 0:Stay 1:Explore 2:Food & Drink
-  const [service, setService] = useState(0)
-  const serviceList = ['Stay', 'Explore', ` Food & Drink`]
-  const [typeActive, setTypeActive] = useState('Recently Added')
+  const [service, setService] = useState(defaultType || 0)
+  const serviceList = ['Stay', 'Explore', `Food & Drink`]
+  const [typeActive, setTypeActive] = useState(
+    defaultOrder ? getOrderTypeText(defaultOrder) : 'Recently Added'
+  )
   const type = ['Recently Added', 'Most Ratings', 'High Price', 'Low Price']
   function handleChangeType(e) {
     setTypeActive(e.target.value)
   }
   useEffect(() => {
-    triggerOrder(typeActive)
+    triggerOrder(getOrderType(typeActive))
   }, [typeActive])
-  function handleService(item) {
-    setService(item)
+  function handleService(index) {
+    setService(index)
   }
   useEffect(() => {
     triggerType(service)
@@ -53,9 +62,9 @@ const Discovery = ({ triggerOrder, triggerType }) => {
         ))}
       </Stack>
       <Spacer />
-      {/* In Mobile display Select */}
+      {/* In Mobile display Select Servicelist : Stay... */}
       <Select
-        onChange={handleChangeType}
+        onChange={(e) => handleService(serviceList.indexOf(e.target.value))}
         display={{ mobile: 'block', tablet: 'none' }}
         border="none"
       >
@@ -65,7 +74,7 @@ const Discovery = ({ triggerOrder, triggerType }) => {
           </option>
         ))}
       </Select>
-      {/*  */}
+      {/* Type : Recently added .... */}
       <Select onChange={handleChangeType} w={{ tablet: '256px' }} border="none">
         {type.map((content, index) => (
           <option key={index} value={content}>

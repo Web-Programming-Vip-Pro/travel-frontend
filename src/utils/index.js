@@ -21,3 +21,29 @@ export const shortenText = (text, length) => {
   }
   return text
 }
+
+export const getOrderType = (order) => {
+  switch (order) {
+    case 'Recently Added':
+      return 'recent'
+    case 'Most Ratings':
+      return 'rating'
+    case 'High Price':
+      return 'max-price'
+    default:
+      return 'min-price'
+  }
+}
+
+export const getOrderTypeText = (order) => {
+  switch (order) {
+    case 'recent':
+      return 'Recently Added'
+    case 'rating':
+      return 'Most Ratings'
+    case 'max-price':
+      return 'High Price'
+    default:
+      return 'Low Price'
+  }
+}

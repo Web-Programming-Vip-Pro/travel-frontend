@@ -3,6 +3,7 @@ import { PAGE as PAGE_ENDPOINTS } from './endpoint'
 import { PLACE as PLACE_ENDPOINT } from './endpoint'
 import { REVIEW as REVIEW_ENDPOINT } from './endpoint'
 import { CITY as CITY_ENDPOINT } from './endpoint'
+import { WISHLIST as WISHLIST_ENDPOINT } from './endpoint'
 
 const ENDPOINT_BASE_URL =
   process.env.NODE_ENV === 'production'
@@ -16,6 +17,8 @@ const ENDPOINT_BASE_URL =
  */
 function wrapEndpointWithBaseURL(endpoint) {
   Object.keys(endpoint).forEach((key) => {
+    endpoint.defaults = endpoint.defaults || {}
+    endpoint.defaults[key] = endpoint[key]
     endpoint[key] = `${ENDPOINT_BASE_URL}${endpoint[key]}`
   })
   return endpoint
@@ -26,3 +29,4 @@ export const PAGE = wrapEndpointWithBaseURL(PAGE_ENDPOINTS)
 export const PLACE = wrapEndpointWithBaseURL(PLACE_ENDPOINT)
 export const REVIEW = wrapEndpointWithBaseURL(REVIEW_ENDPOINT)
 export const CITY = wrapEndpointWithBaseURL(CITY_ENDPOINT)
+export const WISHLIST = wrapEndpointWithBaseURL(WISHLIST_ENDPOINT)

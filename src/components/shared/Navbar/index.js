@@ -19,12 +19,14 @@ import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
 import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const MotionStack = motion(Stack)
 const MotionText = motion(Text)
 const MotionBox = motion(Box)
 
 function Dropdown({ onClose }) {
+  const router = useRouter()
   function Field({ icon, text, link }) {
     const theme = useTheme()
     const variants = {
@@ -42,6 +44,9 @@ function Dropdown({ onClose }) {
         cursor="pointer"
         px="20px"
         minHeight="48px"
+        onClick={() => {
+          router.push(link)
+        }}
       >
         <motion.span variants={variants}>
           <Icon icon={icon} height={20} width={20} />
@@ -60,8 +65,16 @@ function Dropdown({ onClose }) {
   useOutsideClick({ ref, handler: () => onClose(false) })
   return (
     <Stack bg="white" shadow="md" borderRadius="20px" p="16px" ref={ref}>
-      <Field icon="bx:bx-message-square-detail" text="Bookings" />
-      <Field icon="heroicons-outline:home" text="Wishlists" />
+      <Field
+        icon="bx:bx-message-square-detail"
+        text="Bookings"
+        link="/user/bookings"
+      />
+      <Field
+        icon="heroicons-outline:home"
+        text="Wishlist"
+        link="/user/wishlist"
+      />
       <Divider />
       <Stack direction="row">
         <Link href="/user" passHref>
