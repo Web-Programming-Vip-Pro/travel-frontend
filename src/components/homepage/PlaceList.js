@@ -176,7 +176,7 @@ const PlaceList = ({ title, description }) => {
                 my="64px"
                 onClick={handleShow}
               >
-                {show ? 'Hide' : 'View All'}
+                {places.length < limit ? 'Hide' : 'View All'}
               </Button>
             </Flex>
           </Box>

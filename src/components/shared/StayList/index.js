@@ -58,7 +58,11 @@ function PlaceCardList({ listPlace }) {
                   bg="neutrals.8"
                   p="8px"
                 >
-                  Stay
+                  {item.type === '0'
+                    ? 'Stay'
+                    : item.type === '1'
+                    ? 'Explore'
+                    : 'Food & Drink'}
                 </Badge>
               </Box>
 
@@ -119,7 +123,7 @@ function PlaceCardList({ listPlace }) {
     </SimpleGrid>
   )
 }
-const StayList = ({ children, listPlace, isLoading, triggerPage }) => {
+const StayList = ({ children, listPlace, isLoading, triggerPage, limit }) => {
   const [show, setShow] = useState(false)
   return (
     <Box h="fit-content">
@@ -156,7 +160,7 @@ const StayList = ({ children, listPlace, isLoading, triggerPage }) => {
                 my="64px"
                 onClick={triggerPage}
               >
-                {show ? 'Hide' : 'View All'}
+                {listPlace.length < limit ? 'Hide' : 'View All'}
               </Button>
             </Flex>
           </Box>
