@@ -2,10 +2,12 @@ import { useRef } from 'react'
 import { Stack, Button, Text, useOutsideClick } from '@chakra-ui/react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useSession } from 'next-auth/react'
 
 const MotionStack = motion(Stack)
 
 const MobileNavbar = ({ openModal, onClose }) => {
+  const { status } = useSession()
   const ref = useRef()
   useOutsideClick({
     ref,
@@ -39,7 +41,7 @@ const MobileNavbar = ({ openModal, onClose }) => {
       <Text textStyle="body-1-bold" color="neutrals.4">
         <Link href="/helpcenter">Help Center</Link>
       </Text>
-      {!user && (
+      {status !== 'authenticated' && (
         <>
           <Button variant="light" onClick={() => openModal(true)}>
             Login
