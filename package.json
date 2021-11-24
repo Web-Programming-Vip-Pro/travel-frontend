@@ -1,6 +1,6 @@
 {
   "name": "travel-frontend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -19,7 +19,6 @@
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
     "flag-icon-css": "^4.1.5",
-    "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "next": "^12.0.2",
     "next-auth": "^4.0.0-beta.6",
@@ -31,9 +30,7 @@
     "react-star-rating-input": "^8.0.1",
     "react-star-ratings": "^2.3.0",
     "react-use": "^17.3.1",
-    "swr": "^1.0.1",
-    "universal-cookie": "^4.0.4",
-    "zustand": "^3.6.4"
+    "swr": "^1.0.1"
   },
   "devDependencies": {
     "@iconify/react": "^3.0.1",
