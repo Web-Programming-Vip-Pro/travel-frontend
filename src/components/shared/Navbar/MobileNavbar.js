@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { Stack, Button, Text, useOutsideClick } from '@chakra-ui/react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { useUserStore } from '@/store/user'
 
 const MotionStack = motion(Stack)
 
@@ -12,7 +11,6 @@ const MobileNavbar = ({ openModal, onClose }) => {
     ref,
     handler: () => onClose(),
   })
-  const user = useUserStore((state) => state.user)
 
   return (
     <MotionStack

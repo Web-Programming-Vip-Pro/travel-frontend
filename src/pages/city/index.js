@@ -4,10 +4,8 @@ import {
   Box,
   Text,
   Stack,
-  Button,
   Input,
   InputGroup,
-  InputLeftElement,
   IconButton,
   Grid,
 } from '@chakra-ui/react'

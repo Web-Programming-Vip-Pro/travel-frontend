@@ -9,7 +9,6 @@ import {
 
 function transform(node, index) {
   if (node.type === 'tag') {
-    console.log(node)
     switch (node.name) {
       case 'h1':
         return <Text textStyle="headline-3">{processNodes(node.children)}</Text>
