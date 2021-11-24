@@ -28,22 +28,6 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
 })
 import DisplayComments from '@/components/shared/DisplayComments'
 
-const agencyInformation = {
-  name: 'Zoe towne',
-  avatarSrc:
-    'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg',
-  rate: 4.8,
-  reviewNumbers: 256,
-  shortDescription:
-    "Described by Queenstown House & Garden magazine as having 'one of the best views we've ever seen' you will love relaxing in this newly built",
-  linkWebsite: { urlName: 'https://abc.net', directLink: { href: '#' } },
-  socialNetwork: [
-    { iconName: 'iconoir:twitter', directLink: { href: '#' } },
-    { iconName: 'ant-design:instagram-outlined', directLink: { href: '#' } },
-    { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
-  ],
-  dateRegistered: 'Member since Mar 15, 2017',
-}
 const reportHostLink = { href: '#' }
 const placeTitle = 'Spectacular views of Queenstown'
 
@@ -189,18 +173,7 @@ function Reviews({ placeId }) {
       {session.status == 'authenticated' ? (
         <FormControl id="make-comment">
           <Text textStyle="body-1-bold">Add a Reivew</Text>
-          <Flex
-            direction={{ base: 'column', tablet: 'column', desktop: 'row' }}
-          >
-            <Flex>
-              <Text textStyle="caption" color="neutrals.4" mr="3px">
-                Be the first to review
-              </Text>
-              <Text display="inline-block" textStyle="caption-bold">
-                {placeTitle}
-              </Text>
-            </Flex>
-            <Spacer />
+          <Flex align="center">
             <StarRatings
               rating={ratingCount}
               starRatedColor="#FFD166"
