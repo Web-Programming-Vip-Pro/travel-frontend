@@ -36,25 +36,6 @@ export default function City({ cities, id }) {
   useEffect(() => {
     setLimit(variant)
   }, [variant])
-  const handleOrder = (item) => {
-    let order
-    switch (item) {
-      case 'Recently Added':
-        order = 'recent'
-        break
-      case 'Most Ratings':
-        order = 'rating'
-        break
-      case 'High Price':
-        order = 'max-price'
-        break
-      case 'Low Price':
-        order = 'min-price'
-        break
-    }
-    setOrder(order)
-  }
-  // Get Isocode of Country
   const handleType = (index) => {
     setPage(1)
     setLimit(variant)
@@ -87,7 +68,7 @@ export default function City({ cities, id }) {
           }
         }}
       >
-        <UtilityNav triggerOrder={handleOrder} triggerType={handleType} />
+        <UtilityNav triggerOrder={setOrder} triggerType={handleType} />
       </StayList>
     </>
   )
