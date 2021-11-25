@@ -36,3 +36,9 @@ export const CITY = {
   GET_ONE: '/city',
   SEARCH: '/city/search',
 }
+
+export const TRANSACTION = {
+  ADD: '/transaction/add',
+  GET: '/transaction/get',
+  USER: '/transaction/user',
+}
