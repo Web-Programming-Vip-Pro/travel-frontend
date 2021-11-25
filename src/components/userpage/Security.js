@@ -27,6 +27,7 @@ import { useEffect, useState } from 'react'
 
 const Security = () => {
   const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleSubmit, register, reset } = useForm()
   const { data } = useSession()
@@ -34,6 +35,7 @@ const Security = () => {
 
   async function handleUpdate(data) {
     setError(null)
+    setIsLoading(true)
     const response = await updatePassword(data)
     if (!response.success) {
       setError(response.message || 'Something went wrong')
@@ -44,6 +46,7 @@ const Security = () => {
         onClose()
       }, 500)
     }
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -136,8 +139,12 @@ const Security = () => {
                       />
                     </InputGroup>
                   </FormControl>
-                  <Button type="submit" onClick={handleSubmit(handleUpdate)}>
-                    Set Password
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit(handleUpdate)}
+                    isLoading={isLoading}
+                  >
+                    Update Password
                   </Button>
                 </Stack>
               </ModalBody>
