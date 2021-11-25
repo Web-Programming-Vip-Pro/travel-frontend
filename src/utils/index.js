@@ -47,3 +47,17 @@ export const getOrderTypeText = (order) => {
       return 'Low Price'
   }
 }
+
+export const getTransactionStatus = (status) => {
+  status = parseInt(status)
+  switch (status) {
+    case 0:
+      return 'Waiting'
+    case 1:
+      return 'Booking'
+    case 2:
+      return 'Cancelled'
+    case 3:
+      return 'Finished'
+  }
+}

@@ -4,7 +4,7 @@ export const USER = {
   LOGIN: '/login',
   UPDATE_INFO: '/user/updateInfo',
   UPDATE_PASSWORD: '/user/updatePassword',
-  UPDATE_IMAGE: '/user/updateImage',
+  FORGET_PASSWORD: '/user/forget',
 }
 
 export const PAGE = {
@@ -35,4 +35,10 @@ export const CITY = {
   GET_ALL: '/cities',
   GET_ONE: '/city',
   SEARCH: '/city/search',
+}
+
+export const TRANSACTION = {
+  ADD: '/transaction/add',
+  GET: '/transaction/get',
+  USER: '/transaction/user',
 }

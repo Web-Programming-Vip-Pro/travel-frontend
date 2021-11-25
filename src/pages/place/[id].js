@@ -31,6 +31,7 @@ const PlacePage = ({ id }) => {
     },
   }
   const placeDetailsProps = {
+    id: place?.id,
     agencyAvatarSrc: place?.author?.avatar,
     leftSectionProps: {
       title: place?.title,

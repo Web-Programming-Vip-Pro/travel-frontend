@@ -10,49 +10,66 @@ import {
   Box,
   List,
   Collapse,
+  Stack,
+  useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
-import React from 'react'
-import { useDisclosure } from '@chakra-ui/react'
-import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import {
+  addTransaction,
+  useTransactionStatus,
+  mutateTransactionStatus,
+} from '@/services/transaction'
 
-const agencyAvatarSrc =
-  'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg'
-const reportHostLink = { href: '#' }
+function ButtonReserve({ transactionStatus, placeId, userId }) {
+  const toast = useToast()
+  let buttonState = {
+    text: 'Reverse',
+    bg: 'primary.1',
+  }
+  if (transactionStatus && transactionStatus === '0') {
+    buttonState = { text: 'Wait for confirmation', bg: 'yellow.500' }
+  }
+  if (transactionStatus && transactionStatus === '1') {
+    buttonState = { text: 'Booking', bg: 'green.500' }
+  }
 
-const leftSectionProps = {
-  title: 'Private room in house',
-  agencyName: 'Zoe Towne',
-  agencyDetails:
-    "Described by Queenstown House & Garden magazine as having 'one of the best views we've ever seen' you will love relaxing in this newly built, architectural house sitting proudly on Queenstown Hill.paragraphIndex: 2 Enjoy breathtaking 180' views of Lake Wakatipu from your well appointed & privately accessed bedroom with modern en suite and floor-to-ceiling windows 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.' 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.' 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.' 'Your private patio takes in the afternoon sun, letting you soak up unparalleled lake and mountain views by day and the stars & city lights by night.",
-}
-const rightSectionProps = {
-  price: 102,
-  rate: 4.8,
-  reviewNumbers: 256,
-  amentities: [
-    { icon: 'ph:toilet-paper-light', title: 'Free clean bathroom' },
-    { icon: 'la:hamburger', title: 'Breakfast included' },
-    { icon: 'gg:modem', title: 'Free wifi 24/7' },
-    { icon: 'eva:monitor-outline', title: 'Free computer' },
-  ],
-  reportPropertyLink: { href: '#' },
-}
-const PlaceDetails = ({ placeDetailsProps }) => {
+  async function handleReserve() {
+    const response = await addTransaction({ placeId })
+    if (response.success) {
+      toast({
+        title: 'Success',
+        description: 'Your booking request has been sent to the host',
+        status: 'success',
+        isClosable: true,
+      })
+    } else {
+      toast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+        isClosable: true,
+      })
+    }
+    mutateTransactionStatus(placeId, userId)
+  }
+
   return (
-    <Flex justify="center">
-      <HStack w="100%" spacing="48px">
-        <PlaceDetailLeft
-          agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
-          leftSectionProps={placeDetailsProps.leftSectionProps}
-        />
-        <Spacer />
-        <PlaceDetailRight
-          agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
-          rightSectionProps={placeDetailsProps.rightSectionProps}
-        />
-      </HStack>
+    <Flex justify="center" my="32px">
+      <Button
+        height="48px"
+        width="full"
+        rightIcon={<Icon icon="bx:bx-shopping-bag" />}
+        textStyle="button-1"
+        color="neutrals.8"
+        disabled={buttonState.text !== 'Reverse'}
+        bg={buttonState.bg}
+        onClick={handleReserve}
+      >
+        {buttonState.text}
+      </Button>
     </Flex>
   )
 }
@@ -114,12 +131,16 @@ function PlaceDetailLeft({ agencyAvatarSrc, leftSectionProps }) {
   )
 }
 
-function PlaceDetailRight({ agencyAvatarSrc, rightSectionProps }) {
+function PlaceDetailRight({ agencyAvatarSrc, rightSectionProps, placeId }) {
+  const { data: session, status } = useSession()
+  const isLoggedIn = status === 'authenticated'
+  const userId = isLoggedIn ? session?.user?.id : null
+  const { transactionStatus } = useTransactionStatus(placeId, userId)
+
   return (
     <Box
       p="32px"
-      display={{ base: 'none', tablet: 'block', desktop: 'block' }}
-      w={{ base: '0', tablet: '378px', desktop: '448px' }}
+      width={{ base: 'full', tablet: '500px' }}
       borderRadius="24px"
       border="1px solid #E6E8EC"
       boxShadow="0px 64px 64px -48px rgba(15, 15, 15, 0.08)"
@@ -156,40 +177,14 @@ function PlaceDetailRight({ agencyAvatarSrc, rightSectionProps }) {
           </Circle>
         </Flex>
       </Flex>
-      <Flex justify="center" my="32px">
-        <Button
-          h="48px"
-          w="auto"
-          mr="8px"
-          rightIcon={<Icon icon="ant-design:plus-outlined" />}
-          textStyle="button-1"
-          colorScheme="gray"
-          variant="outline"
-        >
-          Save
-        </Button>
-        <Button
-          h="48px"
-          w={{ tablet: '193px', desktop: '263px' }}
-          rightIcon={<Icon icon="bx:bx-shopping-bag" />}
-          textStyle="button-1"
-          color="neutrals.8"
-          bg="primary.1"
-        >
-          Reserve
-        </Button>
-      </Flex>
+      {isLoggedIn && (
+        <ButtonReserve
+          transactionStatus={transactionStatus}
+          placeId={placeId}
+          userId={userId}
+        />
+      )}
       <ListAmentities amentities={rightSectionProps.amentities} />
-      <Link {...rightSectionProps.reportPropertyLink}>
-        <Flex _hover={{ cursor: 'pointer' }} justify="center" align="center">
-          <Box mr="8px" color="neutrals.4">
-            <Icon icon="cil:flag-alt" />
-          </Box>
-          <Text textStyle="caption-2" color="neutrals.4">
-            Report this property
-          </Text>
-        </Flex>
-      </Link>
     </Box>
   )
 }
@@ -223,4 +218,28 @@ function ListAmentities({ amentities }) {
     </Box>
   )
 }
+
+const PlaceDetails = ({ placeDetailsProps }) => {
+  return (
+    <Flex justify="center">
+      <Stack
+        w="100%"
+        spacing="48px"
+        direction={{ base: 'column', tablet: 'row' }}
+      >
+        <PlaceDetailLeft
+          agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
+          leftSectionProps={placeDetailsProps.leftSectionProps}
+        />
+        <Spacer />
+        <PlaceDetailRight
+          agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
+          rightSectionProps={placeDetailsProps.rightSectionProps}
+          placeId={placeDetailsProps.id}
+        />
+      </Stack>
+    </Flex>
+  )
+}
+
 export default PlaceDetails

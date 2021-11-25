@@ -25,4 +25,15 @@ export async function login({ email, password }) {
   return response
 }
 
+export async function forgetPassword(email) {
+  try {
+    const response = await axios
+      .post(USER.FORGET_PASSWORD, email)
+      .then((res) => res.data)
+    return { success: true, message: response.data }
+  } catch (err) {
+    return { success: false, message: err.response.data }
+  }
+}
+
 export async function logout() {}

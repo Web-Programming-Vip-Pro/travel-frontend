@@ -4,6 +4,7 @@ import { PLACE as PLACE_ENDPOINT } from './endpoint'
 import { REVIEW as REVIEW_ENDPOINT } from './endpoint'
 import { CITY as CITY_ENDPOINT } from './endpoint'
 import { WISHLIST as WISHLIST_ENDPOINT } from './endpoint'
+import { TRANSACTION as TRANSACTION_ENDPOINT } from './endpoint'
 
 const ENDPOINT_BASE_URL =
   process.env.NODE_ENV === 'production'
@@ -30,3 +31,4 @@ export const PLACE = wrapEndpointWithBaseURL(PLACE_ENDPOINT)
 export const REVIEW = wrapEndpointWithBaseURL(REVIEW_ENDPOINT)
 export const CITY = wrapEndpointWithBaseURL(CITY_ENDPOINT)
 export const WISHLIST = wrapEndpointWithBaseURL(WISHLIST_ENDPOINT)
+export const TRANSACTION = wrapEndpointWithBaseURL(TRANSACTION_ENDPOINT)

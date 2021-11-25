@@ -15,7 +15,6 @@ import { Icon } from '@iconify/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import Notification from './Notification'
 import MobileNavbar from './MobileNavbar'
 import AuthenticationModal from './AuthenticationModal'
 import { useSession, signOut } from 'next-auth/react'
@@ -93,12 +92,11 @@ function Dropdown({ onClose }) {
 }
 
 function UserNav({ openModal }) {
-  const { data: user, status } = useSession()
+  const { data: user } = useSession()
   const { isOpen, onClose, onToggle } = useDisclosure()
   if (user)
     return (
       <>
-        <Notification messages={[]} />
         <Stack position="relative">
           <Avatar
             name={user.user.name}
