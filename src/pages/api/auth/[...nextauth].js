@@ -16,7 +16,10 @@ export default NextAuth({
           const response = await axios
             .post(USER.LOGIN, { email, password })
             .then((res) => res.data)
-          return response.data
+
+          const user = response.data
+          if (user.role === '0') return user
+          return null
         } catch (err) {
           return null
         }
