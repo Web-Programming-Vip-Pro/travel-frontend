@@ -1,12 +1,10 @@
 import { Box } from '@chakra-ui/react'
-import HelpContent from '@/components/helpCenterFeature/helpContent.js'
 import HelpHero from '@/components/helpCenterFeature/helpHero.js'
-const HelpCenterPage = () => {
+const Contact = () => {
   return (
     <Box>
       <HelpHero />
-      <HelpContent />
     </Box>
   )
 }
-export default HelpCenterPage
+export default Contact

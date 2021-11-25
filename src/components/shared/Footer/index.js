@@ -25,10 +25,8 @@ const Footer = ({ logoImageSrc, copyright }) => {
     {
       title: 'Company',
       data: [
-        { title: 'About us', linkProps: { href: '/about-us' } },
-        { title: 'Blog', linkProps: { href: '/blog' } },
-        { title: 'Help Center', linkProps: { href: '/helpcenter' } },
-        { title: 'Report', linkProps: { href: '/report' } },
+        { title: 'About', linkProps: { href: '/about' } },
+        { title: 'Contact Us', linkProps: { href: '/contact' } },
       ],
     },
     {
