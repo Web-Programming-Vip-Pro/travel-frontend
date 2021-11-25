@@ -11,11 +11,68 @@ import {
   List,
   Collapse,
   Stack,
+  useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
-import React from 'react'
-import { useDisclosure } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
+import {
+  addTransaction,
+  useTransactionStatus,
+  mutateTransactionStatus,
+} from '@/services/transaction'
+
+function ButtonReserve({ transactionStatus, placeId, userId }) {
+  const toast = useToast()
+  let buttonState = {
+    text: 'Reverse',
+    bg: 'primary.1',
+  }
+  if (transactionStatus && transactionStatus === '0') {
+    buttonState = { text: 'Wait for confirmation', bg: 'yellow.500' }
+  }
+  if (transactionStatus && transactionStatus === '1') {
+    buttonState = { text: 'Booking', bg: 'green.500' }
+  }
+
+  async function handleReserve() {
+    const response = await addTransaction({ placeId })
+    if (response.success) {
+      toast({
+        title: 'Success',
+        description: 'Your booking request has been sent to the host',
+        status: 'success',
+        isClosable: true,
+      })
+    } else {
+      toast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+        isClosable: true,
+      })
+    }
+    mutateTransactionStatus(placeId, userId)
+  }
+
+  return (
+    <Flex justify="center" my="32px">
+      <Button
+        height="48px"
+        width="full"
+        rightIcon={<Icon icon="bx:bx-shopping-bag" />}
+        textStyle="button-1"
+        color="neutrals.8"
+        disabled={buttonState.text !== 'Reverse'}
+        bg={buttonState.bg}
+        onClick={handleReserve}
+      >
+        {buttonState.text}
+      </Button>
+    </Flex>
+  )
+}
 
 function PlaceDetailLeft({ agencyAvatarSrc, leftSectionProps }) {
   const { isOpen, onToggle } = useDisclosure()
@@ -74,7 +131,12 @@ function PlaceDetailLeft({ agencyAvatarSrc, leftSectionProps }) {
   )
 }
 
-function PlaceDetailRight({ agencyAvatarSrc, rightSectionProps }) {
+function PlaceDetailRight({ agencyAvatarSrc, rightSectionProps, placeId }) {
+  const { data: session, status } = useSession()
+  const isLoggedIn = status === 'authenticated'
+  const userId = isLoggedIn ? session?.user?.id : null
+  const { transactionStatus } = useTransactionStatus(placeId, userId)
+
   return (
     <Box
       p="32px"
@@ -115,18 +177,13 @@ function PlaceDetailRight({ agencyAvatarSrc, rightSectionProps }) {
           </Circle>
         </Flex>
       </Flex>
-      <Flex justify="center" my="32px">
-        <Button
-          height="48px"
-          width="full"
-          rightIcon={<Icon icon="bx:bx-shopping-bag" />}
-          textStyle="button-1"
-          color="neutrals.8"
-          bg="primary.1"
-        >
-          Reserve
-        </Button>
-      </Flex>
+      {isLoggedIn && (
+        <ButtonReserve
+          transactionStatus={transactionStatus}
+          placeId={placeId}
+          userId={userId}
+        />
+      )}
       <ListAmentities amentities={rightSectionProps.amentities} />
     </Box>
   )
@@ -178,6 +235,7 @@ const PlaceDetails = ({ placeDetailsProps }) => {
         <PlaceDetailRight
           agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
           rightSectionProps={placeDetailsProps.rightSectionProps}
+          placeId={placeDetailsProps.id}
         />
       </Stack>
     </Flex>
