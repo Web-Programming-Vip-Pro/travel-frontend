@@ -42,3 +42,7 @@ export const TRANSACTION = {
   GET: '/transaction/get',
   USER: '/transaction/user',
 }
+
+export const APP = {
+  CONTACT: '/app/contact',
+}
