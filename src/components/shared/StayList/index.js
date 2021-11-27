@@ -16,7 +16,10 @@ import {
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 function PlaceCardList({ listPlace }) {
+  const router = useRouter()
   return (
     <SimpleGrid
       columns={{ mobile: 1, tablet: 3 }}
@@ -29,6 +32,7 @@ function PlaceCardList({ listPlace }) {
             key={index}
             justify="space-around"
             _hover={{ cursor: 'pointer' }}
+            onClick={() => router.push(`/place/${item.id}`)}
           >
             <Box
               borderRadius="20px"
@@ -90,12 +94,6 @@ function PlaceCardList({ listPlace }) {
                     ${item.price}
                   </Badge>
                 </Flex>
-                <HStack textStyle="caption-2" color="neutrals.4">
-                  <Icon icon="icon-park-outline:router" />
-                  <Text>Free wifi</Text>
-                  <Icon icon="ion:fast-food-outline" />
-                  <Text>Breakfast included</Text>
-                </HStack>
                 <Divider pt="16px" />
                 <Flex pt="16px" justify="center">
                   <Flex direction="row" align="center" pr="8px">
