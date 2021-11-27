@@ -18,11 +18,14 @@ import SelectType from '@/components/userpage/booking/SelectType'
 import { usePlacesByTransaction } from '@/services/transaction'
 import { useSession } from 'next-auth/react'
 import { getTransactionStatus } from '@/utils'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 const Bookings = () => {
   const PAGE = 0
   const [limit, setLimit] = useState(10)
-  const [status, setStatus] = useState(0)
+  const [status, setStatus] = useState(-1)
   const templateColumns = useBreakpointValue({
     base: 'repeat(1, 1fr)',
     md: 'repeat(2, 1fr)',
@@ -36,6 +39,7 @@ const Bookings = () => {
     PAGE,
     limit
   )
+  console.log(places)
   function handleLoadMore() {
     setLimit(limit + 10)
   }
@@ -123,19 +127,26 @@ const Bookings = () => {
                           </Badge>
                         </Flex>
                         <Divider pt="16px" />
-                        <Flex pt="16px" align="center" justify="center">
-                          <Icon
-                            icon="fluent:star-12-filled"
-                            color="#FFD166"
-                            width="12px"
-                          />
-                          <Text
-                            textStyle="caption-2-bold"
-                            color="neutrals-2"
-                            pl="4px"
-                          >
-                            {place.stars}
-                          </Text>
+                        <Flex pt="16px" align="center" justify="space-between">
+                          <Box>
+                            <Text textStyle="body-2" color="neutrals.1">
+                              {dayjs(place.transaction.created_at).fromNow()}
+                            </Text>
+                          </Box>
+                          <Stack spacing="2px" direction="row" align="center">
+                            <Icon
+                              icon="fluent:star-12-filled"
+                              color="#FFD166"
+                              width="12px"
+                            />
+                            <Text
+                              textStyle="caption-2-bold"
+                              color="neutrals-2"
+                              pl="4px"
+                            >
+                              {place.stars}
+                            </Text>
+                          </Stack>
                         </Flex>
                       </Box>
                     </Box>
