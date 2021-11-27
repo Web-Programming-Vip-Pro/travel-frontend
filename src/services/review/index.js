@@ -2,7 +2,6 @@ import useSWR from 'swr'
 import axios from 'axios'
 import { REVIEW } from '@/constants'
 import { fetcher } from '@/utils'
-import { getSession } from 'next-auth/react'
 
 // order = 'recent' | 'most-rated' | 'least-rated'
 export const useReviewsInPlace = (
@@ -25,10 +24,23 @@ export const useReviewsInPlace = (
   }
 }
 
-export async function addReview(placeId, rate, comment) {
+export function useCanUserAddReview(placeId, userId) {
+  const { data, error } = useSWR(
+    `${REVIEW.CHECK}?place_id=${placeId}&user_id=${userId}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  )
+  return {
+    canUserAddReview: data && data.data,
+    isLoading: !error && !data,
+    error,
+  }
+}
+
+export async function addReview(placeId, userId, rate, comment) {
   try {
-    const session = await getSession()
-    const userId = session.user.id
     const response = await axios.post(REVIEW.ADD_REVIEW, {
       place_id: placeId,
       user_id: userId,

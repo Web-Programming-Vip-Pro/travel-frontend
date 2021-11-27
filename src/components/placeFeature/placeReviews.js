@@ -17,10 +17,10 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { addReview } from '@/services/review'
+import { addReview, useCanUserAddReview } from '@/services/review'
 import { useSession } from 'next-auth/react'
 import * as dayjs from 'dayjs'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
@@ -29,7 +29,6 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
 import DisplayComments from '@/components/shared/DisplayComments'
 
 const reportHostLink = { href: '#' }
-const placeTitle = 'Spectacular views of Queenstown'
 
 const PlaceReviews = ({ placeReviewsProps }) => {
   return (
@@ -152,9 +151,13 @@ function AgencyInformation({ agencyInformation }) {
 }
 
 function Reviews({ placeId }) {
-  const session = useSession()
-  let [textComment, setComment] = React.useState('')
-  let [ratingCount, setRatingCount] = React.useState(0)
+  const { data, status } = useSession()
+  const user = data && data.user
+  const userId = user && user.id
+  let [textComment, setComment] = useState('')
+  let [ratingCount, setRatingCount] = useState(0)
+  const [lockReview, setLockReview] = useState(false)
+  const { canUserAddReview, isLoading } = useCanUserAddReview(placeId, userId)
   let handleInputChange = (e) => {
     let inputValue = e.target.value
     setComment(inputValue)
@@ -163,17 +166,20 @@ function Reviews({ placeId }) {
     setRatingCount(newRating)
   }
 
-  function onSubmitReview() {
-    addReview(placeId, ratingCount, textComment)
-    setRatingCount(0)
-    setComment('')
+  async function onSubmitReview() {
+    const response = await addReview(placeId, userId, ratingCount, textComment)
+    if (response.success) {
+      setComment('')
+      setRatingCount(0)
+      setLockReview(true)
+    }
   }
   return (
     <Flex direction="column">
-      {session.status == 'authenticated' ? (
+      {status == 'authenticated' && canUserAddReview && !lockReview ? (
         <FormControl id="make-comment">
-          <Text textStyle="body-1-bold">Add a Reivew</Text>
-          <Flex align="center">
+          <Text textStyle="body-1-bold">Add a review</Text>
+          <Flex align="center" mt="16px">
             <StarRatings
               rating={ratingCount}
               starRatedColor="#FFD166"
@@ -185,7 +191,7 @@ function Reviews({ placeId }) {
               starHoverColor="#FFD166"
             />
           </Flex>
-          <InputGroup my="40px">
+          <InputGroup mt="16px" mb="40px">
             <Input
               type="text"
               value={textComment}
