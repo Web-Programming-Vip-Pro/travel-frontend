@@ -20,14 +20,6 @@ import {
 } from '@/services/places/wishlist'
 import { useSession } from 'next-auth/react'
 
-const breadcrumbs = [
-  { title: 'Home', link: { href: '#' } },
-  { title: 'Stay', link: { href: '#' } },
-  { title: 'New Zealand', link: { href: '#' } },
-  { title: 'South Island', link: { href: '#' } },
-]
-const lastBreadcrumb = breadcrumbs?.pop()
-
 const homeBaseHref = { href: '/' }
 
 function WishlistButton({ placeId }) {
@@ -181,34 +173,7 @@ function PlaceHeaderNavigations() {
       <HStack
         display={{ base: 'none', tablet: 'flex', desktop: 'flex' }}
         spacing="17px"
-      >
-        {breadcrumbs.map((content, index) => (
-          <HStack boxShadow="none" spacing="17.5px" key={index}>
-            <Link
-              {...content.link}
-              _hover={{ cursor: 'pointer', color: 'neutrals.2' }}
-              textStyle="button-2"
-              color="neutrals.4"
-              boxShadow="none !important"
-            >
-              {content.title}
-            </Link>
-            <Box color="neutrals.5">
-              <Icon icon="dashicons:arrow-right-alt2" fontSize="9px" />
-            </Box>
-          </HStack>
-        ))}
-        ;
-        <Link
-          {...lastBreadcrumb.link}
-          _hover={{ cursor: 'pointer', color: 'neutrals.2' }}
-          textStyle="button-2"
-          color="neutrals.5"
-          boxShadow="none !important"
-        >
-          {lastBreadcrumb.title}
-        </Link>
-      </HStack>
+      ></HStack>
     </Flex>
   )
 }
