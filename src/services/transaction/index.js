@@ -23,7 +23,7 @@ export function useTransactionStatus(placeId, userId) {
         : null,
     fetcher
   )
-  const transactionStatus = data && data.data.status_place
+  const transactionStatus = data && data.data && data.data.status_place
   return {
     transactionStatus,
     isLoading: !error && !data,

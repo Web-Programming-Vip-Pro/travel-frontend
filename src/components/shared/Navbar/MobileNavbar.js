@@ -39,7 +39,7 @@ const MobileNavbar = ({ openModal, onClose }) => {
         <Link href="/about">About</Link>
       </Text>
       <Text textStyle="body-1-bold" color="neutrals.4">
-        <Link href="/helpcenter">Help Center</Link>
+        <Link href="/contact">Contact Us</Link>
       </Text>
       {status !== 'authenticated' && (
         <>

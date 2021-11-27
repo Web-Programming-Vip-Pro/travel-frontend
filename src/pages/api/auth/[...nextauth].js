@@ -18,7 +18,7 @@ export default NextAuth({
             .then((res) => res.data)
 
           const user = response.data
-          if (user.role === '0') return user
+          if (user.role === '0' && user.blocked === '0') return user
           return null
         } catch (err) {
           return null

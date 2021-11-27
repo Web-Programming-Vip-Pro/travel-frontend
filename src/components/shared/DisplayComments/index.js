@@ -7,11 +7,10 @@ import {
   Flex,
   Box,
   Select,
-  useDisclosure,
   Button,
   Stack,
+  Avatar,
 } from '@chakra-ui/react'
-import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import dynamic from 'next/dynamic'
 import { useReviewsInPlace } from '@/services/review'
@@ -20,8 +19,6 @@ import * as dayjs from 'dayjs'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
-const defaultAvatarSrc =
-  'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg'
 
 const DisplayComments = ({ placeId }) => {
   const sortOptions = ['Recently', 'Most Rated', 'Least Rated']
@@ -49,7 +46,6 @@ const DisplayComments = ({ placeId }) => {
         break
     }
     setOrder(order)
-    console.log(order)
   }
   const handleShow = () => {
     if (limit <= reviews.length) {
@@ -101,11 +97,9 @@ const DisplayComments = ({ placeId }) => {
                     mr="20px"
                     _hover={{ cursor: 'pointer' }}
                   >
-                    <Image
-                      unoptimized={true}
-                      layout="fill"
-                      src={content?.user?.avatar ?? defaultAvatarSrc}
-                      alt="avatar"
+                    <Avatar
+                      src={content.user.avatar}
+                      name={content.user.name}
                     />
                   </Circle>
                   <Box w="100%">
@@ -149,13 +143,7 @@ const DisplayComments = ({ placeId }) => {
         </Box>
       )}
       <Flex justify="center">
-        <Button
-          leftIcon={<Icon icon="icon-park-outline:loading-one" />}
-          variant="outline"
-          border="2px"
-          my="20px"
-          onClick={handleShow}
-        >
+        <Button variant="outline" border="2px" my="20px" onClick={handleShow}>
           {'Load More'}
         </Button>
       </Flex>

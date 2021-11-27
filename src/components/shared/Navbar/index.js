@@ -187,7 +187,7 @@ const Navbar = ({ logoImageSrc }) => {
             _hover={{ color: 'black' }}
             transition="color 0.15s ease-in-out"
           >
-            <Link href="/helpcenter">Help Center</Link>
+            <Link href="/contact">Contact Us</Link>
           </Text>
         </Stack>
         <Stack direction="row" spacing="36px" align="center">

@@ -29,6 +29,7 @@ export const REVIEW = {
   GET_REVIEW_BY_PLACE: '/review/place',
   GET_REVIEW_BY_USER: '/review/user',
   ADD_REVIEW: '/review/add',
+  CHECK: '/review/check',
 }
 
 export const CITY = {
@@ -41,4 +42,8 @@ export const TRANSACTION = {
   ADD: '/transaction/add',
   GET: '/transaction/get',
   USER: '/transaction/user',
+}
+
+export const APP = {
+  CONTACT: '/app/contact',
 }
