@@ -2,6 +2,8 @@ import { Stack, Text, Divider } from '@chakra-ui/react'
 import Link from 'next/link'
 import Image from 'next/image'
 
+const NEXT_PUBLIC_AGENCY_URL = process.env.NEXT_PUBLIC_AGENCY_URL
+
 function Menu({ menu }) {
   return (
     <Stack spacing="8px">
@@ -26,6 +28,7 @@ const Footer = ({ logoImageSrc, copyright }) => {
       title: 'Company',
       data: [
         { title: 'About', linkProps: { href: '/about' } },
+        { title: 'Agency', linkProps: { href: NEXT_PUBLIC_AGENCY_URL } },
         { title: 'Contact Us', linkProps: { href: '/contact' } },
       ],
     },
