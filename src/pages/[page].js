@@ -3,22 +3,17 @@ import { slugify } from '@/utils'
 import { Box } from '@chakra-ui/react'
 import Content from '@/components/shared/Content'
 
-export const getStaticPaths = async () => {
-  const pages = await getPages()
-  const paths = pages.map((page) => ({
-    params: {
-      page: slugify(page.title),
-    },
-  }))
-  return {
-    paths,
-    fallback: false,
-  }
-}
-
-export const getStaticProps = async ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
   const pages = await getPages()
   const page = pages.find((page) => slugify(page.title) === params.page)
+  if (!page)
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+      props: {},
+    }
   return {
     props: {
       page,
