@@ -157,7 +157,7 @@ function Reviews({ placeId }) {
   let [textComment, setComment] = useState('')
   let [ratingCount, setRatingCount] = useState(0)
   const [lockReview, setLockReview] = useState(false)
-  const { canUserAddReview, isLoading } = useCanUserAddReview(placeId, userId)
+  const { canUserAddReview } = useCanUserAddReview(placeId, userId)
   let handleInputChange = (e) => {
     let inputValue = e.target.value
     setComment(inputValue)

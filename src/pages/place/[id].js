@@ -84,9 +84,6 @@ const PlacePage = ({ id }) => {
       <Box py={{ base: '65px', tablet: '80px' }}>
         <PlaceReviews placeReviewsProps={placeReviewsProps} />
       </Box>
-      <Box>
-        <SimilarPlaces />
-      </Box>
     </Box>
   )
 }

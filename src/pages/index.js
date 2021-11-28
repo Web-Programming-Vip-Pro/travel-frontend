@@ -2,7 +2,6 @@ import { Box } from '@chakra-ui/react'
 import Hero from '@/components/homepage/Hero'
 import Adventure from '@/components/homepage/Adventure'
 import PlaceList from '@/components/homepage/PlaceList'
-import BestAgencies from '@/components/homepage/BestAgencies'
 export default function Index() {
   return (
     <>
@@ -19,7 +18,6 @@ export default function Index() {
           title="Go somewhere"
           description="Let's go on an Adventure"
         />
-        <BestAgencies header="Best agencies of the" />
       </Box>
     </>
   )

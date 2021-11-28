@@ -9,6 +9,7 @@ import {
   InputRightElement,
   Input,
   useBreakpoint,
+  Stack,
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
@@ -21,6 +22,17 @@ function Results({ places, onToggle }) {
   const ref = useRef(null)
   useClickAway(ref, () => onToggle(false))
   const textStyles = useBreakpoint({ base: 'caption-2', md: 'caption-1' })
+  const getIcon = (placeType) => {
+    placeType = parseInt(placeType)
+    switch (placeType) {
+      case 0:
+        return 'feather:home'
+      case 1:
+        return 'cil:paper-plane'
+      default:
+        return 'fluent:food-24-regular'
+    }
+  }
   function PlaceList() {
     return (
       <>
@@ -36,9 +48,12 @@ function Results({ places, onToggle }) {
             transition="all 0.4s"
           >
             <Link href={`/place/${place.id}`} passHref>
-              <Text textStyle={textStyles} fontWeight="bold">
-                {place.title}
-              </Text>
+              <Stack spacing="8px" direction="row" align="center">
+                <Icon icon={getIcon(place.type)} width={24} />
+                <Text textStyle={textStyles} fontWeight="bold">
+                  {place.title}
+                </Text>
+              </Stack>
             </Link>
           </Box>
         ))}
