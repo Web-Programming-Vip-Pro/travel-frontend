@@ -48,6 +48,7 @@ const DisplayComments = ({ placeId }) => {
     setOrder(order)
   }
   const handleShow = () => {
+    if (!reviews || !review.length) return
     if (limit <= reviews.length) {
       setPage((prev) => prev + 1)
       setLimit(limit * (page + 1))
@@ -59,7 +60,6 @@ const DisplayComments = ({ placeId }) => {
         align="center"
         display={{ base: 'none', tablet: 'flex', desktop: 'flex' }}
       >
-        {/* <Text textStyle="body-1-bold">{`${commentsProperties.totalCount} comments`}</Text> */}
         <Spacer />
         <Select
           boxShadow="none !important"
