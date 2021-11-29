@@ -16,6 +16,7 @@ import { sendContact } from '@/services/app'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import SEO from '@/components/shared/SEO'
 
 const Contact = () => {
   const { data, status } = useSession()
@@ -44,84 +45,87 @@ const Contact = () => {
     setIsLoading(false)
   }
   return (
-    <Box>
-      <Flex
-        width="full"
-        height="100vh"
-        background="linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url(https://i.imgur.com/r1vgyaY.png)"
-        backgroundSize="cover"
-        backgroundPosition="center"
-        align="center"
-        justify="center"
-      >
-        <Stack justify="center">
-          <Stack
-            justify="center"
-            spacing="16px"
-            align="center"
-            textAlign="center"
-          >
-            <Text
-              w={{ tablet: '586px', base: '283px' }}
-              textStyle={{ tablet: 'hero', base: 'headline-2' }}
-              color="white"
+    <>
+      <SEO title="Contact us" />
+      <Box>
+        <Flex
+          width="full"
+          height="100vh"
+          background="linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url(https://i.imgur.com/r1vgyaY.png)"
+          backgroundSize="cover"
+          backgroundPosition="center"
+          align="center"
+          justify="center"
+        >
+          <Stack justify="center">
+            <Stack
+              justify="center"
+              spacing="16px"
+              align="center"
+              textAlign="center"
             >
-              Contact Us
-            </Text>
-          </Stack>
-          <FormControl
-            as="form"
-            p="16px"
-            bg="white"
-            rounded="xl"
-            onSubmit={handleSubmit(obSubmit)}
-          >
-            {response && (
-              <Alert
-                status={response.success ? 'success' : 'error'}
-                variant="left-accent"
-                mb={4}
+              <Text
+                w={{ tablet: '586px', base: '283px' }}
+                textStyle={{ tablet: 'hero', base: 'headline-2' }}
+                color="white"
               >
-                <AlertIcon />
-                <AlertTitle mr={2}>
-                  {response.success ? 'Success' : 'Error'}
-                </AlertTitle>
-                <AlertDescription>{response.message}</AlertDescription>
-              </Alert>
-            )}
-            <Stack spacing="16px" mt="16px">
-              <Input
-                type="text"
-                placeholder="Name"
-                required
-                {...register('name', { required: true })}
-              />
-              <Input
-                type="email"
-                placeholder="Email"
-                required
-                {...register('email', { required: true })}
-              />
-              <Input
-                type="text"
-                placeholder="Subject"
-                required
-                {...register('subject', { required: true })}
-              />
-              <Textarea
-                placeholder="Message"
-                rows="5"
-                required
-                {...register('message', { required: true })}
-              />
-              <Button mt="16px" type="submit" disabled={isLoading}>
-                Send
-              </Button>
+                Contact Us
+              </Text>
             </Stack>
-          </FormControl>
-        </Stack>
-      </Flex>
-    </Box>
+            <FormControl
+              as="form"
+              p="16px"
+              bg="white"
+              rounded="xl"
+              onSubmit={handleSubmit(obSubmit)}
+            >
+              {response && (
+                <Alert
+                  status={response.success ? 'success' : 'error'}
+                  variant="left-accent"
+                  mb={4}
+                >
+                  <AlertIcon />
+                  <AlertTitle mr={2}>
+                    {response.success ? 'Success' : 'Error'}
+                  </AlertTitle>
+                  <AlertDescription>{response.message}</AlertDescription>
+                </Alert>
+              )}
+              <Stack spacing="16px" mt="16px">
+                <Input
+                  type="text"
+                  placeholder="Name"
+                  required
+                  {...register('name', { required: true })}
+                />
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  required
+                  {...register('email', { required: true })}
+                />
+                <Input
+                  type="text"
+                  placeholder="Subject"
+                  required
+                  {...register('subject', { required: true })}
+                />
+                <Textarea
+                  placeholder="Message"
+                  rows="5"
+                  required
+                  {...register('message', { required: true })}
+                />
+                <Button mt="16px" type="submit" disabled={isLoading}>
+                  Send
+                </Button>
+              </Stack>
+            </FormControl>
+          </Stack>
+        </Flex>
+      </Box>
+    </>
   )
 }
 export default Contact

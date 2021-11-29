@@ -2,6 +2,7 @@ import { getPages } from '@/services/pages'
 import { slugify } from '@/utils'
 import { Box } from '@chakra-ui/react'
 import Content from '@/components/shared/Content'
+import SEO from '@/components/shared/SEO'
 
 export const getServerSideProps = async ({ params }) => {
   const pages = await getPages()
@@ -23,9 +24,12 @@ export const getServerSideProps = async ({ params }) => {
 
 const Page = ({ page }) => {
   return (
-    <Box px={{ mobile: '16px', tablet: '40px', desktop: '80px' }}>
-      <Content html={page.content} />
-    </Box>
+    <>
+      <SEO title={page.title} />
+      <Box px={{ mobile: '16px', tablet: '40px', desktop: '80px' }}>
+        <Content html={page.content} />
+      </Box>
+    </>
   )
 }
 
