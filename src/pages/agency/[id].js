@@ -72,12 +72,6 @@ const Agency = ({ agency }) => {
               <Box>
                 <AgencyDescription />
               </Box>
-              <Box>
-                <AgencyListing />
-              </Box>
-              {/* <Box>
-              <DisplayComments commentsProperties={commentsProperties} />
-            </Box> */}
             </Stack>
           </Flex>
         </Box>
