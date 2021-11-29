@@ -11,4 +11,6 @@ const Login = () => {
   )
 }
 
+Login.title = 'Login | Fleety'
+
 export default Login

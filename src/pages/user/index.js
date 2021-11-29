@@ -11,4 +11,6 @@ const User = () => {
   )
 }
 
+User.title = 'User | Fleety'
+
 export default User

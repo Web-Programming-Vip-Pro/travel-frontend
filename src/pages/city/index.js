@@ -114,4 +114,6 @@ const Cities = ({ cities }) => {
   )
 }
 
+Cities.title = 'Discovery'
+
 export default Cities

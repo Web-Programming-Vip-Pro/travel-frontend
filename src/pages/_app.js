@@ -9,9 +9,14 @@ import { SessionProvider } from 'next-auth/react'
 import SEO from '@/components/shared/SEO'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  const title = Component?.title
+  const description = Component?.description
+  const seoConfig = {}
+  if (title) seoConfig.title = title
+  if (description) seoConfig.description = description
   return (
     <>
-      <SEO />
+      <SEO {...seoConfig} />
       <SessionProvider session={session} refetchInterval={5 * 60}>
         <ChakraProvider theme={theme}>
           <DefaultLayout>

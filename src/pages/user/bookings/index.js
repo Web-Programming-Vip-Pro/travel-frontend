@@ -172,4 +172,6 @@ const Bookings = () => {
   )
 }
 
+Bookings.title = 'Bookings | Fleety'
+
 export default Bookings

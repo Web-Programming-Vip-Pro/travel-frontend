@@ -18,7 +18,7 @@ import HeaderWish from '@/components/userpage/HeaderWish'
 import { useWishlistByUser } from '@/services/places/wishlist'
 import { Icon } from '@iconify/react'
 
-export default function WishList() {
+const WishList = () => {
   const PAGE = 0
   const [limit, setLimit] = useState(10)
   const [type, setType] = useState(0)
@@ -145,3 +145,7 @@ export default function WishList() {
     </ProtectedPage>
   )
 }
+
+WishList.title = 'Wishlist | Fleety'
+
+export default WishList

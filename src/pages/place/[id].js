@@ -2,8 +2,8 @@ import { Box, Flex } from '@chakra-ui/react'
 import PlaceHeader from '@/components/placeFeature/placeHeader'
 import PlaceDetails from '@/components/placeFeature/placeDetails'
 import PlaceReviews from '@/components/placeFeature/placeReviews'
-import SimilarPlaces from '@/components/placeFeature/placeSimilars'
 import { usePlace } from '@/services/places'
+import SEO from '@/components/shared/SEO'
 
 export const getServerSideProps = async ({ params }) => {
   const { id } = params
@@ -74,17 +74,20 @@ const PlacePage = ({ id }) => {
   }
 
   return (
-    <Box px={{ base: '32px', tablet: '80px', desktop: '160px' }}>
-      <Box>
-        <PlaceHeader placeHeaderProps={placeHeaderProps} />
+    <>
+      <SEO title={place?.title} />
+      <Box px={{ base: '32px', tablet: '80px', desktop: '160px' }}>
+        <Box>
+          <PlaceHeader placeHeaderProps={placeHeaderProps} />
+        </Box>
+        <Box py="65px">
+          <PlaceDetails placeDetailsProps={placeDetailsProps} />
+        </Box>
+        <Box py={{ base: '65px', tablet: '80px' }}>
+          <PlaceReviews placeReviewsProps={placeReviewsProps} />
+        </Box>
       </Box>
-      <Box py="65px">
-        <PlaceDetails placeDetailsProps={placeDetailsProps} />
-      </Box>
-      <Box py={{ base: '65px', tablet: '80px' }}>
-        <PlaceReviews placeReviewsProps={placeReviewsProps} />
-      </Box>
-    </Box>
+    </>
   )
 }
 
