@@ -24,6 +24,9 @@ import { updatePassword } from '@/services/user'
 import { login } from '@/services/auth'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 const Security = () => {
   const [error, setError] = useState(null)
@@ -32,6 +35,7 @@ const Security = () => {
   const { handleSubmit, register, reset } = useForm()
   const { data } = useSession()
   const userEmail = data.user.email
+  const latestUpdated = data.user.updated_at
 
   async function handleUpdate(data) {
     setError(null)
@@ -69,7 +73,7 @@ const Security = () => {
           <Stack>
             <Text textStyle="caption-bold">Password</Text>
             <Text textStyle="caption-2" color="neutrals.4">
-              Last updated 1 month ago
+              Last updated {dayjs(latestUpdated).fromNow()}
             </Text>
           </Stack>
           <Button

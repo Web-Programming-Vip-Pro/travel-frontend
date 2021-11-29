@@ -16,6 +16,7 @@ import dynamic from 'next/dynamic'
 import { useReviewsInPlace } from '@/services/review'
 import { useState } from 'react'
 import * as dayjs from 'dayjs'
+import { useSession } from 'next-auth/react'
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 })
@@ -25,6 +26,8 @@ const DisplayComments = ({ placeId }) => {
   const [page, setPage] = useState(0)
   const [limit, setLimit] = useState(3)
   const [order, setOrder] = useState('recent')
+  const { data: session } = useSession()
+  const userId = session && session.user && session.user.id
   const { reviews, isLoading, error } = useReviewsInPlace(
     placeId,
     page,
@@ -48,7 +51,7 @@ const DisplayComments = ({ placeId }) => {
     setOrder(order)
   }
   const handleShow = () => {
-    if (!reviews || !review.length) return
+    if (!reviews) return
     if (limit <= reviews.length) {
       setPage((prev) => prev + 1)
       setLimit(limit * (page + 1))
@@ -109,7 +112,10 @@ const DisplayComments = ({ placeId }) => {
                         textStyle="caption-bold"
                         color="neutrals.1"
                       >
-                        {content?.user?.name}
+                        <>
+                          {content?.user?.name}{' '}
+                          {content?.user?.id === userId && '(you)'}
+                        </>
                       </Text>
                       <Spacer />
                       <StarRatings
