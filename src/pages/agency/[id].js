@@ -55,7 +55,15 @@ const commentsProperties = {
     },
   ],
 }
-const Agency = () => {
+export const getServerSideProps = async ({ params }) => {
+  const { id } = params
+  return {
+    props: {
+      id,
+    },
+  }
+}
+const Agency = ({ id }) => {
   return (
     <Box>
       <Box px={{ tablet: '40px', desktop: '80px' }}>
@@ -80,9 +88,9 @@ const Agency = () => {
             <Box>
               <AgencyListing />
             </Box>
-            <Box>
+            {/* <Box>
               <DisplayComments commentsProperties={commentsProperties} />
-            </Box>
+            </Box> */}
           </Stack>
         </Flex>
       </Box>
