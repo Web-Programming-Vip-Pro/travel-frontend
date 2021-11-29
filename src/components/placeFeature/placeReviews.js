@@ -28,8 +28,6 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
 })
 import DisplayComments from '@/components/shared/DisplayComments'
 
-const reportHostLink = { href: '#' }
-
 const PlaceReviews = ({ placeReviewsProps }) => {
   return (
     <Flex direction={{ base: 'column-reverse', tablet: 'row', desktop: 'row' }}>
@@ -64,6 +62,7 @@ function AgencyInformation({ agencyInformation }) {
                 size="64px"
                 position="relative"
                 _hover={{ cursor: 'pointer' }}
+                onClick={() => router.push(`/agency/${agencyInformation.id}`)}
               >
                 <Image
                   unoptimized={true}
@@ -92,22 +91,6 @@ function AgencyInformation({ agencyInformation }) {
           <Text textStyle="caption" color="neutrals.4" align="center">
             {agencyInformation.shortDescription}
           </Text>
-          <LinkBox>
-            <LinkOverlay
-              w="max-content"
-              _hover={{ cursor: 'pointer' }}
-              {...agencyInformation.linkWebsite.directLink}
-            >
-              <Flex justify="center" align="center">
-                <Box color="neutrals.4" mr="10px">
-                  <Icon icon="mdi:web" fontSize="13.33px" />
-                </Box>
-                <Text textStyle="button-2">
-                  {agencyInformation.linkWebsite.urlName}
-                </Text>
-              </Flex>
-            </LinkOverlay>
-          </LinkBox>
           <Flex justify="center" align="center">
             <HStack spacing="27.33px">
               {agencyInformation.socialNetwork.map((content, index) => (
@@ -130,7 +113,7 @@ function AgencyInformation({ agencyInformation }) {
                 dayjs(agencyInformation.dateRegistered).format('MMM DD, YYYY')}
             </Text>
           </Flex>
-          <Link {...reportHostLink}>
+          <Link href="/contact" passHref>
             <Flex
               _hover={{ cursor: 'pointer' }}
               justify="center"

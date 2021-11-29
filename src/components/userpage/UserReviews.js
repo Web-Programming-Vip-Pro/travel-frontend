@@ -14,7 +14,6 @@ import {
 import { Icon } from '@iconify/react'
 import React from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import { useSession } from 'next-auth/react'
 import dayjs from 'dayjs'
 

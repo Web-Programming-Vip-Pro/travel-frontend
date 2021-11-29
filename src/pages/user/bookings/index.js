@@ -39,7 +39,6 @@ const Bookings = () => {
     PAGE,
     limit
   )
-  console.log(places)
   function handleLoadMore() {
     setLimit(limit + 10)
   }

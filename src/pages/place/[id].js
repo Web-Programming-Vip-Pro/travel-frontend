@@ -33,6 +33,7 @@ const PlacePage = ({ id }) => {
   const placeDetailsProps = {
     id: place?.id,
     agencyAvatarSrc: place?.author?.avatar,
+    agency: place?.author,
     leftSectionProps: {
       title: place?.title,
       agencyName: place?.author?.name,
@@ -48,18 +49,20 @@ const PlacePage = ({ id }) => {
   }
   const placeReviewsProps = {
     agencyInformation: {
+      id: place?.author?.id,
       name: place?.author?.name,
       avatarSrc: place?.author?.avatar,
       reviewNumbers: place?.reviews,
-      shortDescription: place?.description,
-      linkWebsite: { urlName: 'https://abc.net', directLink: { href: '#' } },
+      shortDescription: place?.author?.bio,
       socialNetwork: [
-        { iconName: 'iconoir:twitter', directLink: { href: '#' } },
+        {
+          iconName: 'ph:facebook-logo-light',
+          directLink: { href: place?.author?.social?.facebook || '#' },
+        },
         {
           iconName: 'ant-design:instagram-outlined',
-          directLink: { href: '#' },
+          directLink: { href: place?.author?.social?.instagram || '#' },
         },
-        { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
       ],
       dateRegistered: place?.author?.created_at,
     },
