@@ -7,7 +7,6 @@ import PlaceCardList from '@/components/shared/PlayCardList'
 import { useState } from 'react'
 
 const gridColumnsQty = { mobile: 1, tablet: 3, desktop: 2 }
-const serviceList = ['Stay', 'Explore']
 const listPlace = {
   stay: [
     {
@@ -105,35 +104,29 @@ const listPlace = {
 const agencyListingTitle = 'Zoe Towne’s listing'
 
 const AgencyListing = () => {
+  const PAGE = 0
+  const [limit, setLimit] = useState(10)
+  const [type, setType] = useState(0)
+  const [order, setOrder] = useState('recent')
   const [show, setShow] = useState(false)
   const [service, setService] = useState('Stay')
   return (
     <Box>
       <Text textStyle="body-1-bold">{agencyListingTitle}</Text>
-      <Stack direction="row" spacing="16px" align="center" mt="36px" mb="44px">
-        {serviceList.map((item) => (
-          <Button
-            key={item}
-            leftIcon={
-              <Icon
-                icon="bx:bx-dollar-circle"
-                color={item !== service ? '#777E90' : ''}
-              />
-            }
-            px="10px"
-            py="6px"
-            bg={item === service ? 'neutrals.3' : ''}
-            variant={item !== service ? 'ghost' : 'none'}
-            onClick={() => setService(item)}
-          >
-            <Text
-              textStyle="button-2"
-              color={item === service ? 'neutrals.8' : 'neutrals.4'}
-            >
-              {item}
-            </Text>
-          </Button>
-        ))}
+      <Stack
+        direction="row"
+        spacing="16px"
+        align="center"
+        justify="space-between"
+        mt="36px"
+        mb="44px"
+      >
+        <UtilityNav
+          triggerOrder={(order) => setOrder(order)}
+          triggerType={(type) => setType(type)}
+          defaultOrder={order}
+          defaultType={type}
+        />
       </Stack>
       <PlaceCardList
         columns={gridColumnsQty}

@@ -9,31 +9,12 @@ import {
   LinkBox,
   LinkOverlay,
   Stack,
+  Avatar,
 } from '@chakra-ui/react'
 import { Icon } from '@iconify/react'
-import Image from 'next/image'
 import Link from 'next/link'
 
-const agencyInformation = {
-  name: 'Zoe towne',
-  avatarSrc:
-    'https://static01.nyt.com/images/2019/11/17/books/review/17Salam/Salam1-superJumbo.jpg',
-  rate: 4.8,
-  reviewNumbers: 256,
-  shortDescription:
-    "Described by Queenstown House & Garden magazine as having 'one of the best views we've ever seen' you will love relaxing in this newly built",
-  linkWebsite: { urlName: 'https://abc.net', directLink: { href: '#' } },
-  socialNetwork: [
-    { iconName: 'iconoir:twitter', directLink: { href: '#' } },
-    { iconName: 'ant-design:instagram-outlined', directLink: { href: '#' } },
-    { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
-  ],
-  dateRegistered: 'Member since Mar 15, 2017',
-}
-
-const reportHostLink = { href: '#' }
-
-const AgencyInforCard = () => {
+const AgencyInforCard = ({ agencyInformation }) => {
   return (
     <Box
       p="32px"
@@ -54,11 +35,10 @@ const AgencyInforCard = () => {
             position="relative"
             _hover={{ cursor: 'pointer' }}
           >
-            <Image
-              layout="fill"
+            <Avatar
               src={agencyInformation.avatarSrc}
               alt="avatar"
-              objectFit="cover"
+              name={agencyInformation.name}
             />
           </Circle>
         </Flex>
@@ -74,10 +54,10 @@ const AgencyInforCard = () => {
                 position="relative"
                 _hover={{ cursor: 'pointer' }}
               >
-                <Image
-                  layout="fill"
+                <Avatar
                   src={agencyInformation.avatarSrc}
                   alt="avatar"
+                  name={agencyInformation.name}
                 />
               </Circle>
             </Flex>
@@ -88,16 +68,6 @@ const AgencyInforCard = () => {
               <Text _hover={{ cursor: 'pointer' }} textStyle="headline-4">
                 {agencyInformation.name}
               </Text>
-              <HStack spacing="8px">
-                <Box color="secondary.3">
-                  <Icon icon="clarity:star-solid" />
-                </Box>
-                <Text textStyle="caption-bold">{agencyInformation.rate}</Text>
-                <Text
-                  textStyle="caption"
-                  color="neutrals.4"
-                >{`(${agencyInformation.reviewNumbers} reviews)`}</Text>
-              </HStack>
             </Stack>
           </Flex>
           <Text
@@ -109,25 +79,6 @@ const AgencyInforCard = () => {
           >
             {agencyInformation.shortDescription}
           </Text>
-          <LinkBox my={{ base: '32px', tablet: '16px', desktop: '32px' }}>
-            <LinkOverlay
-              w="max-content"
-              _hover={{ cursor: 'pointer' }}
-              {...agencyInformation.linkWebsite.directLink}
-            >
-              <Flex
-                justify={{ base: 'center', tablet: 'start', desktop: 'center' }}
-                align="center"
-              >
-                <Box color="neutrals.4" mr="10px">
-                  <Icon icon="mdi:web" fontSize="13.33px" />
-                </Box>
-                <Text textStyle="button-2">
-                  {agencyInformation.linkWebsite.urlName}
-                </Text>
-              </Flex>
-            </LinkOverlay>
-          </LinkBox>
         </Flex>
         <Flex w="100%" justify={{ base: 'center', desktop: 'baseline' }}>
           <Stack
@@ -158,20 +109,20 @@ const AgencyInforCard = () => {
                 {agencyInformation.dateRegistered}
               </Text>
             </Flex>
-            <Link {...reportHostLink}>
-              <Flex
-                _hover={{ cursor: 'pointer' }}
-                justify="center"
-                align="center"
-              >
-                <Box mr="10px" color="neutrals.4">
-                  <Icon icon="cil:flag-alt" />
-                </Box>
+            <Flex
+              _hover={{ cursor: 'pointer' }}
+              justify="center"
+              align="center"
+            >
+              <Box mr="10px" color="neutrals.4">
+                <Icon icon="cil:flag-alt" />
+              </Box>
+              <Link href="/contact" passHref>
                 <Text textStyle="caption-2" color="neutrals.4">
                   Report this host
                 </Text>
-              </Flex>
-            </Link>
+              </Link>
+            </Flex>
           </Stack>
         </Flex>
       </Flex>

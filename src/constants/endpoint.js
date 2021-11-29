@@ -5,6 +5,7 @@ export const USER = {
   UPDATE_INFO: '/user/updateInfo',
   UPDATE_PASSWORD: '/user/updatePassword',
   FORGET_PASSWORD: '/user/forget',
+  GET_ONE: '/user/get',
 }
 
 export const PAGE = {

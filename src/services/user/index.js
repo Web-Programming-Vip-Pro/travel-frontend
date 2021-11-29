@@ -3,6 +3,15 @@ import { USER } from '@/constants'
 import { getSession } from 'next-auth/react'
 import { login } from '../auth'
 
+export async function getUser(id, role = 0) {
+  try {
+    const response = await axios.get(`${USER.GET_ONE}?id=${id}&role=${role}`)
+    return { success: true, message: response.data.data }
+  } catch (error) {
+    return { success: false, message: error }
+  }
+}
+
 export async function updateInfo(data) {
   try {
     const res = await axios.post(USER.UPDATE_INFO, data)
