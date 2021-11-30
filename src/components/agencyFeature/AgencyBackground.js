@@ -1,11 +1,10 @@
-import React from 'react'
 import { Box } from '@chakra-ui/react'
 import Image from 'next/image'
 
 const agencyBackgroundFigure =
   'https://akm-img-a-in.tosshub.com/indiatoday/images/story/201506/storyimage_647_062215030547.jpg'
 
-const AgencyBackground = () => {
+const AgencyBackground = ({ backgroundSrc }) => {
   return (
     <Box
       w="100%"
@@ -15,10 +14,11 @@ const AgencyBackground = () => {
     >
       <Box position="relative" h="400px">
         <Image
-          src={agencyBackgroundFigure}
+          src={backgroundSrc || agencyBackgroundFigure}
           alt="agency background figure"
           layout="fill"
           objectFit="cover"
+          unoptimized
         />
       </Box>
     </Box>

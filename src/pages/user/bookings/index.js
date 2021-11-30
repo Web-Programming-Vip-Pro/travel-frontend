@@ -39,7 +39,6 @@ const Bookings = () => {
     PAGE,
     limit
   )
-  console.log(places)
   function handleLoadMore() {
     setLimit(limit + 10)
   }
@@ -171,5 +170,7 @@ const Bookings = () => {
     </ProtectedPage>
   )
 }
+
+Bookings.title = 'Bookings | Fleety'
 
 export default Bookings

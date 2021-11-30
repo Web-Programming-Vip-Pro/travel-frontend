@@ -2,8 +2,8 @@ import { Box, Flex } from '@chakra-ui/react'
 import PlaceHeader from '@/components/placeFeature/placeHeader'
 import PlaceDetails from '@/components/placeFeature/placeDetails'
 import PlaceReviews from '@/components/placeFeature/placeReviews'
-import SimilarPlaces from '@/components/placeFeature/placeSimilars'
 import { usePlace } from '@/services/places'
+import SEO from '@/components/shared/SEO'
 
 export const getServerSideProps = async ({ params }) => {
   const { id } = params
@@ -33,6 +33,7 @@ const PlacePage = ({ id }) => {
   const placeDetailsProps = {
     id: place?.id,
     agencyAvatarSrc: place?.author?.avatar,
+    agency: place?.author,
     leftSectionProps: {
       title: place?.title,
       agencyName: place?.author?.name,
@@ -48,18 +49,20 @@ const PlacePage = ({ id }) => {
   }
   const placeReviewsProps = {
     agencyInformation: {
+      id: place?.author?.id,
       name: place?.author?.name,
       avatarSrc: place?.author?.avatar,
       reviewNumbers: place?.reviews,
-      shortDescription: place?.description,
-      linkWebsite: { urlName: 'https://abc.net', directLink: { href: '#' } },
+      shortDescription: place?.author?.bio,
       socialNetwork: [
-        { iconName: 'iconoir:twitter', directLink: { href: '#' } },
+        {
+          iconName: 'ph:facebook-logo-light',
+          directLink: { href: place?.author?.social?.facebook || '#' },
+        },
         {
           iconName: 'ant-design:instagram-outlined',
-          directLink: { href: '#' },
+          directLink: { href: place?.author?.social?.instagram || '#' },
         },
-        { iconName: 'ph:facebook-logo-light', directLink: { href: '#' } },
       ],
       dateRegistered: place?.author?.created_at,
     },
@@ -74,17 +77,20 @@ const PlacePage = ({ id }) => {
   }
 
   return (
-    <Box px={{ base: '32px', tablet: '80px', desktop: '160px' }}>
-      <Box>
-        <PlaceHeader placeHeaderProps={placeHeaderProps} />
+    <>
+      <SEO title={place?.title} />
+      <Box px={{ base: '32px', tablet: '80px', desktop: '160px' }}>
+        <Box>
+          <PlaceHeader placeHeaderProps={placeHeaderProps} />
+        </Box>
+        <Box py="65px">
+          <PlaceDetails placeDetailsProps={placeDetailsProps} />
+        </Box>
+        <Box py={{ base: '65px', tablet: '80px' }}>
+          <PlaceReviews placeReviewsProps={placeReviewsProps} />
+        </Box>
       </Box>
-      <Box py="65px">
-        <PlaceDetails placeDetailsProps={placeDetailsProps} />
-      </Box>
-      <Box py={{ base: '65px', tablet: '80px' }}>
-        <PlaceReviews placeReviewsProps={placeReviewsProps} />
-      </Box>
-    </Box>
+    </>
   )
 }
 

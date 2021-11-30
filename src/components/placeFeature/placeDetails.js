@@ -15,6 +15,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { Icon } from '@iconify/react'
 import { useSession } from 'next-auth/react'
 import {
@@ -74,13 +75,18 @@ function ButtonReserve({ transactionStatus, placeId, userId }) {
   )
 }
 
-function PlaceDetailLeft({ agencyAvatarSrc, leftSectionProps }) {
+function PlaceDetailLeft({ agencyAvatarSrc, leftSectionProps, agency }) {
   const { isOpen, onToggle } = useDisclosure()
-
+  const router = useRouter()
   return (
     <Box>
       <Text textStyle="headline-4">{leftSectionProps.title}</Text>
-      <Flex _hover={{ cursor: 'pointer' }} align="center">
+      <Flex
+        _hover={{ cursor: 'pointer' }}
+        align="center"
+        mt="16px"
+        onClick={() => router.push(`/agency/${agency.id}`)}
+      >
         <Box display={{ base: 'block', tablet: 'block', desktop: 'none' }}>
           <Text textStyle="caption" color="neutrals.4">
             Hosted by
@@ -230,6 +236,7 @@ const PlaceDetails = ({ placeDetailsProps }) => {
         <PlaceDetailLeft
           agencyAvatarSrc={placeDetailsProps.agencyAvatarSrc}
           leftSectionProps={placeDetailsProps.leftSectionProps}
+          agency={placeDetailsProps.agency}
         />
         <Spacer />
         <PlaceDetailRight

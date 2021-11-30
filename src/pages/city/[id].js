@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { getCity } from '@/services/city'
 import { useBreakpointValue } from '@chakra-ui/react'
 import getCountryCode from '@/utils/country'
+import SEO from '@/components/shared/SEO'
 export const getServerSideProps = async ({ params }) => {
   const { id } = params
   const response = await getCity(id)
@@ -51,6 +52,7 @@ export default function City({ cities, id }) {
   }
   return (
     <>
+      <SEO title={cities.name} />
       <Country data={Bgdata} />
       <StayList
         limit={limit}

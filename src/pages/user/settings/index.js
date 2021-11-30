@@ -11,4 +11,6 @@ const Settings = () => {
   )
 }
 
+Settings.title = 'Settings | Fleety'
+
 export default Settings

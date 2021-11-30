@@ -2,7 +2,6 @@ import {
   Button,
   Spacer,
   HStack,
-  Circle,
   Divider,
   Text,
   Flex,
@@ -12,39 +11,12 @@ import {
   InputGroup,
   Avatar,
 } from '@chakra-ui/react'
-import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-const StarRatings = dynamic(() => import('react-star-ratings'), {
-  ssr: false,
-})
 import { useSession } from 'next-auth/react'
 import dayjs from 'dayjs'
 
-const commentsProperties = {
-  totalCount: 3,
-  sortOptions: ['Newest', 'Most Rated', 'Least Rated'],
-  comments: [
-    {
-      avatarSrc: '/assets/userpage/Bg client1.png',
-      name: 'Tobin Hackett',
-      commentDetails:
-        'I enjoyed my communication with them and wish them only the best!',
-      timeStamp: '1 day ago',
-      rate: 5,
-    },
-    {
-      avatarSrc: '/assets/userpage/Bg client2.png',
-      name: 'Myrtie Runolfsoon',
-      commentDetails:
-        'Kohaku and her husband were great guests. I enjoyed my communication with them and wish them only the best!',
-      timeStamp: 'about 1 hour ago',
-      rate: 4,
-    },
-  ],
-}
 function AgencyInformation() {
   const { data } = useSession()
   const user = data.user
@@ -131,75 +103,7 @@ function Reviews() {
           </Text>
         </InputGroup>
       </FormControl>
-      <Flex
-        direction={{ mobile: 'column', tablet: 'row' }}
-        align={{ tablet: 'center' }}
-        pt={{ mobile: '40px', tablet: '108px', desktop: '64px' }}
-      >
-        <Text textStyle="body-1-bold">{`${commentsProperties.totalCount} reviews`}</Text>
-        <Spacer />
-        <HStack justify="center">
-          <Button h="28px" bg="neutrals.3">
-            <Text textStyle="button-2" color="neutrals.8">
-              Reviews by you
-            </Text>
-          </Button>
-        </HStack>
-      </Flex>
-      <Box my="40px">
-        <DislayComments />
-      </Box>
     </Flex>
-  )
-}
-function DislayComments() {
-  return (
-    <Box>
-      {commentsProperties.comments.map((content, index) => (
-        <Box w="100%" key={index}>
-          <Flex w="100%">
-            <Circle
-              overflow="hidden"
-              size="48px"
-              position="relative"
-              mr="20px"
-              _hover={{ cursor: 'pointer' }}
-            >
-              <Image layout="fill" src={content.avatarSrc} alt="avatar" />
-            </Circle>
-            <Box w="100%">
-              <Flex>
-                <Text
-                  _hover={{ cursor: 'pointer' }}
-                  textStyle="caption-bold"
-                  color="neutrals.1"
-                >
-                  {content.name}
-                </Text>
-                <Spacer />
-                <StarRatings
-                  rating={content.rate}
-                  starRatedColor="#FFD166"
-                  numberOfStars={5}
-                  name="rating"
-                  starDimension="13px"
-                  starSpacing="5px"
-                />
-              </Flex>
-              <Text mt="4px" mb="8px" textStyle="caption" color="neutrals.3">
-                {content.commentDetails}
-              </Text>
-              <HStack spacing="16px">
-                <Text textStyle="caption-2" color="neutrals.4">
-                  {content.timeStamp}
-                </Text>
-              </HStack>
-            </Box>
-          </Flex>
-          <Divider mt="27px" mb="32px" />
-        </Box>
-      ))}
-    </Box>
   )
 }
 const UserReviews = () => {
